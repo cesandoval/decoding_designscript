@@ -1,0 +1,46 @@
+import("Math.dll");
+import("ProtoGeometry.dll");
+
+def diamond(t)
+{
+    c = Math.Cos(2 * Math.PI * t);
+    s = Math.Sin(2 * Math.PI * t);
+    return = Point.ByCoordinates(len_x*Math.Abs(c)*c, len_y*Math.Abs(s)*s,0);
+}
+     
+def astroid(t)
+{
+    c = Math.Cos(2 * Math.PI * t);
+    s = Math.Sin(2 * Math.PI * t);
+    return = Point.ByCoordinates(len_x * c * c * c, len_y * s * s * s,0);
+}
+
+def func(cs,t)
+{
+    
+    m = 0.8;
+    t1 = (1 - m);
+    x = diamond(t).X * t1 + astroid(t).X * m;
+    y = diamond(t).Y * t1 + astroid(t).Y * m;
+    return = Point.ByCartesianCoordinates(cs,x, y, 0); 
+}
+
+len_x = 10.0;
+len_y = 6.0;
+num_floors = 0..10;
+
+tol = 0.01;
+crv_domain = 0..1 / tol;
+base_cs = CoordinateSystem.ByOriginVectors(Point.ByCoordinates(0, 0, num_floors), Vector.ByCoordinates(1, 0, 0), Vector.ByCoordinates(0, 1, 0));
+morph = BSplineCurve.ByPoints(func(base_cs<1>,crv_domain<2>));
+
+//test = Point.ByCartesianCoordinates(base_cs, 0, 0, 0);
+/*
+for n in range (numfloors):
+    def func(t):
+        m=(n/numfloors)
+        return func1(t)*(1-m) + func2(t)*m
+    base_cs = CS(Point(0,0,n*floorheight))
+    floor_plate = Curve(func ,Interval(0,1), 0.01, basis = base_cs).surrogate
+    b.put(floor_plate)
+*/
