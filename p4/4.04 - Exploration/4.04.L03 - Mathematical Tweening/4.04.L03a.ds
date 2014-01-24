@@ -3,16 +3,16 @@ import("ProtoGeometry.dll");
 
 def diamond(t)
 {
-    c = Math.Cos(2 * Math.PI * t);
-    s = Math.Sin(2 * Math.PI * t);
+    c = Math.Cos((2 * Math.PI * t)*57.2957795);
+    s = Math.Sin((2 * Math.PI * t)*57.2957795);
     pt_out = Point.ByCoordinates(len_x*Math.Abs(c)*c, len_y*Math.Abs(s)*s,0);
     return = pt_out;
 }
      
 def astroid(t)
 {
-    c = Math.Cos(2 * Math.PI * t);
-    s = Math.Sin(2 * Math.PI * t);
+    c = Math.Cos((2 * Math.PI * t)*57.2957795);
+    s = Math.Sin((2 * Math.PI * t)*57.2957795);
     pt_out = Point.ByCoordinates(len_x * c * c * c, len_y * s * s * s,0);
     return = pt_out;
 }
@@ -28,9 +28,7 @@ def func(t)
 len_x = 10.0;
 len_y = 6.0;
 m = 0.8;
-
 tol = 0.01;
-crv_domain = 0..1 / tol;
+crv_domain = 0..1..tol;
+Print(crv_domain);
 morph = BSplineCurve.ByPoints(func(crv_domain));
-
-

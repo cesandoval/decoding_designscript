@@ -1,0 +1,50 @@
+import("ProtoGeometry.dll");
+import("Math.dll");
+
+def fitness(sample)
+{
+    dhue = 1 - Math.Abs(sample.RedValue - goal.RedValue);
+    dsat = 1 - Math.Abs(sample.GreenValue - goal.GreenValue);
+    dval = 1 - Math.Abs(sample.BlueValue - goal.BlueValue);
+    sum = (dhue * red_weight) + (dsat * green_weight) + (dval * blue_weight);
+    return = sum / (red_weight + green_weight + blue_weight);
+}
+
+red_weight = 255;
+green_weight = 255;
+blue_weight = 255;
+goal = Color.ByARGB(255, 180, 60, 90);
+
+
+def color_point(r_val, g_val, b_val)
+{
+    return = Point.ByCoordinates(r_val, g_val, b_val).SetColor(Color.ByARGB(255, r_val, g_val, b_val));
+}
+
+
+// initialize best results
+
+best_clr = Color.ByARGB(255,0, 0, 0);
+best_fit = 0.0;
+pts = { };
+thresh = 0.75;
+n = 10;
+
+// perform search
+// create an interval with n steps
+color_interval = 0..255..#n;
+pt = color_point(color_interval<1>, color_interval<2>, color_interval<3>);
+// for each possible combination of RGB values in the color interval
+/*for ri in color_interval:
+    for gi in color_interval:
+        for bi in color_interval:
+            # create a point with those RGB values
+            pt = color_point(ri,gi,bi)
+            # and check how close its color is with the goal color
+            fit = fitness(pt.get_color())
+            # if the current color is the closer than the previous best color
+            if fit > best_fit:
+                best_fit = fit # save the value of the closeness
+                best_clr = pt.get_color()# make the current color the best color
+            pt.set_weight(Interval.remap(fit,Interval(max([thresh,0.8]),1.0),Interval(0,10)) )
+            if fit > thresh : pts.append(pt)*/

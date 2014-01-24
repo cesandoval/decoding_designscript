@@ -1,0 +1,45 @@
+import("ProtoGeometry.dll");
+import("Math.dll");
+     
+/*
+def mesh_pgons(pts_top, pts_mid, pts_btm):
+    msh = Mesh()
+    msh.append(pts_top)
+    msh.append(pts_mid)
+    msh.append(pts_btm)
+    
+    cnt = len(pgon_top.pts)
+    for n in range(cnt-1):
+        msh.add_face(n,n+1,n+cnt)
+        msh.add_face(n+1,cnt+n+1,cnt+n)
+        msh.add_face(cnt+n,2*cnt+n+1,cnt*2+n)
+        msh.add_face(cnt+n,cnt+n+1,2*cnt+n+1)
+    
+    msh.add_face(cnt-1,0,cnt*2-1)
+    msh.add_face(0,cnt,cnt*2-1)
+    msh.add_face(cnt*3-1,cnt*2-1,cnt*2)
+    msh.add_face(cnt*2,cnt*2-1,cnt)
+    return msh*/
+
+p1 = Point.ByCoordinates(1.0, 0.0, 10.0);
+p2 = Point.ByCoordinates(0.789695, 0.866025, 10.0);
+p3 = Point.ByCoordinates(-0.5, 0.866025, 10.0);
+p4 = Point.ByCoordinates(-1.360366, 0.0, 10.0);
+p5 = Point.ByCoordinates(-0.860366, -0.866025, 10.0);
+p6 = Point.ByCoordinates(0.5, -0.473478, 10.0);
+pgon_top = Polygon.ByVertices({ p1, p2, p3, p4, p5, p6 });
+
+//Get the centroid and vertices of the top PGon 
+cen = pgon_top.Plane.Origin;
+pts_top = pgon_top.Vertices;
+rot_mid = 0.81 * 57.2957795;
+sc = 3;
+    
+// Get the vertices for the mid PGon from a displaced top Pgon. 
+pts_mid = Point.AtParameter(pgon_top.Edges, 0.5).Translate(0, 0, -cen.Z * 0.5);
+new_cs = CoordinateSystem.Identity().Rotate(rot_mid, Vector.ByCoordinates(0, 0, 1));
+//new_cs = new_cs.Scale(sc);
+pts_mid = pts_mid.Transform(CoordinateSystem.Identity(), new_cs);
+pts_btm = Point.AtParameter(pgon_top.Edges, 0.5).Translate(0, 0, -cen.Z );
+
+//b.put(mesh_pgons(pts_top, pts_mid, pts_btm))

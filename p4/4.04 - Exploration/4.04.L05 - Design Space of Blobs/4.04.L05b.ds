@@ -1,0 +1,21 @@
+import("ProtoGeometry.dll");
+import("Math.dll");
+     
+def blob(t,alpha)
+{
+    c = Math.Cos((2 * Math.PI * t)*57.2957795);
+    s = Math.Sin((2 * Math.PI * t)*57.2957795);
+    r = 50 * (1 + rad * Math.Cos((4 * Math.PI * t)*57.2957795) + alpha * Math.Cos((6 * Math.PI * t)*57.2957795));
+    pt_out = Point.ByCoordinates(r * c, r * s, 0);
+    return = pt_out;
+}
+
+num = 11;
+rad = 1.0;
+alpha = 0..1..#num;
+dist = 2000;
+
+tol = 0.01;
+crv_domain = 0..1..tol;
+pts = blob(crv_domain<2>, alpha<1>);
+curves = BSplineCurve.ByPoints(pts).Translate(0, (0..1..#num) * dist, 0);

@@ -1,0 +1,28 @@
+import("Math.dll");
+
+def f(x)
+{
+    return = [Imperative]
+    {
+        s = MapTo(0, 1, skew, 0.00001, 4);
+        x = x - 0.5;
+        y = 0.0;
+        if (x < 0)
+        {
+            y = -Math.Pow(Math.Sqrt(-x),s);
+        }
+        if (x > 0)
+        {
+            y = Math.Pow(Math.Sqrt(x),s);
+        }
+        return = y;
+    }
+}
+
+skew = 0.84;
+count = 20;
+interval = 0..1..#count;
+skew_val = MapTo(f(0), f(1), f(interval), 0, 1);
+Print(skew_val);
+
+    

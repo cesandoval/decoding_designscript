@@ -1,0 +1,16 @@
+import("ProtoGeometry.dll");
+import("Math.dll");
+
+def fitness(sample)
+{
+    dhue = 1 - Math.Abs(sample.RedValue - goal.RedValue);
+    dsat = 1 - Math.Abs(sample.GreenValue - goal.GreenValue);
+    dval = 1 - Math.Abs(sample.BlueValue - goal.BlueValue);
+    sum = (dhue * red_weight) + (dsat * green_weight) + (dval * blue_weight);
+    return = sum / (red_weight + green_weight + blue_weight);
+}
+
+red_weight = 255;
+green_weight = 255;
+blue_weight = 255;
+goal = Color.ByARGB(255, 180, 60, 90);

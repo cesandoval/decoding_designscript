@@ -1,5 +1,5 @@
-import("Math.dll");
 import("ProtoGeometry.dll");
+import("Math.dll");
 
 def ellipse(t)
 {
@@ -18,15 +18,38 @@ def astroid(t)
     return = pt_out;
 }
 
-def func(n,t)
+def func(n,t,skew)
 {
-    m = n/num_floors;
-    t1 = (1 - m);
-    x = ellipse(t).X * t1 + astroid(t).X * m;
-    y = ellipse(t).Y * t1 + astroid(t).Y * m;
+    t1 = (1 - skew);
+    x = ellipse(t).X * t1 + astroid(t).X * skew;
+    y = ellipse(t).Y * t1 + astroid(t).Y * skew;
     base_cs = CoordinateSystem.ByOriginVectors(Point.ByCoordinates(0, 0, n*f_height), Vector.ByCoordinates(1, 0, 0), Vector.ByCoordinates(0, 1, 0));
     return = Point.ByCartesianCoordinates(base_cs, x, y, 0); 
 }
+
+def f(x)
+{
+    return = [Imperative]
+    {
+        s = MapTo(0, 1, skew, 0.00001, 4);
+        x = x - 0.5;
+        y = 0.0;
+        if (x < 0)
+        {
+            y = -Math.Pow(Math.Sqrt(-x),s);
+        }
+        if (x > 0)
+        {
+            y = Math.Pow(Math.Sqrt(x),s);
+        }
+        return = y;
+    }
+}
+
+skew = 0.6;
+count = 18;
+interval = 0..1..#count;
+skew_val = MapTo(f(0), f(1), f(interval), 0, 1);
 
 len_x = 10.0;
 len_y = 6.0;
@@ -36,4 +59,4 @@ floor_range = 0..num_floors;
 
 tol = 0.01;
 crv_domain = 0..1..tol;
-curves = BSplineCurve.ByPoints(func(floor_range<1>, crv_domain<2>));
+curves = BSplineCurve.ByPoints(func(floor_range<1>, crv_domain<2>, skew_val<1>));
