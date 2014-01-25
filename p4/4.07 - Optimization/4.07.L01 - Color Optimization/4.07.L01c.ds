@@ -1,0 +1,71 @@
+import("ProtoGeometry.dll");
+import("Math.dll");
+
+def fitness(sample)
+{
+    dhue = 255 - Math.Abs(Math.Floor(sample.RedValue - goal.RedValue));
+    dsat = 255 - Math.Abs(Math.Floor(sample.GreenValue - goal.GreenValue));
+    dval = 255 - Math.Abs(Math.Floor(sample.BlueValue - goal.BlueValue));
+    sum = (dhue * red_weight) + (dsat * green_weight) + (dval * blue_weight);
+    //Print(Math.Floor(sum / (red_weight + green_weight + blue_weight)));
+    return = Math.Floor(sum / (red_weight + green_weight + blue_weight));
+}
+
+// function to return a list of colors in the neighborhood to evaluate
+def nearby_clrs(clr, r_delta,g_delta,b_delta)
+{
+    return = [Imperative]
+    {
+        if ((Math.Abs(Math.Floor(r_delta)) + Math.Abs(Math.Floor(g_delta)) + Math.Abs(Math.Floor(b_delta))) != 0)
+        {
+            clr = Color.ByARGB(255, samp.RedValue + r_delta, samp.GreenValue + g_delta, samp.BlueValue + b_delta);
+            return = clr;
+        }
+    }
+}
+
+
+// define goal values
+red_weight = 255;
+green_weight = 255;
+blue_weight = 255;
+goal = Color.ByARGB(255, 180, 60, 90);
+samp = Color.ByARGB(255, 20, 90, 100);
+
+thresh = 255;
+step = { - 10, 0, 10 };
+
+// set maximum number of iterations
+max_count = 10;
+[Imperative]
+{
+    for (count in 0..max_count)
+    {
+        if (fitness(samp) < thresh)
+        {
+            [Associative]
+            {
+                step_samples = nearby_clrs(samp, step<1>, step<2>, step<3>);
+                Print(step_samples);
+                test = fitness(step_samples);
+                //[Imperative]
+                //{
+                //    sample = Sort(fitness(sample), step_samples)[-1];
+                //}
+            }
+        }
+    }
+}
+/*
+# check each sample point against nearby points
+# continue in the direction of max fiteness
+for count in range(max_count):
+    # if the current sample does not meet the fitness threshhold
+    if fitness(sample) < thresh:
+        # get all the nearby samples
+        step_samples = nearby_clrs(sample,step)
+        # sort them by their fitness to the goal color
+        step_samples.sort(key=fitness)
+        # make the sample with the highest fitness the current sample
+        sample = step_samples[-1]
+    else: break*/
