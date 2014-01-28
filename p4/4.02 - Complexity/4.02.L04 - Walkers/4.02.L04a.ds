@@ -1,0 +1,32 @@
+import("ProtoGeometry.dll");
+import("Math.dll");
+
+/*
+A guy class is defined with a position, direction and a method for updating.
+*/
+
+class Guy
+{
+    Pos : Point;
+    Vel : Vector;
+    
+    constructor FromPosVel(pos_start, vel_start)
+    {
+        // sets the initial position of the Guy
+        Pos = pos_start;
+        // sets the initial velocity vector for the Guy
+        Vel = vel_start;
+    }
+    
+    /*
+    Cause the Guy object to move, using its current velocity, then randomly pick a new velocity
+    */
+    def Step : Guy()
+    {
+        // update the position of the Guy
+        Pos = Point.ByCoordinates(Pos.X + Vel.X, Pos.Y + Vel.Y, Pos.Z + Vel.Z);
+        // pick a new 2d velocity vector
+        Vel = Vector.ByCoordinates(Math.Rand(-1, 1), Math.Rand(-1, 1), 0).Normalize;
+    }
+}
+

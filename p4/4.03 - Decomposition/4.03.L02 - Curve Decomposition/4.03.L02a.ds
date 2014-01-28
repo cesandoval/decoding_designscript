@@ -16,53 +16,23 @@ def angle(vec1, vec2)
 
 def from_tan(spt, ept, tan)
 {
-    vec_ab = Vector.ByCoordinates(ept.X - spt.X, ept.Y - spt.Y, ept.Z - ept.Z);
+    vec_ab = Vector.ByCoordinates(ept.X - spt.X, ept.Y - spt.Y, ept.Z - spt.Z);
     vec_rad = tan.Cross(tan.Cross(vec_ab));
     ang = angle(vec_ab, vec_rad);
     rad = vec_ab.Length / Math.Cos(ang) / 2.0;
-    center = Point.ByCoordinates(3, 0, 0); //revise!!!!!!!
-    return = Arc.ByPointsOnCurve(center, spt, ept);
+    center = spt.Translate(vec_rad, -rad);// this should be positive
+    return = Arc.ByCenterPointStartPointSweepPoint(center, spt, ept);
 }
-/*
-    def from_tan(start_pt,sweep_pt,tan):
-        vec_ab = Vec(start_pt, sweep_pt)
-        vec_rad = tan.cross(tan.cross(vec_ab))
-        ang = vec_ab.angle(vec_rad)
-        rad = vec_ab.length/math.cos(ang)/2.0
-        center = Point(start_pt+vec_rad.normalized(rad))
-    return Arc.from_pts(center, start_pt, sweep_pt)*/
     
 range = 0..Math.PI * 2..#4;
 crv = BSplineCurve.ByPoints(Point.ByCoordinates(range, Math.Sin(Math.RadiansToDegrees(range)), 0));
-res = 5;
+res = 50;
 
-pln = crv.CoordinateSystemAtParameter(0);
-spt = pln.Origin;
-tan = pln.XAxis;
+start_range = 0..1 - 1 / res..1 / res;
+end_range = 0 + 1 / res..1..1 / res;
 
-new_range = 0 + 1 / res..1..1/res;
-
-next_pt = crv.CoordinateSystemAtParameter(new_range);
-arc = from_tan(spt, next_pt, tan);
-//arc = Arc.ByPointsOnCurve;
-// x axis is the tangent
-
-/*
-arcs = []
-# get the origin of the curve to evaluate
-pln = curve.eval_pln(0)
-b.put( pln)
-# get the tangent to the curve at its origin
-ray = Ray(pln.origin,pln.normal)
-for t in Interval().divide(res,True)[1:]:
-    # for each point on the curve evaluated by the reslolution
-    # get the next evaluated point
-    next_pt = curve.eval(t)
-    # and create an arc from the two points and the tangent
-    arc = Arc.from_tan(ray.spt,next_pt,ray.vec)
-    arcs.append(arc)
-    # uptdate the ray to match the tangent at the endpoint of the 
-    # current arc
-    ray = Ray(arc.ept,Vec(arc.basis.origin,arc.ept).cross(Vec.uz()))
-a.put(arcs)*/
-
+plns = crv.CoordinateSystemAtParameter(start_range);
+spts = plns.Origin;
+tans = plns.XAxis;
+epts = crv.CoordinateSystemAtParameter(end_range).Origin;
+arcs = from_tan(spts, epts, tans);
