@@ -1,0 +1,118 @@
+import("ProtoGeometry.dll");
+import("Math.dll");
+
+
+// Class that creates cells 
+class Cells
+{
+    CS : CoordinateSystem;
+    Rad : double;
+    Is_star : bool;
+    
+    constructor FromCSRadius(cs, radius, is_star)
+    {
+        CS = cs;
+        Rad = radius;
+        Is_star = is_star;
+    }
+
+    //@property
+    def pts : Cell()
+        // creates all the points on the perimeter of the cell
+        // and groups these together in pairs for line and arc creation
+    {
+        
+    }
+    
+}
+test_cs = CoordinateSystem.Identity();
+test = Cells.FromCSRadius(test_cs, 2, false);
+Print(test.Rad);
+    /*
+        pts = []
+        self._star_centers = []
+        for f in range(4):
+            # for each side of the cell
+            side = []
+            # arc offset if the cell is a star
+            vec = Vec(-2*self.rad, 0, 0)*Xform.rotation(angle=f*math.pi/2)
+            # create a new temporary cs for each side
+            cs = CS.on_xy(rot=f*math.pi/2)
+            # create an arc that represents the side of the cell
+            start_pt = cs.eval(self.rad, self.rad)
+            sweep_pt = cs.eval(self.rad, -self.rad)
+            arc = Arc.from_pts(cs.origin, start_pt, sweep_pt)
+            
+            if self.is_star:
+                # move the arc if the cell is a star
+                arc *= Xform.translation(vec)
+                self._star_centers.append(arc.basis.origin)
+            # and evaluate the arc by the number of side divisions
+            for i in Interval().divide(8, True,)[1:-1]:
+                side.append(arc.eval(i))
+            if self.is_star: side.reverse() 
+            pts.append(side)
+        
+        ret = []
+        # for each side of the cell
+        for side in range(len(pts)):
+            for line in range((len(pts[side])//2), len(pts[side])):
+                # for the first half of the points in the side
+                pt_1 = pts[side][line]
+                # associate the last half of the points in the previous side
+                pt_2 = pts[side-1][-(line+1)]
+                ret.append([pt_1, pt_2]) 
+        return ret
+    
+    @property
+    def square_lines(self):
+        # creates square lines between side points 
+        ret = []
+        for group in self.pts:
+            # for each group of two points in pts
+            # create the appropriate middle point for the polyline
+            if group[0].x * group[1].y >= 0:
+                group.insert(1, Point(group[1].y, group[0].x))
+            elif group[0].x * group[0].y <= 0:
+                group.insert(1, Point(group[1].x, group[0].y))
+            elif group[1].x * group[1].y <= 0:
+                group.insert(1, Point(group[1].y, group[0].x))
+            # and create a polyline
+            pl = PLine()
+            for pt in group:
+                pl.append(self.basis.eval(pt))
+            ret.append(pl)
+        return ret
+    
+    @property
+    def arc_lines(self):
+        #creates arc lines between side points
+        arc_pts = self.pts
+        arcs = []
+        
+        if self.is_star: # if the cell is a star
+            for f in range(len(self.pts)):
+                # get the appropriate center point for the tangent
+                index = int(math.floor(f/(len(self.pts)/4)))
+                ctr_pt = self.basis.eval(self._star_centers[index])
+                # get the start and sweep points from the grouped points
+                st_pt = self.basis.eval(self.pts[f][0]) # start point
+                sw_pt = self.basis.eval(self.pts[f][1]) # sweep point
+                # create the arc
+                arcs.append(Arc.from_tan(st_pt, sw_pt, Vec(st_pt, ctr_pt)))
+        else: # if the cell is not a star
+            for group in self.pts:
+                # get the start and sweep points from the grouped points
+                st_pt = self.basis.eval(group[0])# start point
+                sw_pt = self.basis.eval(group[1])# sweep point
+                # and use the CS origin for to create the tangent for the arc
+                arc = Arc.from_tan(st_pt, sw_pt, Vec(st_pt, self.basis.origin))
+                arcs.append(arc)
+        return arcs
+
+a.put(Cell)
+
+cell_a = Cell(CS.on_xy(2,0),is_star=True)
+cell_b = Cell(CS.on_xy(0,0),is_star=False)
+b.put(cell_a.arc_lines)
+b.put(cell_b.arc_lines)*/

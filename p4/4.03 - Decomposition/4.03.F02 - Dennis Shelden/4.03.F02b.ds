@@ -1,0 +1,139 @@
+import("ProtoGeometry.dll");
+import("Math.dll");
+
+/*
+Creates a Vector between two points.
+*/
+def vec_two_points(spt, ept)
+{
+    return =  Vector.ByCoordinates(ept.X - spt.X, ept.Y - spt.Y, ept.Z - spt.Z);
+}
+
+/* 
+Rotates the vertices in this object.
+*/
+def rotate(pgon,n)
+{
+    n = n > Count(pgon.Vertices)-1 ? n%Count(pgon.Vertices) : n;
+    n = n < -Count(pgon.Vertices)-1 ? -Math.Abs(n)%Count(pgon.Vertices) : n;
+    verts = SetUnion(pgon.Vertices[n..Count(pgon.Vertices) - 1], pgon.Vertices[0..n]);
+    return = Polygon.ByVertices(verts);
+}
+    
+def panel_cut(pgon, panel_width, ei)
+{
+    // orient the pgon to the chosen edge 
+    pgon = rotate(pgon, ei);
+    // choose the initial edge and adjacent edges
+    edge = pgon.Edges[0];
+    lhedge = pgon.Edges[1];
+    rhedge = pgon.Edges[-1];
+    // set a counter for how many edges are not being used
+    rem_edge = Count(pgon.Edges) - 2;
+    
+    // Set up the offset line and intialize intersection pts and rotational markers
+    off_vec = vec_two_points(edge.StartPoint, edge.EndPoint).Cross(vec_two_points(edge.StartPoint, pgon.Plane.Origin)).Cross(vec_two_points(edge.StartPoint, edge.EndPoint)).Normalize().Scale(panel_width);
+    line = Plane.ByOriginNormal(edge.StartPoint.Translate(off_vec.X, off_vec.Y, off_vec.Z), vec_two_points(edge.StartPoint, edge.EndPoint).Cross(Vector.ByCoordinates(0, 0, 1)));
+    [Imperative]
+    {
+        lh_step = false;
+        rh_step = false;
+        p0 = null;
+        p1 = null;
+        // check for intersections with the left-hand adjacent line, set and record a new left-hand adjacent line if necessary, if there are no remaining panels to be cut, return
+        if (Count(line.Intersect(lhedge)) > 0)
+        {
+            p0 = line.Intersect(lhedge);
+        }
+        else
+        {
+            rem_edge = rem_edge - 1;
+            if (rem_edge == 0)
+            {
+                return = { false, false, false };
+            }
+            lhedge = pgon.Edges[2];
+            lh_step = true;
+            if (Count(line.Intersect(lhedge)) > 0)
+            {
+                p0 = line.Intersect(lhedge);
+            }
+        }
+        // check for intersections with the right-hand adjacent line, set and record a new right-hand adjacent line if necessary, if there are no remaining panels to be cut, return
+        if (Count(line.Intersect(rhedge)) > 0)
+        {
+            p1 = line.Intersect(rhedge);
+        }
+        else
+        {
+            rem_edge = rem_edge - 1;
+            if (rem_edge == 0)
+            {
+                return = { false, false, false };
+            }
+            rhedge = pgon.Edges[-2];
+            rh_step = true;
+            if (Count(line.Intersect(rhedge)) > 0)
+            {
+                p1 = line.Intersect(rhedge);
+            }
+        }
+        // if there are no remaining panels to be cut, return
+        if (p0 == null || p1 == null)
+        {
+            return = { false, false, false };
+        }
+        // find the pts for the panel which has been cut
+        panelpts = { p0, p1, pgon.Vertices[0], pgon.Vertices[1] };
+
+        if (lh_step == true && rh_step == false)
+        {
+            panelpts = { pgon.Vertices[0], pgon.Vertices[1], pgon.Vertices[2], p0, p1 };
+        }
+        if (rh_step == true && lh_step == false)
+        {
+            panelpts = { pgon.Vertices[-1], pgon.Vertices[0], pgon.Vertices[1], p0, p1 };
+        }
+        if (rh_step == true && lh_step == true)
+        {
+            panelpts = { pgon.Vertices[-1], pgon.Vertices[0], pgon.Vertices[1], pgon.Vertices[2], p0, p1 };
+        }
+        panel = Polygon.ByVertices(panelpts);
+        Print(panel.Vertices);
+        Print(rem_edge);
+        
+        // Set up the next polygon and return to global orientation
+        npgonpts = { p0, p1 };
+        
+        for(i in 0..rem_edge-1)
+        {
+            Print(i);
+        }
+    } 
+}
+
+/*
+
+    #Set up the next polygon and return to global orientation
+    npgonpts = [p0,p1]
+    for r in range(rem_edge) : 
+        r+=1
+        if rh_step : r+=1
+        npgonpts.append(pgon.pts[-r])
+    npgon = PGon(npgonpts)
+    npgon.rotate(-ei)
+    return [panel, npgon, True]
+}*/
+
+pa = Point.ByCoordinates(24.4, 4.2, 0.0).SetColor(Color.Blue);
+pb = Point.ByCoordinates(19.0, 12.6, 0.0);
+pc = Point.ByCoordinates(27.2, 22.1, 0.0);
+pd = Point.ByCoordinates(43.5, 11.8, 0.0);
+my_pgon = Polygon.ByVertices({ pa, pb, pc, pd });
+test = panel_cut(my_pgon, 2.41, 2);
+Print(test);
+//test2 = my_pgon.Edges[0];
+//Print(test2);
+//Print(test);
+//test2 = Line.ByStartPointEndPoint(p3.Translate(test[1].X, test[1].Y, test[1].Z), test[0]);
+

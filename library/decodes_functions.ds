@@ -1,0 +1,47 @@
+import("ProtoGeometry.dll");
+import("Math.dll");
+
+/*
+Vector Functions
+*/
+
+def angle(vec1, vec2)
+{
+    vdot = vec1.Dot(vec2) / (vec1.Length * vec2.Length);
+    [Imperative]
+    {
+        if (vdot > 1.0)
+            vdot = 1.0;
+        if (vdot < -1.0)
+            vdot = -1.0;
+    }
+    return = Math.Acos(vdot);
+}
+
+// Returns a new vector limited to a given length.
+def limited(vector, n)
+{
+    new_vec = vector.Length < n ? vector : vector.Normalize().Scale(n);
+    return = new_vec;
+}
+
+def vec_two_points(spt, ept)
+{
+    return =  Vector.ByCoordinates(ept.X - spt.X, ept.Y - spt.Y, ept.Z - spt.Z);
+}
+    
+
+
+/*
+Arc Functions
+*/
+
+def from_tan(spt, ept, tan)
+{
+    vec_ab = Vector.ByCoordinates(ept.X - spt.X, ept.Y - spt.Y, ept.Z - spt.Z);
+    vec_rad = tan.Cross(tan.Cross(vec_ab));
+    ang = angle(vec_ab, vec_rad);
+    rad = vec_ab.Length / Math.Cos(ang) / 2.0;
+    center = spt.Translate(vec_rad, -rad);// this should be positive
+    return = Arc.ByCenterPointStartPointSweepPoint(center, spt, ept);
+}

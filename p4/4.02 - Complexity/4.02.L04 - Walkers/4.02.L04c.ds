@@ -1,10 +1,17 @@
 import("ProtoGeometry.dll");
 import("Math.dll");
 
+
+// Returns a new vector limited to a given length.
+def limited(vector, n)
+{
+    new_vec = vector.Length < n ? vector : vector.Scale(n);
+    return = new_vec;
+}
+
 /*
 A guy class is defined with a position, direction and a method for updating.
 */
-
 class Guy
 {
     Pos : Point;
@@ -28,7 +35,20 @@ class Guy
         // pick a new 2d velocity vector
         Vel = Vector.ByCoordinates(Math.Rand(-1, 1), Math.Rand(-1, 1), 0).Normalize();
     }
+    
+    /*
+    Steer the Guy by adding a given vector to its current velocity
+    */           
+    def Steer : Guy(vec:Vector)
+    {
+        // limit to the force of the vector
+        vec = limited(vec, 0.5);
+        // update the velocity of the Guy
+        this.Vel = Vector.ByCoordinates(this.Vel.X + vec.X, this.Vel.Y + vec.Y, this.Vel.Z + vec.Z);
+    }
 }
+
+
 
 start_pt = Point.ByCoordinates(-1.19, -0.89, 0);
 start_vel = Vector.ByCoordinates(0.59, 1.0, 0);
