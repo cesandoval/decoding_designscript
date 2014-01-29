@@ -19,6 +19,14 @@ def rotate(pgon,n)
     verts = SetUnion(pgon.Vertices[n..Count(pgon.Vertices) - 1], pgon.Vertices[0..n]);
     return = Polygon.ByVertices(verts);
 }
+
+def sort_edges(pgon, reverse)
+{
+    edges = pgon.Edges;
+    result = 0..Count(edges) - 1;
+    result = SortIndexByValue(edges.Length, reverse);
+    return = result[0];
+}
     
 def panel_cut(pgon, panel_width, ei)
 {
@@ -127,20 +135,150 @@ pd = Point.ByCoordinates(43.5, 11.8, 0.0);
 my_pgon = Polygon.ByVertices({ pa, pb, pc, pd });
 p_width = 2.41;
 edge_num = 2;
+reverse = true;
 
-//test = panel_cut(my_pgon, p_width, edge_num);
+
+/*
+// create a Herringbone pattern
+// initialize resulting panel list
+panels = { };
+
+[Imperative]
+{
+    // set starting value
+    group = { true, true, true };
+    
+    // start with side that is input
+    side_num = edge_num;
+    
+    // generate panels
+    while (group[2] == true)
+    {
+        // do a panel cut
+        group = panel_cut(my_pgon, p_width, side_num);
+        // panel cut returns:
+        //   [0] : polygon with width mat_width
+        //   [1] : polygon representing remaining material
+        //   [2] : edge to use for cut
+        
+        // if panel cut does not work, values with be False
+        if (group[0] != false)
+        {
+            // add new panel to list of results
+            panels[Count(panels)] = group[0];
+            
+            // set the panel to the remainder
+            my_pgon = group[1];
+            
+            // choose the next edge
+            side_num = side_num = 1;
+        }
+    }
+}*/
 
 
+
+/*
+// create a pattern based on edge length
 panels = { };
 [Imperative]
 {
     group = { true, my_pgon, true };
-
-    while(group[2] == true)//for (z in 0..5)//
+    
+    while(group[2] == true)
     {
+        edge_num = sort_edges(my_pgon, reverse);
         group = panel_cut(my_pgon, p_width, edge_num);
         my_pgon = group[1];
         //if not p_gon : break
         panels[Count(panels)] = group[0];
+    }
+}*/
+
+
+
+
+/*
+// Single Spiral 
+panels = { };
+[Imperative]
+{
+    group = { true, my_pgon, true };
+    cnt = edge_num;
+    cnti = 0;
+    
+    while (group[2] == true)
+    {
+        group = panel_cut(my_pgon, p_width, cnt);
+        if (group[0]!= false)
+        {
+            panels[Count(panels)] = group[0];
+            my_pgon = group[1];
+            //if not p_gon : break
+            if (cnti % 2 == 0)
+            {
+                my_pgon.rotate(-1);
+            }
+            if (cnti % 2 == 1)
+            {
+                my_pgon.rotate(1);
+            }
+            cnti = cnti + 1; 
+        }
+    }           
+}*/
+
+
+
+/*
+// Double Spiral 
+panels = { };
+[Imperative]
+{
+    group = { true, my_pgon, true };
+    cnt = edge_num;
+    cnti = 1;
+
+    while (group[2] == true)
+    {
+        group = panel_cut(my_pgon, p_width, cnt);
+        if (group[0]!= false)
+        {
+            panels[Count(panels)] = group[0];
+            my_pgon = group[1];
+            //if not p_gon : break
+            cnt = cnt - 1;
+            cnti = cnt + 1;
+            if (cnti % 2 == 0)
+            {
+                cnt = cnt + 1;
+            }
+        }
+    }
+}*/
+
+
+
+// Weave 
+panels = { };
+[Imperative]
+{
+    group = { true, my_pgon, true };
+    cnt = edge_num;
+
+    while(group[2] == true)
+    {
+        group = panel_cut(my_pgon, p_width, cnt);
+        if (group[0]!= false)
+        {
+            panels[Count(panels)] = group[0];
+            my_pgon = group[1];
+            //if not p_gon : break
+            if (cnt %2 == 0)
+            {
+                my_pgon.rotate(1);
+            }
+            cnt = cnt + 1;
+        }
     }
 }

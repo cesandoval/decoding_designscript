@@ -45,3 +45,18 @@ def from_tan(spt, ept, tan)
     center = spt.Translate(vec_rad, -rad);// this should be positive
     return = Arc.ByCenterPointStartPointSweepPoint(center, spt, ept);
 }
+
+
+
+/*
+PGon functions
+*/
+
+// Rotates the vertices in this object.
+def rotate(pgon,n)
+{
+    n = n > Count(pgon.Vertices)-1 ? n%Count(pgon.Vertices) : n;
+    n = n < -Count(pgon.Vertices) - 1 ? -Math.Abs(n)%Count(pgon.Vertices) : n;
+    verts = SetUnion(pgon.Vertices[n..Count(pgon.Vertices) - 1], pgon.Vertices[0..n]);
+    return = Polygon.ByVertices(verts);
+}

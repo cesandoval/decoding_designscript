@@ -1,0 +1,42 @@
+import("ProtoGeometry.dll");
+import("Math.dll");
+
+rad_small = 5.06;
+rad_large = 26.14;
+divs = 50;
+mid_pt = 0.35;
+height = 15.00;
+strength = 0.80;
+
+// Create the interior and exterior circles 
+cir1 = Point.AtParameter(Circle.ByCenterPointRadius(Point.ByCoordinates(0, 0, 0), rad_small),0..1..#divs); 
+cir2 = Point.AtParameter(Circle.ByCenterPointRadius(Point.ByCoordinates(0, 0, 0), rad_large),0..1..#divs);
+Print(Count(cir1));
+
+// Move the points of the larger circle up with sine values.
+humps = 3;
+sine = (Math.Sin(Math.RadiansToDegrees(0..Math.PI * 2 * humps..#divs)) + 1) * strength; //[(math.sin(i) + 1) * strength for i in Interval(0, math.pi * 2 * humps).divide(divs)];
+Print(sine);
+test = cir2.Translate(0, 0, sine);
+all_pts = { { cir1 } };
+Print(all_pts);
+/*
+all_pts = []
+// Move the points
+for i, pt in enumerate(cir2):
+    pt = pt + Vec(0,0,sine[i])
+    # Append the starting point, mid point and end points to a list
+    all_pts.append([cir1[i],Segment(cir1[i],pt).eval(mid_pt)+Vec(0,0,height),pt])
+
+// Flip the direction of the curves by reversing the order of the points of every other curve
+do_flip = []
+for i in range(len(all_pts)):
+    # If the remaining of the index number divided by two is not zero, set d0_flip to True
+    if i%2 == 0: do_flip.append(True)
+    else: do_flip.append(False)
+    
+// Create a curve with the list of points, reverse the order of the points of the ones in which do_flip = True
+for i, pts in enumerate(all_pts):
+    if do_flip[i]: pts.reverse()
+    curve = Curve.bezier(pts)
+    a.put(curve)*/
