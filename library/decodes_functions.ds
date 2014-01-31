@@ -30,6 +30,17 @@ def vec_two_points(spt, ept)
     return =  Vector.ByCoordinates(ept.X - spt.X, ept.Y - spt.Y, ept.Z - spt.Z);
 }
     
+//Returns the normalized bisector of two vectors.
+def bisector(v0,v1)
+{
+    v0 = v0.Normalize();
+    v1 = v1.Normalize();
+    x = Sum({ v0.X, v1.X }) / 2;
+    y = Sum({ v0.Y, v1.Y }) / 2;
+    z = Sum({ v0.Z, v1.Z }) / 2;
+    return = Vector.ByCoordinates(x, y, z);
+}
+
 
 
 /*
