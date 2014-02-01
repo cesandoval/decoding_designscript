@@ -5,6 +5,7 @@ import("Math.dll");
 Vector Functions
 */
 
+// returns the angle between 2 vectors
 def angle(vec1, vec2)
 {
     vdot = vec1.Dot(vec2) / (vec1.Length * vec2.Length);
@@ -25,6 +26,7 @@ def limited(vector, n)
     return = new_vec;
 }
 
+// creates a vector from two given points
 def vec_two_points(spt, ept)
 {
     return =  Vector.ByCoordinates(ept.X - spt.X, ept.Y - spt.Y, ept.Z - spt.Z);
@@ -39,6 +41,25 @@ def bisector(v0,v1)
     y = Sum({ v0.Y, v1.Y }) / 2;
     z = Sum({ v0.Z, v1.Z }) / 2;
     return = Vector.ByCoordinates(x, y, z);
+}
+
+// creates a vector from a given line
+def vec_from_line(line)
+{
+    return = vec_two_points(StartPoint, EndPoint);
+}
+
+
+
+/*
+Coordinate System Functions
+*/
+
+// Returns a coordinate system on the world xy plane. The rotation value controls the rotation of the cs.
+def on_xy_rotate(rot)
+{
+    x_vec = Vector.ByCoordinates(Math.Cos(Math.RadiansToDegrees(rot)), Math.Sin(Math.RadiansToDegrees(rot)), 0);
+    return = CoordinateSystem.ByOriginVectors(Point.ByCoordinates(0, 0, 0), x_vec, x_vec.Cross(Vector.ByCoordinates(0, 0, -1)));
 }
 
 

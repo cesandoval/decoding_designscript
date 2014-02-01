@@ -1,6 +1,12 @@
 import("ProtoGeometry.dll");
 import("Math.dll");
 
+// Returns a coordinate system on the world xy plane. The rotation value controls the rotation of the cs.
+def on_xy_rotate(rot)
+{
+    x_vec = Vector.ByCoordinates(Math.Cos(Math.RadiansToDegrees(rot)), Math.Sin(Math.RadiansToDegrees(rot)), 0);
+    return = CoordinateSystem.ByOriginVectors(Point.ByCoordinates(0, 0, 0), x_vec, x_vec.Cross(Vector.ByCoordinates(0, 0, -1)));
+}
 
 // Class that creates cells 
 class Cells
@@ -8,26 +14,37 @@ class Cells
     CS : CoordinateSystem;
     Rad : double;
     Is_star : bool;
+    Test : double ;
+    //_Star_centers : Point;
     
-    constructor FromCSRadius(cs, radius, is_star)
+    constructor FromCSRadius(cs, radius, is_star)//, _star_centers = { })
     {
         CS = cs;
         Rad = radius;
         Is_star = is_star;
+       
     }
 
-    //@property
-    def pts : Cell()
+    def pts: double() //Cell()
         // creates all the points on the perimeter of the cell
         // and groups these together in pairs for line and arc creation
     {
-        
+        range = 0..3;
+        vec = Vector.ByCoordinates(2 * this.Rad, 0, 0);
+        new_cs = CoordinateSystem.Identity().Rotate(Math.RadiansToDegrees(range * Math.PI / 2), Vector.ByCoordinates(0, 0, 1));
+        old_cs = CoordinateSystem.Identity();
+        vec = vec.Transform(old_cs, new_cs);
+        cs = on_xy_rotate(range * Math.PI / 2);
+        start_pt = Point.ByCartesianCoordinates(cs, this.Rad, this.Rad, 0);
+        end_pt = Point.ByCartesianCoordinates(cs, this.Rad, -this.Rad, 0);
+        Print(start_pt);
+        //Test = start_pt;
+        return = 1;
     }
-    
 }
 test_cs = CoordinateSystem.Identity();
 test = Cells.FromCSRadius(test_cs, 2, false);
-Print(test.Rad);
+Print(test.pts());
     /*
         pts = []
         self._star_centers = []

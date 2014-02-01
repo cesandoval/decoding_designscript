@@ -178,7 +178,7 @@ panels = { };
 
 
 
-/*
+
 // create a pattern based on edge length
 panels = { };
 [Imperative]
@@ -193,7 +193,7 @@ panels = { };
         //if not p_gon : break
         panels[Count(panels)] = group[0];
     }
-}*/
+}
 
 
 
@@ -258,7 +258,7 @@ panels = { };
 }*/
 
 
-
+/*
 // Weave 
 panels = { };
 [Imperative]
@@ -281,4 +281,4 @@ panels = { };
             cnt = cnt + 1;
         }
     }
-}
+}*/
