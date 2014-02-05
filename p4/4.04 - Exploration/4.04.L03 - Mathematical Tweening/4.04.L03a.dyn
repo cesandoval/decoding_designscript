@@ -1,0 +1,11 @@
+<Workspace Version="0.6.3.19437" X="31.8551737795281" Y="-1.42786881806239" zoom="0.67227783773751" Description="" Category="" Name="Home">
+  <Elements>
+    <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="f146ce44-8c8c-4bff-aca9-3b203f523f78" nickname="Code Block" x="3.24977854664741" y="56.7556531271185" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="def diamond(t)&#xA;{&#xA;    c = Math.Cos((2 * Math.PI * t)*57.2957795);&#xA;    s = Math.Sin((2 * Math.PI * t)*57.2957795);&#xA;    pt_out = Point.ByCoordinates(len_x*Math.Abs(c)*c, len_y*Math.Abs(s)*s,0);&#xA;    return = pt_out;&#xA;}&#xA;     &#xA;def astroid(t)&#xA;{&#xA;    c = Math.Cos((2 * Math.PI * t)*57.2957795);&#xA;    s = Math.Sin((2 * Math.PI * t)*57.2957795);&#xA;    pt_out = Point.ByCoordinates(len_x * c * c * c, len_y * s * s * s,0);&#xA;    return = pt_out;&#xA;}&#xA;&#xA;def func(t)&#xA;{&#xA;    t1 = (1 - m);&#xA;    x = diamond(t).X * t1 + astroid(t).X * m;&#xA;    y = diamond(t).Y * t1 + astroid(t).Y * m;&#xA;    return = Point.ByCoordinates(x, y, 0); &#xA;};&#xA;&#xA;len_x = 10.0;&#xA;len_y = 6.0;&#xA;m = 0.8;" ShouldFocus="false" />
+    <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="1bd3770b-d7d3-4116-8c4e-54f3f4ed6cab" nickname="Code Block" x="1.75139715389037" y="670.166277383729" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="tol = 0.01;&#xA;crv_domain = 0..1..tol;&#xA;Print(crv_domain);&#xA;morph = BSplineCurve.ByPoints(func(crv_domain));" ShouldFocus="false" />
+    <Dynamo.Nodes.Watch type="Dynamo.Nodes.Watch" guid="7c26dda7-90e6-4544-9fe5-114ff64129e3" nickname="Watch" x="537.878587786408" y="703.36469624879" isVisible="true" isUpstreamVisible="true" lacing="Disabled" />
+  </Elements>
+  <Connectors>
+    <Dynamo.Models.ConnectorModel start="1bd3770b-d7d3-4116-8c4e-54f3f4ed6cab" start_index="3" end="7c26dda7-90e6-4544-9fe5-114ff64129e3" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+</Workspace>

@@ -1,0 +1,7 @@
+<Workspace Version="0.6.3.19437" X="276.549608222256" Y="400.017973682909" zoom="0.701903782320158" Description="" Category="" Name="Home">
+  <Elements>
+    <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="ece5f0c7-e8de-4fb9-9078-0ddeda77bf8d" nickname="Code Block" x="-273.903642224784" y="-505.782831991281" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="rad_small = 5.06;&#xA;rad_large = 26.14;&#xA;divs = 50;&#xA;mid_pt = 0.35;&#xA;height = 8.00;&#xA;strength = 2.80;&#xA;&#xA;// Create the interior and exterior circles &#xA;cir1 = Point.AtParameter(Circle.ByCenterPointRadius(Point.ByCoordinates(0, 0, 0), rad_small),0..1..#divs); &#xA;cir2 = Point.AtParameter(Circle.ByCenterPointRadius(Point.ByCoordinates(0, 0, 0), rad_large),0..1..#divs);&#xA;&#xA;// Move the points of the larger circle up with sine values.&#xA;humps = 3;&#xA;sine = (Math.Sin(Math.RadiansToDegrees(0..Math.PI * 2 * humps..#divs)) + 1) * strength; //[(math.sin(i) + 1) * strength for i in Interval(0, math.pi * 2 * humps).divide(divs)];&#xA;&#xA;cir2 = cir2.Translate(0, 0, sine);&#xA;mid = Point.AtParameter(Line.ByStartPointEndPoint(cir1, cir2),mid_pt).Translate(0,0,height); //{  cir1 , cir2};" ShouldFocus="false" />
+  </Elements>
+  <Connectors />
+  <Notes />
+</Workspace>

@@ -1,0 +1,15 @@
+<Workspace Version="0.6.3.19437" X="320.037784587376" Y="248.401296736271" zoom="0.79251600680746" Description="" Category="" Name="Home">
+  <Elements>
+    <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="511b2cef-b8ac-4222-b7f1-4a6d34fb19d8" nickname="Code Block" x="-158.55260914329" y="-220.835954726775" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="def color_point(r_val,g_val,b_val)&#xA;{&#xA;res = Point.ByCoordinates(r_val,g_val,b_val);&#xA;&#xA;return = res;&#xA;};" ShouldFocus="false" />
+    <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="c5ca266c-762f-4351-a0d7-a9b27450f5b9" nickname="Code Block" x="100.504706388762" y="249.933609442098" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="color_point(r,g,b);" ShouldFocus="false" />
+    <Dynamo.Nodes.DoubleSliderInput type="Dynamo.Nodes.DoubleSliderInput" guid="6923c1f8-11a2-45b9-a12d-e9d260a1be20" nickname="Number Slider" x="-370.5018738131" y="235.729347183824" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <System.Double value="0.697466305165989" min="0" max="1" />
+    </Dynamo.Nodes.DoubleSliderInput>
+  </Elements>
+  <Connectors>
+    <Dynamo.Models.ConnectorModel start="6923c1f8-11a2-45b9-a12d-e9d260a1be20" start_index="0" end="c5ca266c-762f-4351-a0d7-a9b27450f5b9" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="6923c1f8-11a2-45b9-a12d-e9d260a1be20" start_index="0" end="c5ca266c-762f-4351-a0d7-a9b27450f5b9" end_index="1" portType="0" />
+    <Dynamo.Models.ConnectorModel start="6923c1f8-11a2-45b9-a12d-e9d260a1be20" start_index="0" end="c5ca266c-762f-4351-a0d7-a9b27450f5b9" end_index="2" portType="0" />
+  </Connectors>
+  <Notes />
+</Workspace>

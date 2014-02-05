@@ -8,6 +8,42 @@ def on_xy_rotate(rot)
     return = CoordinateSystem.ByOriginVectors(Point.ByCoordinates(0, 0, 0), x_vec, x_vec.Cross(Vector.ByCoordinates(0, 0, -1)));
 }
 
+/*
+    pts = []
+    self._star_centers = []
+    for f in range(4):
+        # for each side of the cell
+        side = []
+        # arc offset if the cell is a star
+        vec = Vec(-2*self.rad, 0, 0)*Xform.rotation(angle=f*math.pi/2)
+        # create a new temporary cs for each side
+        cs = CS.on_xy(rot=f*math.pi/2)
+        # create an arc that represents the side of the cell
+        start_pt = cs.eval(self.rad, self.rad)
+        sweep_pt = cs.eval(self.rad, -self.rad)
+        arc = Arc.from_pts(cs.origin, start_pt, sweep_pt)
+        
+        if self.is_star:
+            # move the arc if the cell is a star
+            arc *= Xform.translation(vec)
+            self._star_centers.append(arc.basis.origin)
+        # and evaluate the arc by the number of side divisions
+        for i in Interval().divide(8, True,)[1:-1]:
+            side.append(arc.eval(i))
+        if self.is_star: side.reverse() 
+        pts.append(side)
+    
+    ret = []
+    # for each side of the cell
+    for side in range(len(pts)):
+        for line in range((len(pts[side])//2), len(pts[side])):
+            # for the first half of the points in the side
+            pt_1 = pts[side][line]
+            # associate the last half of the points in the previous side
+            pt_2 = pts[side-1][-(line+1)]
+            ret.append([pt_1, pt_2]) 
+    return ret*/
+
 // Class that creates cells 
 class Cells
 {
@@ -25,10 +61,11 @@ class Cells
        
     }
 
-    def pts: double() //Cell()
+    def Pts() //Cell()
         // creates all the points on the perimeter of the cell
         // and groups these together in pairs for line and arc creation
     {
+        //this._Star_centers = { };
         range = 0..3;
         vec = Vector.ByCoordinates(2 * this.Rad, 0, 0);
         new_cs = CoordinateSystem.Identity().Rotate(Math.RadiansToDegrees(range * Math.PI / 2), Vector.ByCoordinates(0, 0, 1));
@@ -36,51 +73,102 @@ class Cells
         vec = vec.Transform(old_cs, new_cs);
         cs = on_xy_rotate(range * Math.PI / 2);
         start_pt = Point.ByCartesianCoordinates(cs, this.Rad, this.Rad, 0);
-        end_pt = Point.ByCartesianCoordinates(cs, this.Rad, -this.Rad, 0);
-        Print(start_pt);
-        //Test = start_pt;
-        return = 1;
+        sweep_pt = Point.ByCartesianCoordinates(cs, this.Rad, -this.Rad, 0);
+        arc = Arc.ByCenterPointStartPointSweepPoint(cs.Origin, start_pt, sweep_pt);
+        [Imperative]
+        {
+            if (this.Is_star==true)
+            {
+                // move the arc if the cell is a star
+                arc = arc.Translate(vec.X, vec.Y, vec.Z);
+                //this._Star_centers[Count(this._Star_centers)] = arc.CenterPoint;
+            }
+        }
+        side_rng = 1 / 8..1 - 1 / 8..1 / 8;
+        side_rng = this.Is_star == true ? Reverse(side_rng) : side_rng;
+        // and evaluate the arc by the number of side divisions
+        pts_lst = Point.AtParameter(arc<1>, side_rng<2>);
+        
+        // Fix list order!!!!!!!!!
+        ret = { };
+        [Imperative]
+        {
+            for (side in 0..Count(pts_lst) - 1)
+            {
+                for(line in Math.Floor(Count(pts_lst[side]) / 2)..Count(pts_lst[side]) - 1)
+                {
+                    ret[Count(ret)] = { pts_lst[side][line], pts_lst[side - 1][- (line + 1)] };
+                }
+            }
+        }
+        return = ret;
+    }
+
+    def Square_lines()
+    {
+        pts = this.Pts();
+        ret = Point.ByCartesianCoordinates(this.CS, pts.X<1>, pts.Y<1>, pts.Z<1>);
+        
+        //Print(Point.ByOffset(this.CS<1>,testing.X<1>,testing.Y<2>,testing.Z<3>));
+        // creates square lines between side points
+        //pl = Point.ByOffset(this.CS,this.Pts().X,this.Pts().Y,this.Pts().Z);
+        /*
+        ret = []
+        for group in self.pts:
+            # for each group of two points in pts
+            # create the appropriate middle point for the polyline
+            if group[0].x * group[1].y >= 0:
+                group.insert(1, Point(group[1].y, group[0].x))
+            elif group[0].x * group[0].y <= 0:
+                group.insert(1, Point(group[1].x, group[0].y))
+            elif group[1].x * group[1].y <= 0:
+                group.insert(1, Point(group[1].y, group[0].x))
+            # and create a polyline
+            pl = PLine()
+            for pt in group:
+                pl.append(self.basis.eval(pt))
+            ret.append(pl)
+        return ret*/
+    }
+    
+    def Arc_lines()
+    {
+        arc_pts = this.Pts();
+        arcs = { };
+        [Imperative]
+        {
+            
+        }
+        /*
+        arcs = []
+        
+        if self.is_star: # if the cell is a star
+            for f in range(len(self.pts)):
+                # get the appropriate center point for the tangent
+                index = int(math.floor(f/(len(self.pts)/4)))
+                ctr_pt = self.basis.eval(self._star_centers[index])
+                # get the start and sweep points from the grouped points
+                st_pt = self.basis.eval(self.pts[f][0]) # start point
+                sw_pt = self.basis.eval(self.pts[f][1]) # sweep point
+                # create the arc
+                arcs.append(Arc.from_tan(st_pt, sw_pt, Vec(st_pt, ctr_pt)))
+        else: # if the cell is not a star
+            for group in self.pts:
+                # get the start and sweep points from the grouped points
+                st_pt = self.basis.eval(group[0])# start point
+                sw_pt = self.basis.eval(group[1])# sweep point
+                # and use the CS origin for to create the tangent for the arc
+                arc = Arc.from_tan(st_pt, sw_pt, Vec(st_pt, self.basis.origin))
+                arcs.append(arc)
+        return arcs*/
     }
 }
 test_cs = CoordinateSystem.Identity();
 test = Cells.FromCSRadius(test_cs, 2, false);
-Print(test.pts());
-    /*
-        pts = []
-        self._star_centers = []
-        for f in range(4):
-            # for each side of the cell
-            side = []
-            # arc offset if the cell is a star
-            vec = Vec(-2*self.rad, 0, 0)*Xform.rotation(angle=f*math.pi/2)
-            # create a new temporary cs for each side
-            cs = CS.on_xy(rot=f*math.pi/2)
-            # create an arc that represents the side of the cell
-            start_pt = cs.eval(self.rad, self.rad)
-            sweep_pt = cs.eval(self.rad, -self.rad)
-            arc = Arc.from_pts(cs.origin, start_pt, sweep_pt)
-            
-            if self.is_star:
-                # move the arc if the cell is a star
-                arc *= Xform.translation(vec)
-                self._star_centers.append(arc.basis.origin)
-            # and evaluate the arc by the number of side divisions
-            for i in Interval().divide(8, True,)[1:-1]:
-                side.append(arc.eval(i))
-            if self.is_star: side.reverse() 
-            pts.append(side)
-        
-        ret = []
-        # for each side of the cell
-        for side in range(len(pts)):
-            for line in range((len(pts[side])//2), len(pts[side])):
-                # for the first half of the points in the side
-                pt_1 = pts[side][line]
-                # associate the last half of the points in the previous side
-                pt_2 = pts[side-1][-(line+1)]
-                ret.append([pt_1, pt_2]) 
-        return ret
-    
+test_lns = BSplineCurve.ByPoints(test.Pts());
+test_sqr = BSplineCurve.ByPoints(test.Square_lines());
+
+/*    
     @property
     def square_lines(self):
         # creates square lines between side points 

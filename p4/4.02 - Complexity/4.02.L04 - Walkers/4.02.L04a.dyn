@@ -1,0 +1,7 @@
+<Workspace Version="0.6.3.19437" X="103.75108191879" Y="-0.694022713591117" zoom="0.58077495019561" Description="" Category="" Name="Home">
+  <Elements>
+    <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="add79bd0-7e6e-41a0-8f63-a52536cabdc6" nickname="Code Block" x="-52" y="117" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="/*&#xA;A guy class is defined with a position, direction and a method for updating.&#xA;*/&#xA;&#xA;class Guy&#xA;{&#xA;    Pos : Point;&#xA;    Vel : Vector;&#xA;    &#xA;    constructor FromPosVel(pos_start, vel_start)&#xA;    {&#xA;        // sets the initial position of the Guy&#xA;        Pos = pos_start;&#xA;        // sets the initial velocity vector for the Guy&#xA;        Vel = vel_start;&#xA;    }&#xA;    &#xA;    /*&#xA;    Cause the Guy object to move, using its current velocity, then randomly pick a new velocity&#xA;    */&#xA;    def Step : Guy()&#xA;    {&#xA;        // update the position of the Guy&#xA;        Pos = Point.ByCoordinates(Pos.X + Vel.X, Pos.Y + Vel.Y, Pos.Z + Vel.Z);&#xA;        // pick a new 2d velocity vector&#xA;        Vel = Vector.ByCoordinates(Math.Rand(-1, 1), Math.Rand(-1, 1), 0).Normalize;&#xA;    }&#xA;};" ShouldFocus="false" />
+  </Elements>
+  <Connectors />
+  <Notes />
+</Workspace>
