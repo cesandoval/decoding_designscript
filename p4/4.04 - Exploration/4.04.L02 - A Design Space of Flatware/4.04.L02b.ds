@@ -1,0 +1,282 @@
+import("ProtoGeometry.dll");
+import("Math.dll");
+
+// creates a vector from two given points
+def vec_two_points(spt, ept)
+{
+    return =  Vector.ByCoordinates(ept.X - spt.X, ept.Y - spt.Y, ept.Z - spt.Z);
+}
+
+// Returns a new point that results from adding this point's world coordinates to the other point's (or vector's) world coordinates.
+def point_addition(p1, p2)
+{
+    return = Point.ByCoordinates(p1.X + p2.X, p1.Y + p2.Y, p1.Z + p2.Z);
+}
+
+// Returns a new point that results from dividing each of this point's world coordinates by the value provided.
+def point_division(pt, factor)
+{
+    return = Point.ByCoordinates(pt.X / factor, pt.Y / factor, pt.Z / factor);
+}
+
+// Decomposes a curve into subcurves
+def decompose_curve(curve, divs)
+{
+    return = Line.ByStartPointEndPoint(Point.AtParameter(curve, 0..1-1/divs..1/divs), Point.AtParameter(curve, 1/divs..1..1/divs));
+}
+
+/*
+A class that creates a Prong object
+*/
+class Prong
+{
+    Chin : Point;
+    Cheek : Point;
+    Head : Point;
+    Is_left : bool;
+    Cheek_Knife : Point;
+    Head_Knife : Point;
+    Cheek_Fork : Point;
+    Head_Fork : Point;
+    Cheek_Spoon : Point;
+    Head_Spoon : Point;
+
+    constructor ByChin(chin, is_left)
+    {
+        // store variables for initial Point locations
+        Chin = chin;
+        Cheek = chin.Translate(0, 3, 0);
+        Head = chin.Translate(0.5, 6, 0);
+        // store the prong's side
+        Is_left = is_left;
+    }
+     
+    // store the variables for final knife Point locations
+    def set_knife(cheek,head)
+    {
+        Cheek_Knife = cheek;
+        Head_Knife = head;
+    }
+      
+    // store the variables for final fork Point locations   
+    def set_fork(cheek, head)
+    {
+        Cheek_Fork = cheek;
+        Head_Fork = head;
+    }
+        
+    // store the variables for final spoon Point locations
+    def set_spoon(cheek, head)
+    {
+        Cheek_Spoon = cheek;
+        Head_Spoon = head;
+    }
+      
+    //Given forkiness, spooniness and knifiness values, this function creates a hybridized Prong.
+    def make_cutlery(knifiness, forkiness, spooniness)
+    {
+        // create a cheek movement vector from all given values
+        cheek_knife_seg = Line.ByStartPointEndPoint(this.Cheek, this.Cheek_Knife);
+        cheek_knife_vec = vec_two_points(this.Cheek, Point.AtParameter(cheek_knife_seg, knifiness));
+        cheek_fork_seg = Line.ByStartPointEndPoint(this.Cheek, this.Cheek_Fork);
+        cheek_fork_vec = vec_two_points(this.Cheek, Point.AtParameter(cheek_fork_seg, forkiness));
+        cheek_spoon_seg = Line.ByStartPointEndPoint(this.Cheek, this.Cheek_Spoon);
+        cheek_spoon_vec = vec_two_points(this.Cheek, Point.AtParameter(cheek_spoon_seg, spooniness));
+        cheek_vec = Vector.op_Addition(cheek_knife_vec, Vector.op_Addition(cheek_fork_vec, cheek_spoon_vec));
+            
+        // create a head movement vector from all given values
+        head_knife_seg = Line.ByStartPointEndPoint(this.Head, this.Head_Knife);
+        head_knife_vec = vec_two_points(this.Head, Point.AtParameter(head_knife_seg, knifiness));
+        head_fork_seg = Line.ByStartPointEndPoint(this.Head, this.Head_Fork);
+        head_fork_vec = vec_two_points(this.Head, Point.AtParameter(head_fork_seg, forkiness));
+        head_spoon_seg = Line.ByStartPointEndPoint(this.Head, this.Head_Spoon);
+        head_spoon_vec = vec_two_points(this.Head, Point.AtParameter(head_spoon_seg, spooniness));
+        head_vec = Vector.op_Addition(head_knife_vec, Vector.op_Addition(head_fork_vec, head_spoon_vec));
+        
+        // move the cheek and head Points
+        Cheek = Cheek.Translate(cheek_vec.X, cheek_vec.Y, cheek_vec.Z);
+        Head = Head.Translate(head_vec.X, head_vec.Y, head_vec.Z);
+    }
+    
+    //@property
+    // returns a curve from the chin, cheek and head points
+    def to_curve()
+    {
+        // create a curve from the existing points
+        crvL = BSplineCurve.ByPoints({ this.Chin, this.Cheek, this.Head });
+        // create a curve from from offset points
+        crvR = BSplineCurve.ByPoints({ this.Chin.Translate(1, 0, 0), this.Cheek.Translate(1, 0, 0), this.Head });
+        // if the prong is on the left flatware side:
+        return = this.Is_left == true ? { crvL, crvR } : { crvR, crvL };
+    }
+}
+
+TOLERANCE = 1.0;
+
+/*
+A class that creates a Web object between Prongs
+*/
+class Web
+{
+    Outer : Point;
+    Inner : Point;
+    Middle : Point;
+    Outer_prong : Prong;
+    Inner_prong : Prong;
+    Is_left : bool;
+    Tolerance : double;
+    Pull_knife : Point;
+    Pull_fork : Point;
+    Pull_spoon : Point;
+    
+    constructor WithProngs(prongO, prongI, is_left)
+    {
+        // store variables for initial Point locations
+        Outer = prongO.Head; // the tip of the outer prong
+        Inner = prongI.Head; // the tip of the innter prong
+        Middle = point_division(point_addition(prongO.Head, prongI.Head), 2.0); // midpoint
+        // store the prongs
+        Outer_prong = prongO;
+        Inner_prong = prongI;
+        Is_left = is_left; // web location on the flatware
+        Tolerance = 0.001; // angle tolerance
+    }
+    
+    // store the final knife Point location     
+    def set_knife(pull)
+    {
+        Pull_knife = pull;
+    }
+    
+    // store the final fork Point location
+    def set_fork(pull)
+    {
+        Pull_fork = pull;
+    }
+    
+    // store the final spoon Point location
+    def set_spoon(pull)
+    {
+        Pull_spoon = pull;
+    }
+              
+    //Given forkiness, spooniness and knifiness values, this function creates a hybridized Web.
+    def make_cutlery(knifiness, forkiness, spooniness)
+    {
+        // create a movement vector from all given values
+        pull_knife_seg = Line.ByStartPointEndPoint(this.Middle, this.Pull_knife);
+        pull_knife_vec = vec_two_points(this.Middle, Point.AtParameter(pull_knife_seg, knifiness));
+        pull_fork_seg = Line.ByStartPointEndPoint(this.Middle, this.Pull_fork);
+        pull_fork_vec = vec_two_points(this.Middle, Point.AtParameter(pull_fork_seg, forkiness));
+        pull_spoon_seg = Line.ByStartPointEndPoint(this.Middle, this.Pull_spoon);
+        pull_spoon_vec = vec_two_points(this.Middle, Point.AtParameter(pull_spoon_seg, spooniness));
+        pull_vec = Vector.op_Addition(pull_knife_vec, Vector.op_Addition(pull_fork_vec, pull_spoon_vec));
+        
+        // if the web is a valley:
+        pull_vec = this.is_mountain == false ? Vector.ByCoordinates(0, pull_vec.Y, pull_vec.Z) : pull_vec;
+        // move the middle point
+        Middle = Middle.Translate(pull_vec.X, pull_vec.Y, pull_vec.Z);
+    }
+    
+    //This function calculates the Web's intersection with the prongs and returns a trimmed Web
+    //@property
+    def get_subcrv()
+    {
+
+        w_edge = decompose_curve(this.to_curve(), 10);
+        i_edge = decompose_curve(this.Inner_prong.to_curve()[0], 10);
+        intersection_lst = w_edge.Intersect(i_edge<2>); // need to find a way to replicate all of this.....
+    
+        /*
+        // create a empty intersection list
+        intersection_lst = { };
+        # for each segment in the Web :
+        for w_edge in self.to_curve.edges:
+            # for each segment in the inner prong edge:
+            for i_edge in self.inner_prong.to_curve[0].edges:
+                # create an intersector
+                inter = Intersector()
+                # if they intersect:
+                if inter.of(i_edge,w_edge):
+                    # add the first point of intersection to the list
+                    intersection_lst.append(inter.results[0])*/
+
+        // if there is no intersection, return the curve
+        new_crv = Count(intersection_lst) == 0 ? this.to_curve() : null;
+        // if the inner point is in the intersection:
+        intersection_lst = this.Inner.DistanceTo(intersection_lst[-1]) < this.Tolerance ? Remove(intersection_lst, -1) : intersection_lst;
+        // if the list is empty, return the curve
+        new_crv = Count(intersection_lst) == 0 ? this.to_curve() : null;
+
+        // get the surrogate (Pline) of the curve
+        original_crv = this.to_curve();
+        // get its segment index 
+        // get the nearest point on the surrogate to the intersection
+        ni = IndexOf(original_crv, intersection_lst[0].SelectNearest(decompose_curve(original_crv,10))); // [seg.near(intersection_lst[0])for seg in original_crv.edges]
+        //ni = Point.near_index(intersection_lst[0],[npt[0] for npt in npts])        
+        // and remove all of the segments after the index
+        new_edges = decompose_curve(original_crv, 10)[0..ni];
+        new_crv = BSplineCurve.Composite(new_edges);
+        
+        return = new_crv;
+    }
+       /*
+    """
+    This function determines the concavity of the Web
+    """
+    @property
+    def is_mountain(self):
+        # if the web is on the left side of the flatware:
+        if self.is_left:
+            # draw vectors accordingly
+            vec1 = Vec(self.middle,self.outer)
+            vec2 = Vec(self.middle,self.inner)
+        # else:
+        else:
+            # draw vectors accordingly
+            vec1 = Vec(self.middle,self.inner)
+            vec2 = Vec(self.middle,self.outer)
+        
+        # if the web is flat:
+        if Vec.angle(vec1,vec2) < TOLERANCE or Vec.angle(vec1,vec2) > math.pi - TOLERANCE:
+            # return False
+            return False
+        # else:
+        else:
+            # create a CS
+            cs = CS(self.middle,vec1,vec2)
+            # if the z axis of the CS is positive:
+            if cs.z_axis.z > 0:
+                # if the middle point is below both other points:
+                if self.middle.y < self.outer.y and self.middle.y < self.inner.y:
+                    # return False
+                    return False
+                # else 
+                else:
+                    # return True
+                    return True
+            # if the z axis of the CS is negative:
+            if cs.z_axis.z < 0:
+                # return False
+                return False
+    */
+    // return the curve surrogate
+    //@property
+    def to_curve()
+    {
+        return = BSplineCurve.ByPoints({ this.Outer, this.Middle, this.Inner });
+    }
+
+}
+
+
+
+test = Prong.ByChin(Point.ByCoordinates(-4, 0, 0), false);
+Print(test.Head);
+
+test.set_knife(Point.ByCoordinates(-5, 29, 0), Point.ByCoordinates(-4, 62, 0));
+test.set_fork(Point.ByCoordinates(-5, 5, 0), Point.ByCoordinates(-4, 30, 0));
+test.set_spoon(Point.ByCoordinates(-12, 10, 0), Point.ByCoordinates(-4, 20, 0));
+
+test.make_cutlery(1, 1, 1);
+test.to_curve();

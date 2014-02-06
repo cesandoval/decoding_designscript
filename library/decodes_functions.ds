@@ -92,3 +92,33 @@ def rotate(pgon,n)
     verts = SetUnion(pgon.Vertices[n..Count(pgon.Vertices) - 1], pgon.Vertices[0..n]);
     return = Polygon.ByVertices(verts);
 }
+
+
+
+/*
+Point Functions
+*/
+
+// Returns a new point that results from adding this point's world coordinates to the other point's (or vector's) world coordinates.
+def point_addition(p1, p2)
+{
+    return = Point.ByCoordinates(p1.X + p2.X, p1.Y + p2.Y, p1.Z + p2.Z);
+}
+
+// Returns a new point that results from dividing each of this point's world coordinates by the value provided.
+def point_division(pt, factor)
+{
+    return = Point.ByCoordinates(pt.X / factor, pt.Y / factor, pt.Z / factor);
+}
+
+
+
+/*
+Curve Functions
+*/
+
+// Decomposes a curve into subcurves
+def decompose_curve(curve, divs)
+{
+    return = Line.ByStartPointEndPoint(Point.AtParameter(curve, 0..1-1/divs..1/divs), Point.AtParameter(curve, 1/divs..1..1/divs));
+}

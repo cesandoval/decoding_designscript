@@ -7,10 +7,10 @@ def vec_two_points(spt, ept)
     return =  Vector.ByCoordinates(ept.X - spt.X, ept.Y - spt.Y, ept.Z - spt.Z);
 }
 
+
 /*
 A class that creates a Prong object
 */
-
 class Prong
 {
     Chin : Point;
@@ -54,15 +54,11 @@ class Prong
         Cheek_Spoon = cheek;
         Head_Spoon = head;
     }
-    
-    
-    /*   
-    Given forkiness, spooniness and knifiness values, this function creates a hybridized Prong.
-    */
+      
+    //Given forkiness, spooniness and knifiness values, this function creates a hybridized Prong.
     def make_cutlery(knifiness, forkiness, spooniness)
     {
-        Print(this.Head);
-        /* // create a cheek movement vector from all given values
+        // create a cheek movement vector from all given values
         cheek_knife_seg = Line.ByStartPointEndPoint(this.Cheek, this.Cheek_Knife);
         cheek_knife_vec = vec_two_points(this.Cheek, Point.AtParameter(cheek_knife_seg, knifiness));
         cheek_fork_seg = Line.ByStartPointEndPoint(this.Cheek, this.Cheek_Fork);
@@ -75,35 +71,31 @@ class Prong
         head_knife_seg = Line.ByStartPointEndPoint(this.Head, this.Head_Knife);
         head_knife_vec = vec_two_points(this.Head, Point.AtParameter(head_knife_seg, knifiness));
         head_fork_seg = Line.ByStartPointEndPoint(this.Head, this.Head_Fork);
-        head_fork_vec = vec_two_points(this.head, Point.AtParameter(head_fork_seg, forkiness));
+        head_fork_vec = vec_two_points(this.Head, Point.AtParameter(head_fork_seg, forkiness));
         head_spoon_seg = Line.ByStartPointEndPoint(this.Head, this.Head_Spoon);
         head_spoon_vec = vec_two_points(this.Head, Point.AtParameter(head_spoon_seg, spooniness));
         head_vec = Vector.op_Addition(head_knife_vec, Vector.op_Addition(head_fork_vec, head_spoon_vec));
         
         // move the cheek and head Points
         Cheek = Cheek.Translate(cheek_vec.X, cheek_vec.Y, cheek_vec.Z);
-        Head = Head.Translate(head_vec.X, head_vec.Y, head_vec.Z);*/
+        Head = Head.Translate(head_vec.X, head_vec.Y, head_vec.Z);
     }
-    /*
-    @property
-    # returns a curve from the chin, cheek and head points
-    def to_curve(self):
-        # create a curve from the existing points
-        crvL = Curve.bezier([self.chin,self.cheek,self.head])
-        # create a curve from from offset points
-        crvR = Curve.bezier([self.chin + Vec.ux(),self.cheek + Vec.ux(),self.head])
-        # if the prong is on the left flatware side:
-        if self.is_left:
-            # draw the left curve first, then the right
-            return crvL.surrogate,crvR.surrogate
-        #else if the prong is on the right side
-        else:
-            # draw the right curve first, then the left
-            return crvR.surrogate, crvL.surrogate */
     
+    //@property
+    // returns a curve from the chin, cheek and head points
+    def to_curve()
+    {
+        // create a curve from the existing points
+        crvL = BSplineCurve.ByPoints({ this.Chin, this.Cheek, this.Head });
+        // create a curve from from offset points
+        crvR = BSplineCurve.ByPoints({ this.Chin.Translate(1, 0, 0), this.Cheek.Translate(1, 0, 0), this.Head });
+        // if the prong is on the left flatware side:
+        return = this.Is_left == true ? { crvL, crvR } : { crvR, crvL };
+    }
 }
 
-test = Prong.ByChin(Point.ByCoordinates(-4, 0, 0), true);
+/*
+test = Prong.ByChin(Point.ByCoordinates(-4, 0, 0), false);
 Print(test.Head);
 
 test.set_knife(Point.ByCoordinates(-5, 29, 0), Point.ByCoordinates(-4, 62, 0));
@@ -111,3 +103,4 @@ test.set_fork(Point.ByCoordinates(-5, 5, 0), Point.ByCoordinates(-4, 30, 0));
 test.set_spoon(Point.ByCoordinates(-12, 10, 0), Point.ByCoordinates(-4, 20, 0));
 
 test.make_cutlery(1, 1, 1);
+test.to_curve();*/
