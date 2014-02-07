@@ -1,43 +1,6 @@
 import("ProtoGeometry.dll");
 import("Math.dll");
-
-// creates a vector from two given points
-def vec_two_points(spt, ept)
-{
-    return =  Vector.ByCoordinates(ept.X - spt.X, ept.Y - spt.Y, ept.Z - spt.Z);
-}
-
-// Returns a new point that results from adding this point's world coordinates to the other point's (or vector's) world coordinates.
-def point_addition(p1, p2)
-{
-    return = Point.ByCoordinates(p1.X + p2.X, p1.Y + p2.Y, p1.Z + p2.Z);
-}
-
-// Returns a new point that results from dividing each of this point's world coordinates by the value provided.
-def point_division(pt, factor)
-{
-    return = Point.ByCoordinates(pt.X / factor, pt.Y / factor, pt.Z / factor);
-}
-
-// Decomposes a curve into subcurves
-def decompose_curve(curve, divs)
-{
-    return = Line.ByStartPointEndPoint(Point.AtParameter(curve, 0..1-1/divs..1/divs), Point.AtParameter(curve, 1/divs..1..1/divs));
-}
-
-// returns the angle between 2 vectors
-def angle(vec1, vec2)
-{
-    vdot = vec1.Dot(vec2) / (vec1.Length * vec2.Length);
-    [Imperative]
-    {
-        if (vdot > 1.0)
-            vdot = 1.0;
-        if (vdot < -1.0)
-            vdot = -1.0;
-    }
-    return = Math.Acos(vdot);
-}
+import("C:/Users/cesandoval/Documents/Github/decoding_designscript/library/decodes_functions.ds");
 
 /*
 A class that creates a Prong object
@@ -292,30 +255,88 @@ class Web
 
 }
 
+// Initial values
+knifiness = 0.0;
+forkiness = 0.47;
+spooniness = 1.0;
+
+// Create Prongs and Webs for the Design space of flatware
+// Initialize Prongs at chin locations
+prong_lst = { Prong.ByChin(Point.ByCoordinates(-4, 0, 0), true), Prong.ByChin(Point.ByCoordinates(-2, 0, 0), true), Prong.ByChin(Point.ByCoordinates(1, 0, 0), false), Prong.ByChin(Point.ByCoordinates(3, 0, 0), false) };
+
+// set knife, fork, and spoon values for each Prong's cheek and head
+pts_a = { { Point.ByCoordinates(-5, 29, 0), Point.ByCoordinates(-3, 17, 0), Point.ByCoordinates(1, 7, 0), Point.ByCoordinates(5, 1, 0) },
+    { Point.ByCoordinates(-5, 5, 0), Point.ByCoordinates(-3, 5, 0), Point.ByCoordinates(2, 5, 0), Point.ByCoordinates(4, 5, 0) },
+    { Point.ByCoordinates(-12, 10, 0), Point.ByCoordinates(-5, 3, 0), Point.ByCoordinates(4, 3, 0), Point.ByCoordinates(11, 10, 0) } };
+pts_b = { { Point.ByCoordinates(-4, 62, 0), Point.ByCoordinates(-2, 33, 0), Point.ByCoordinates(2, 14, 0), Point.ByCoordinates(6, 3, 0) },
+    { Point.ByCoordinates(-4, 30, 0), Point.ByCoordinates(-2, 30, 0), Point.ByCoordinates(2, 30, 0), Point.ByCoordinates(4, 30, 0) },
+    { Point.ByCoordinates(-4, 20, 0), Point.ByCoordinates(-3, 6, 0), Point.ByCoordinates(3, 6, 0), Point.ByCoordinates(4, 20, 0) } };
+
+prong_lst.set_knife(pts_a[0], pts_b[0]);
+prong_lst.set_fork(pts_a[1], pts_b[1]);
+prong_lst.set_spoon(pts_a[2], pts_b[2]);
+
+// modify each Prong according to knifiness,forkiness, and spooniness
+prong_lst.make_cutlery(knifiness, forkiness, spooniness);
+
+// initialize Webs from their connecting Prongs
+web_lst = Web.WithProngs(prong_lst[{ 0, 1, 3 }], prong_lst[{ 1, 2, 2 }], { true, true, false });
+
+// set knife, fork, and spoon values for each Web's middle Point.
+pts_c = { Point.ByCoordinates(-3, -18, 0), Point.ByCoordinates(0, -18, 0), Point.ByCoordinates(3, -18, 0) };
+web_lst.set_knife(Point.ByCoordinates(6, 62, 0));
+web_lst.set_fork(pts_c);
+web_lst.set_spoon(Point.ByCoordinates(0, 24, 0));
+
+// modify each Web according to knifiness,forkiness, and spooniness
+web_lst.make_cutlery(knifiness, forkiness, spooniness);
 
 
-test = Prong.ByChin(Point.ByCoordinates(-4, 0, 0), false);
-test2 = Prong.ByChin(Point.ByCoordinates(-2, 0, 0), true);
+// Modify the webs according to their concavity. This allows for webs to combine in case of knifiness or spooniness.
+// if the center Web is convex:
+[Imperative]
+{
+    if (web_lst[1].is_mountain())
+    {
+        // if the left Web is convex:
+        if (web_lst[0].is_mountain())
+        {
+                // if the right Web is convex:
+            if (web_lst[2].is_mountain())
+            {
+                // replace all three with a single Web
+                new_pull = Polygon.ByVertices(web_lst.Middle).Plane.Origin;
+                web_lst = { Web.WithProngs(prong_lst[0], prong_lst[3], true) };
+                web_lst.Middle = new_pull;
+            }
+                // else:
+            else
+            {
+                // replace the two convex Webs with a single Web
+                new_pull = Polygon.ByVertices({ web_lst[0].Middle, web_lst[1].Middle }).Plane.Origin;
+                new_pull2 = web_lst[2].Middle;
+                web_lst = { Web.WithProngs(prong_lst[0], prong_lst[2], true) };
+                web_lst.Middle = new_pull;
+                // and keep the concave Web
+                web_lst[Count(web_lst)] = Web.WithProngs(prong_lst[2], prong_lst[3], false);
+                web_lst[1].Middle = new_pull2;
+            }
+        }
+            // else if the right Web is convex:
+        else if (web_lst[2].is_mountain())
+        {   
+            // replace the two convex Webs with a single Web
+            new_pull = Polygon.ByVertices({ web_lst[1].Middle, web_lst[2].Middle }).Plane.Origin;
+            new_pull2 = web_lst[0].Middle;
+            web_lst = { Web.WithProngs(prong_lst[0], prong_lst[1], true) };
+            web_lst.Middle = new_pull2;
+            // and keep the concave Web
+            web_lst[Count(web_lst)] = Web.WithProngs(prong_lst[1], prong_lst[3], false);
+            web_lst.Middle = new_pull;
+        }
+    }
+}
 
-test.set_knife(Point.ByCoordinates(-5, 29, 0), Point.ByCoordinates(-4, 62, 0));
-test.set_fork(Point.ByCoordinates(-5, 5, 0), Point.ByCoordinates(-4, 30, 0));
-test.set_spoon(Point.ByCoordinates(-12, 10, 0), Point.ByCoordinates(-4, 20, 0));
-
-test2.set_knife(Point.ByCoordinates(-3, 17, 0), Point.ByCoordinates(-2, 33, 0));
-test2.set_fork(Point.ByCoordinates(-3, 5, 0), Point.ByCoordinates(-2, 30, 0));
-test2.set_spoon(Point.ByCoordinates(-5, 3, 0), Point.ByCoordinates(-3, 6, 0));
-
-//test.make_cutlery(1, 1, 1);
-//test2.make_cutlery(0.5, 0.5, 0.5);
-//test.to_curve();
-
-test_web = Web.WithProngs(test, test2, true);
-test_web.set_knife(Point.ByCoordinates(6, 62, 0));
-test_web.set_fork(Point.ByCoordinates(-3, -18, 0));
-test_web.set_spoon(Point.ByCoordinates(0, 24, 0));
-
-test_web.make_cutlery(1, 1, 1);
-test_web.get_subcrv();
-
-test.to_curve();
-test2.to_curve();
+// cut out intersecting webs
+web_lst.get_subcrv();
+prong_lst.to_curve();

@@ -46,7 +46,7 @@ def bisector(v0,v1)
 // creates a vector from a given line
 def vec_from_line(line)
 {
-    return = vec_two_points(StartPoint, EndPoint);
+    return = vec_two_points(line.StartPoint, line.EndPoint);
 }
 
 
