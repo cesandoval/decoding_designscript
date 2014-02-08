@@ -1,71 +1,7 @@
 import("ProtoGeometry.dll");
 import("Math.dll");
+import("../../../library/decodes_functions.ds");
 
-// returns the angle between 2 vectors
-def angle(vec1, vec2)
-{
-    vdot = vec1.Dot(vec2) / (vec1.Length * vec2.Length);
-    [Imperative]
-    {
-        if (vdot > 1.0)
-            vdot = 1.0;
-        if (vdot < -1.0)
-            vdot = -1.0;
-    }
-    return = Math.Acos(vdot);
-}
-
-//Returns the normalized bisector of two vectors.
-def bisector(v0,v1)
-{
-    v0 = v0.Normalize();
-    v1 = v1.Normalize();
-    x = Sum({ v0.X, v1.X }) / 2;
-    y = Sum({ v0.Y, v1.Y }) / 2;
-    z = Sum({ v0.Z, v1.Z }) / 2;
-    return = Vector.ByCoordinates(x, y, z);
-}
-
-// creates a vector from two given points
-def vec_two_points(spt, ept)
-{
-    return =  Vector.ByCoordinates(ept.X - spt.X, ept.Y - spt.Y, ept.Z - spt.Z);
-}
-
-// creates a vector from a given line
-def vec_from_line(line)
-{
-    return = vec_two_points(line.StartPoint, line.EndPoint);
-}
-
-rad_small = 5.06;
-rad_large = 26.14;
-divs = 50;
-mid_pt = 0.35;
-height = 8.00;
-strength = 2.80;
-
-// Create the interior and exterior circles 
-cir1 = Point.AtParameter(Circle.ByCenterPointRadius(Point.ByCoordinates(0, 0, 0), rad_small),0..1..#divs); 
-cir2 = Point.AtParameter(Circle.ByCenterPointRadius(Point.ByCoordinates(0, 0, 0), rad_large),0..1..#divs);
-
-// Move the points of the larger circle up with sine values.
-humps = 3;
-sine = (Math.Sin(Math.RadiansToDegrees(0..Math.PI * 2 * humps..#divs)) + 1) * strength; //[(math.sin(i) + 1) * strength for i in Interval(0, math.pi * 2 * humps).divide(divs)];
-
-cir2 = cir2.Translate(0, 0, sine);
-mid = Point.AtParameter(Line.ByStartPointEndPoint(cir1, cir2),mid_pt).Translate(0,0,height); //{  cir1 , cir2};
-crvs = { };
-[Imperative]
-{
-    for(i in 0..divs - 1)
-    {
-        if (i%2 == 0)
-            {crvs[Count(crvs)] = BSplineCurve.ByPoints({ cir1[i], mid[i], cir2[i] });}
-        else
-            {crvs[Count(crvs)] = BSplineCurve.ByPoints({ cir2[i], mid[i], cir1[i] });}
-    }
-}
 
 // Get the first perpendicular vector
 def perp_vec(vec1, vec2, pt)
@@ -75,10 +11,6 @@ def perp_vec(vec1, vec2, pt)
     // Get the perpendicular vector to the bisector
     return = bisecs.Cross(CoordinateSystem.ByOriginVectors(pt, bisecs, Vector.ByCoordinates(0, 0, 1)).ZAxis).Normalize();
 }
-
-
-
-
 
 // Divide a curve with the given points into segments and arcs
 def divide_crv(pt_a, pt_b, vec)
@@ -106,31 +38,60 @@ def divide_crv(pt_a, pt_b, vec)
     arc = Arc.ByCenterPointStartPointSweepAngle(cs.Origin,pt_a,ang,cs.ZAxis);
     return = { arc, ln };
 }
-    
-crv_divs = 3;
-rad = 9.80;
+
+
+rad_small = 5.06;
+rad_large = 26.14;
+divs = 50;
+mid_pt = 0.35;
+height = 8.00;
+strength = 2.80;
+
+// Create the interior and exterior circles 
+cir1 = Point.AtParameter(Circle.ByCenterPointRadius(Point.ByCoordinates(0, 0, 0), rad_small),0..1..#divs); 
+cir2 = Point.AtParameter(Circle.ByCenterPointRadius(Point.ByCoordinates(0, 0, 0), rad_large),0..1..#divs);
+
+// Move the points of the larger circle up with sine values.
+humps = 3;
+sine = (Math.Sin(Math.RadiansToDegrees(0..Math.PI * 2 * humps..#divs)) + 1) * strength; //[(math.sin(i) + 1) * strength for i in Interval(0, math.pi * 2 * humps).divide(divs)];
+
+cir2 = cir2.Translate(0, 0, sine);
+mid = Point.AtParameter(Line.ByStartPointEndPoint(cir1, cir2),mid_pt).Translate(0,0,height); //{  cir1 , cir2};
+// Construct BSplineCurves with 3 Points
+crvs = { };
+[Imperative]
+{
+    for(i in 0..divs - 1)
+    {
+        if (i%2 == 0)
+            {crvs[Count(crvs)] = BSplineCurve.ByPoints({ cir1[i], mid[i], cir2[i] });}
+        else
+            {crvs[Count(crvs)] = BSplineCurve.ByPoints({ cir2[i], mid[i], cir1[i] });}
+    }
+}
+
+crv_divs = 5;
+rad = 3.00;
 // Divide the crvs in 4 pts 
 t = 0..1..#crv_divs;
 pts = Point.AtParameter(crvs<1>, t<2>);
-// Divide the crvs in Segments and Arcs
-// Get the first Sement and Arc
-new_crvs = { divide_crv(pts[0][0], pts[0][1], perp_vec(Vector.ByCoordinates(0, 0, -1), vec_two_points(pts[0][0], pts[0][1]), pts[0][0])) };
-pts_range = 2..Count(pts[0])-1;
-vec = vec_from_line(new_crvs[-1][1]).Scale(-1).Cross(CoordinateSystem.ByOriginVectors(pts[0][pts_range], vec_from_line(new_crvs[-1][1]).Scale(-1),Vector.ByCoordinates(0,0,1)).ZAxis).Normalize();
-//test = divide_crv(pts[0][1], pts[0][2], vec);
-test = pts[0][2];
-Print(test);
-/*new_crvs = divide_crv(pts[0][pts_range - 1], pts[pts_range], vec);
-Print(new_crvs);*/
-/*
-for i, crv in enumerate(crvs):
-    # Divide the crvs in Segments and Arcs
-    # Get the first Sement and Arc
-    new_crvs = [divide_crv(pts[0],pts[1],perp_vec(Vec(0,0,-1),Vec(pts[0],pts[1]),pts[0]))]
-    # With the perpendicular vector, loop throught the remaining points to create new Arcs and Segments
-    for n in range(1,len(pts)-1):
-        vec = -new_crvs[n-1][1].vec.cross(CS(pts[n],-new_crvs[n-1][1].vec,Vec(0,0,1)).z_axis).normalized()
-        new_crvs.append(divide_crv(pts[n],pts[n+1],vec))
-        
-    b.put(new_crvs)
-*/
+
+all_crvs = { };
+[Imperative]
+{
+    for (i in 0..Count(crvs) - 1)
+    {
+        // Divide the crvs in Segments and Arcs
+        // Get the first Sement and Arc
+        pts = Point.AtParameter(crvs[i], t);
+        new_crvs = { divide_crv(pts[0], pts[1], perp_vec(Vector.ByCoordinates(0, 0, -1), vec_two_points(pts[0], pts[1]), pts[0])) };
+        // With the perpendicular vector, loop throught the remaining points to create new Arcs and Segments
+        for(n in 1..Count(pts) - 2)
+        { 
+            vec = vec_from_line(new_crvs[n - 1][1]);
+            cs = CoordinateSystem.ByOriginVectors(pts[n], vec_from_line(new_crvs[n - 1][1]).Scale(-1), Vector.ByCoordinates(0, 0, 1)).ZAxis;
+            vec_a = vec.Scale(-1).Cross(cs).Normalize();new_crvs[Count(new_crvs)] = divide_crv(pts[n], pts[n + 1], vec_a);
+        }
+        all_crvs[Count(all_crvs)] = new_crvs;
+    }
+}

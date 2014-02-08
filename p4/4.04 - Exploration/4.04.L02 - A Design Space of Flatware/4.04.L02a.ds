@@ -1,12 +1,6 @@
 import("ProtoGeometry.dll");
 import("Math.dll");
-
-// creates a vector from two given points
-def vec_two_points(spt, ept)
-{
-    return =  Vector.ByCoordinates(ept.X - spt.X, ept.Y - spt.Y, ept.Z - spt.Z);
-}
-
+import("../../../library/decodes_functions.ds");
 
 /*
 A class that creates a Prong object
@@ -81,7 +75,6 @@ class Prong
         Head = Head.Translate(head_vec.X, head_vec.Y, head_vec.Z);
     }
     
-    //@property
     // returns a curve from the chin, cheek and head points
     def to_curve()
     {
@@ -93,14 +86,3 @@ class Prong
         return = this.Is_left == true ? { crvL, crvR } : { crvR, crvL };
     }
 }
-
-/*
-test = Prong.ByChin(Point.ByCoordinates(-4, 0, 0), false);
-Print(test.Head);
-
-test.set_knife(Point.ByCoordinates(-5, 29, 0), Point.ByCoordinates(-4, 62, 0));
-test.set_fork(Point.ByCoordinates(-5, 5, 0), Point.ByCoordinates(-4, 30, 0));
-test.set_spoon(Point.ByCoordinates(-12, 10, 0), Point.ByCoordinates(-4, 20, 0));
-
-test.make_cutlery(1, 1, 1);
-test.to_curve();*/

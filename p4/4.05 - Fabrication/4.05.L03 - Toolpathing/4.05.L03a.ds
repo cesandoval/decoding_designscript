@@ -1,0 +1,40 @@
+import("ProtoGeometry.dll");
+import("Math.dll");
+import("../../../library/decodes_functions.ds");
+/*
+rng = 0..5;
+pts = Point.ByCoordinates(rng<1>, rng<2>, 0);
+
+srf = BSplineSurface.ByPoints(pts);*/
+
+/*
+def func(u, v)
+{
+    length = 4.0;
+    rad = (Math.RadiansToDegrees(Math.Cos(MapTo(0, 1, v, 0, Math.PI * 2 - 1.5))) + 1.75) / 2;
+    u = MapTo(0, 1, u, 0.1, 0.9);
+    
+    x = rad * Math.RadiansToDegrees(Math.Cos(u * Math.PI));
+    y = MapTo(0, 1, v, 0, length);
+    z = rad * Math.RadiansToDegrees(Math.Sin(u * Math.PI));
+    return = Point.ByCoordinates(x, y, z);
+}*/
+
+
+def func(u, v)
+{
+    length = 4.0;
+    rad = (Math.Cos(MapTo(0, 1, v, 0, Math.PI * 2 - 1.5)) + 1.75) / 2;
+    u = MapTo(0, 1, u, 0.1, 0.9);
+    
+    x = rad * Math.Cos(u * Math.PI);
+    y = MapTo(0, 1, v, 0, length);
+    z = rad * Math.Sin(u * Math.PI);
+    return = Point.ByCoordinates(x, y, z);
+}
+
+tol = 0.01;
+srf_domain = 0..1..tol;
+Print(srf_domain);
+test = func(srf_domain, srf_domain);
+Print(test);

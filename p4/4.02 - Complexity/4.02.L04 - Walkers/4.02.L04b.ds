@@ -1,5 +1,6 @@
 import("ProtoGeometry.dll");
 import("Math.dll");
+import("../../../library/decodes_functions.ds");
 
 /*
 A guy class is defined with a position, direction and a method for updating.
@@ -30,19 +31,17 @@ class Guy
     }
 }
 
-start_pt = Point.ByCoordinates(-1.19, -0.89, 0);
-start_vel = Vector.ByCoordinates(0.59, 1.0, 0);
-
-// initialize an instance of the Guy class
-debord = Guy.FromPosVel(start_pt, start_vel);
-steps = 30;
-range = 0..steps;
-
 def stepper(x, guy)
 {
     guy.Step();
     return = guy.Pos;
 }
 
-path = BSplineCurve.ByPoints(stepper(range, debord), false);
+start_pt = Point.ByCoordinates(-1.19, -0.89, 0);
+start_vel = Vector.ByCoordinates(0.59, 1.0, 0);
 
+// initialize an instance of the Guy class
+debord = Guy.FromPosVel(start_pt, start_vel);
+steps = 30;
+pts = stepper(0..steps, debord);
+lines = pts_to_lines(pts);

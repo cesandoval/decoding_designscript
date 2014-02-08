@@ -1,43 +1,6 @@
 import("ProtoGeometry.dll");
 import("Math.dll");
-
-// creates a vector from two given points
-def vec_two_points(spt, ept)
-{
-    return =  Vector.ByCoordinates(ept.X - spt.X, ept.Y - spt.Y, ept.Z - spt.Z);
-}
-
-// Returns a new point that results from adding this point's world coordinates to the other point's (or vector's) world coordinates.
-def point_addition(p1, p2)
-{
-    return = Point.ByCoordinates(p1.X + p2.X, p1.Y + p2.Y, p1.Z + p2.Z);
-}
-
-// Returns a new point that results from dividing each of this point's world coordinates by the value provided.
-def point_division(pt, factor)
-{
-    return = Point.ByCoordinates(pt.X / factor, pt.Y / factor, pt.Z / factor);
-}
-
-// Decomposes a curve into subcurves
-def decompose_curve(curve, divs)
-{
-    return = Line.ByStartPointEndPoint(Point.AtParameter(curve, 0..1-1/divs..1/divs), Point.AtParameter(curve, 1/divs..1..1/divs));
-}
-
-// returns the angle between 2 vectors
-def angle(vec1, vec2)
-{
-    vdot = vec1.Dot(vec2) / (vec1.Length * vec2.Length);
-    [Imperative]
-    {
-        if (vdot > 1.0)
-            vdot = 1.0;
-        if (vdot < -1.0)
-            vdot = -1.0;
-    }
-    return = Math.Acos(vdot);
-}
+import("../../../library/decodes_functions.ds");
 
 /*
 A class that creates a Prong object
@@ -112,7 +75,6 @@ class Prong
         Head = Head.Translate(head_vec.X, head_vec.Y, head_vec.Z);
     }
     
-    //@property
     // returns a curve from the chin, cheek and head points
     def to_curve()
     {
@@ -192,31 +154,11 @@ class Web
     }
     
     //This function calculates the Web's intersection with the prongs and returns a trimmed Web
-    //@property
     def get_subcrv()
     {
         w_edge = this.to_curve();
         i_edge = this.Inner_prong.to_curve();
-        intersection_lst = w_edge.Intersect(i_edge); 
-        
-        /*
-        w_edge = decompose_curve(this.to_curve(), 10);
-        i_edge = decompose_curve(this.Inner_prong.to_curve()[0], 10);
-        intersection_lst = w_edge.Intersect(i_edge<2>); // need to find a way to replicate all of this.....*/
-    
-        /*
-        // create a empty intersection list
-        intersection_lst = { };
-        # for each segment in the Web :
-        for w_edge in self.to_curve.edges:
-            # for each segment in the inner prong edge:
-            for i_edge in self.inner_prong.to_curve[0].edges:
-                # create an intersector
-                inter = Intersector()
-                # if they intersect:
-                if inter.of(i_edge,w_edge):
-                    # add the first point of intersection to the list
-                    intersection_lst.append(inter.results[0])*/
+        intersection_lst = w_edge.Intersect(i_edge);
 
         // if there is no intersection, return the curve
         new_crv = Count(intersection_lst) == 0 ? this.to_curve() : 0;
@@ -227,18 +169,15 @@ class Web
         // get the surrogate (Pline) of the curve
         original_crv = this.to_curve();
         // get its segment index 
-        ni = intersection_lst[0].IndexOfNearest(intersection_lst[0].Project(decompose_curve(original_crv, 10)));
-        
+        ni = Flatten(intersection_lst)[0].IndexOfNearest(Flatten(intersection_lst)[0].Project(decompose_curve(original_crv, 10)));
+        //Print(decompose_curve(original_crv, 10));
         // and remove all of the segments after the index
-        new_edges = decompose_curve(original_crv, 10)[0..ni];
-        //new_crv = BSplineCurve.Composite(new_edges);
-        //return = new_crv;
-        return = new_edges;
+        new_crv = decompose_curve(original_crv, 10)[0..ni];
+        return = new_crv;
     }
 
 
     //This function determines the concavity of the Web
-    //@property
     def is_mountain()
     {
         // if the web is on the left side of the flatware:
@@ -256,7 +195,7 @@ class Web
             else
             {
                 // create a CS
-                cs = CoordinateSystem.ByOriginVectors(this.Middle, vec1, vec2);
+                cs = CoordinateSystem.Identity();// ByOriginVectors(this.Middle, vec1, vec2);
                 // if the z axis of the CS is positive:
                 if (cs.ZAxis.Z > 0)
                 {
@@ -284,38 +223,8 @@ class Web
     }
     
     // return the curve surrogate
-    //@property
     def to_curve()
     {
         return = BSplineCurve.ByPoints({ this.Outer, this.Middle, this.Inner });
     }
-
 }
-
-
-
-test = Prong.ByChin(Point.ByCoordinates(-4, 0, 0), false);
-test2 = Prong.ByChin(Point.ByCoordinates(-2, 0, 0), true);
-
-test.set_knife(Point.ByCoordinates(-5, 29, 0), Point.ByCoordinates(-4, 62, 0));
-test.set_fork(Point.ByCoordinates(-5, 5, 0), Point.ByCoordinates(-4, 30, 0));
-test.set_spoon(Point.ByCoordinates(-12, 10, 0), Point.ByCoordinates(-4, 20, 0));
-
-test2.set_knife(Point.ByCoordinates(-3, 17, 0), Point.ByCoordinates(-2, 33, 0));
-test2.set_fork(Point.ByCoordinates(-3, 5, 0), Point.ByCoordinates(-2, 30, 0));
-test2.set_spoon(Point.ByCoordinates(-5, 3, 0), Point.ByCoordinates(-3, 6, 0));
-
-//test.make_cutlery(1, 1, 1);
-//test2.make_cutlery(0.5, 0.5, 0.5);
-//test.to_curve();
-
-test_web = Web.WithProngs(test, test2, true);
-test_web.set_knife(Point.ByCoordinates(6, 62, 0));
-test_web.set_fork(Point.ByCoordinates(-3, -18, 0));
-test_web.set_spoon(Point.ByCoordinates(0, 24, 0));
-
-test_web.make_cutlery(1, 1, 1);
-test_web.get_subcrv();
-
-test.to_curve();
-test2.to_curve();

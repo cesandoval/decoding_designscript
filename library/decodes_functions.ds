@@ -122,3 +122,16 @@ def decompose_curve(curve, divs)
 {
     return = Line.ByStartPointEndPoint(Point.AtParameter(curve, 0..1-1/divs..1/divs), Point.AtParameter(curve, 1/divs..1..1/divs));
 }
+
+// Create a BSPlineCurve from a list of lines
+def lines_to_crv(curves : Curve[])
+{
+    _pts = curves.StartPoint;
+    _pts[(Count(_pts))] = curves[Count(curves) - 1].EndPoint;
+    return = BSplineCurve.ByPoints(_pts);
+}
+
+def pts_to_lines(_pts : Point[])
+{
+    return = Line.ByStartPointEndPoint(_pts[0..Count(_pts) - 2], _pts[1..Count(_pts) - 1]);
+}
