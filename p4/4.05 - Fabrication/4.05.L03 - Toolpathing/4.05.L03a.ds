@@ -1,40 +1,29 @@
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
-/*
-rng = 0..5;
-pts = Point.ByCoordinates(rng<1>, rng<2>, 0);
-
-srf = BSplineSurface.ByPoints(pts);*/
-
-/*
-def func(u, v)
-{
-    length = 4.0;
-    rad = (Math.RadiansToDegrees(Math.Cos(MapTo(0, 1, v, 0, Math.PI * 2 - 1.5))) + 1.75) / 2;
-    u = MapTo(0, 1, u, 0.1, 0.9);
-    
-    x = rad * Math.RadiansToDegrees(Math.Cos(u * Math.PI));
-    y = MapTo(0, 1, v, 0, length);
-    z = rad * Math.RadiansToDegrees(Math.Sin(u * Math.PI));
-    return = Point.ByCoordinates(x, y, z);
-}*/
-
 
 def func(u, v)
 {
     length = 4.0;
-    rad = (Math.Cos(MapTo(0, 1, v, 0, Math.PI * 2 - 1.5)) + 1.75) / 2;
+    rad = (Math.Cos(Math.RadiansToDegrees(MapTo(0, 1, v, 0, Math.PI * 2 - 1.5))) + 1.75) / 2;
     u = MapTo(0, 1, u, 0.1, 0.9);
     
-    x = rad * Math.Cos(u * Math.PI);
+    x = rad * Math.Cos(Math.RadiansToDegrees(u * Math.PI));
     y = MapTo(0, 1, v, 0, length);
-    z = rad * Math.Sin(u * Math.PI);
+    z = rad * Math.Sin(Math.RadiansToDegrees(u * Math.PI));
     return = Point.ByCoordinates(x, y, z);
 }
 
-tol = 0.01;
+def cutter(srf, tool_spacing)
+{
+    u_divs = 0..1..#Math.Round(1 / tool_spacing);
+    v_divs = 0..1..#Math.Round(1 / tool_spacing);
+    return = swap == true ? BSplineCurve.ByPoints(srf.PointAtParameter(u_divs<1>, v_divs<2>)) : BSplineCurve.ByPoints(srf.PointAtParameter(u_divs<2>, v_divs<1>));
+}
+
+tol = 0.1;
 srf_domain = 0..1..tol;
-Print(srf_domain);
-test = func(srf_domain, srf_domain);
-Print(test);
+srf = BSplineSurface.ByPoints(func(srf_domain<1>, srf_domain<2>)).SetVisibility(false);
+
+swap = true;
+iso_crvs = cutter(srf, 0.05);

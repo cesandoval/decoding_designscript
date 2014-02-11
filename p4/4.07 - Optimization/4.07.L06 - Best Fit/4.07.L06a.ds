@@ -1,0 +1,43 @@
+import("ProtoGeometry.dll");
+import("Math.dll");
+import("../../../library/decodes_functions.ds");
+
+//Returns a best fit line defined by ordinary least squares.
+def leastSquaresLine(pts_in : Point[])
+{
+    // create and set variables to 0
+    x_m = Sum(pts_in.X / Count(pts_in));
+    y_m = Sum(pts_in.Y / Count(pts_in));
+    xsq_m = Sum(Math.Pow(pts_in.X, 2) / Count(pts_in));
+    xy_m = Sum((pts_in.X * pts_in.Y) / Count(pts_in));
+    
+    p_ls; u_ls;
+    [Imperative]
+    {
+        // find u_ls and p_ls
+        if (xsq_m!= Math.Pow(x_m, 2))
+        {
+            m = (xy_m - x_m * y_m) / (xsq_m - Math.Pow(x_m, 2));
+            y_coeff = y_m - m * x_m;
+            p_ls = Point.ByCoordinates(0, y_coeff, 0);
+            u_ls = Vector.ByCoordinates(1, m, 0).Normalize();
+        }
+        else
+        {
+            p_ls = Point.ByCoordinates(x_m, 0, 0);
+            u_ls = Vector.ByCoordinates(0, 1, 0);
+        }
+    }
+    val_lst = vec_two_points(p_ls, pts_in).Dot(u_ls);
+    sorted = SortIndexByValue(val_lst);
+    d_min = val_lst[sorted[0]];
+    d_max = val_lst[sorted[-1]];
+    
+    start_pt = Point.ByCoordinates(p_ls.X + u_ls.X * d_min, p_ls.Y + u_ls.Y * d_min, p_ls.Z + u_ls.Z * d_min);
+    end_pt = Point.ByCoordinates(p_ls.X + u_ls.X * d_max, p_ls.Y + u_ls.Y * d_max, p_ls.Z + u_ls.Z * d_max);
+    return = Line.ByStartPointEndPoint(start_pt, end_pt);
+}
+
+
+pts = { Point.ByCoordinates(191.708327, 59.109746, 0.0), Point.ByCoordinates(165.687163, 103.713103, 0.0), Point.ByCoordinates(144.614144, 64.185974, 0.0), Point.ByCoordinates(136.081219, 98.428218, 0.0) };
+line = leastSquaresLine(pts);

@@ -1,0 +1,103 @@
+import("ProtoGeometry.dll");
+import("Math.dll");
+import("../../../library/decodes_functions.ds");
+
+//Returns a best fit line defined by ordinary least squares.
+def leastSquaresLine(pts_in : Point[])
+{
+    // create and set variables to 0
+    x_m = Sum(pts_in.X / Count(pts_in));
+    y_m = Sum(pts_in.Y / Count(pts_in));
+    xsq_m = Sum(Math.Pow(pts_in.X, 2) / Count(pts_in));
+    xy_m = Sum((pts_in.X * pts_in.Y) / Count(pts_in));
+    
+    p_ls; u_ls;
+    [Imperative]
+    {
+        // find u_ls and p_ls
+        if (xsq_m!= Math.Pow(x_m, 2))
+        {
+            m = (xy_m - x_m * y_m) / (xsq_m - Math.Pow(x_m, 2));
+            y_coeff = y_m - m * x_m;
+            p_ls = Point.ByCoordinates(0, y_coeff, 0);
+            u_ls = Vector.ByCoordinates(1, m, 0).Normalize();
+        }
+        else
+        {
+            p_ls = Point.ByCoordinates(x_m, 0, 0);
+            u_ls = Vector.ByCoordinates(0, 1, 0);
+        }
+    }
+    val_lst = vec_two_points(p_ls, pts_in).Dot(u_ls);
+    sorted = SortIndexByValue(val_lst);
+    d_min = val_lst[sorted[0]];
+    d_max = val_lst[sorted[-1]];
+    
+    start_pt = Point.ByCoordinates(p_ls.X + u_ls.X * d_min, p_ls.Y + u_ls.Y * d_min, p_ls.Z + u_ls.Z * d_min);
+    end_pt = Point.ByCoordinates(p_ls.X + u_ls.X * d_max, p_ls.Y + u_ls.Y * d_max, p_ls.Z + u_ls.Z * d_max);
+    return = Line.ByStartPointEndPoint(start_pt, end_pt);
+}
+
+
+//Returns a best fit arc using the modified least squares method.
+
+def leastSquaresArc(pts_in : Point[])
+{
+    cnt = Count(pts_in);
+    // if there is less than two points given
+    message = cnt < 2 ? "Please provide more points" : null;
+    Print(message);
+
+    x = Sum(pts_in.X);
+    y = Sum(pts_in.Y);
+    xsq = Sum(Math.Pow(pts_in.X, 2));
+    ysq = Sum(Math.Pow(pts_in.Y, 2));
+    xy = Sum(pts_in.X * pts_in.Y);
+    xysq = Sum(pts_in.X * Math.Pow(pts_in.Y, 2));
+    xsqy = Sum(Math.Pow(pts_in.X, 2) * pts_in.Y);
+    xcube = Sum(Math.Pow(pts_in.X, 3));
+    ycube = Sum(Math.Pow(pts_in.Y, 3));
+
+    A = cnt * xsq - Math.Pow(x, 2);
+    B = cnt * xy - x * y;
+    C = cnt * ysq - Math.Pow(y, 2);
+    D = 0.5 * (cnt * xysq - x * ysq + cnt * xcube - x * xsq);
+    E = 0.5 * (cnt * xsqy - y * xsq + cnt * ycube - y * ysq);
+    
+    // set the denominator
+    denom = A * C - B * B;
+    // if the denominator is not 0:
+    center = denom!= 0 ? Point.ByCoordinates((D * C - B * E) / denom, (A * E - B * D) / denom, 0) : null;
+    // set the radius of the arc as the average dist between the center and the pts.
+    rad = Sum(pts_in.DistanceTo(center)) / cnt;
+    //create a segment from the center to that point
+    segs = Line.ByStartPointEndPoint(center, pts_in); 
+    
+    // make the first Vec a reference for the rest
+    ref_vec = vec_from_line(segs[0]);
+    // for each segment in the list of segments:
+    ang = angle(ref_vec, vec_from_line(segs));
+    ang = ref_vec.Cross(vec_from_line(segs)).Z < 0 ? ang * - 1 : ang;//neeed to fix this!!!!!
+    Print(ang);Print(angle(ref_vec, vec_from_line(segs)));
+    /*
+    for seg in segs :
+        # get the angle with the reference segment
+        seg.angle = ref_vec.angle(seg.vec)
+        # if the cross product of the two vectors is negative:
+        if ref_vec.cross(seg.vec).z < 0:
+            # store it as a positive angle
+            seg.angle = - seg.angle
+    # sort all segments by the calculated angles
+    segs = sorted(segs, key=lambda seg: seg.angle)
+    # set the sweep angle as the angle between the first and last segments
+    sweep = segs[-1].angle - segs[0].angle
+    # set the coordinate system of the arc
+    cs = CS(center,segs[0].vec,segs[1].vec)
+
+    return Arc(cs,rad,sweep)*/
+}
+
+
+pts = { Point.ByCoordinates(191.708327, 59.109746, 0.0), Point.ByCoordinates(165.687163, 103.713103, 0.0), Point.ByCoordinates(144.614144, 64.185974, 0.0), Point.ByCoordinates(136.081219, 98.428218, 0.0) };
+line = leastSquaresLine(pts);
+arc = leastSquaresArc(pts);

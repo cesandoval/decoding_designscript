@@ -1,0 +1,126 @@
+import("ProtoGeometry.dll");
+import("Math.dll");
+import("../../../library/decodes_functions.ds");
+
+def func(u, v)
+{
+    length = 4.0;
+    rad = (Math.Cos(Math.RadiansToDegrees(MapTo(0, 1, v, 0, Math.PI * 2 - 1.5))) + 1.75) / 2;
+    u = MapTo(0, 1, u, 0.1, 0.9);
+    
+    x = rad * Math.Cos(Math.RadiansToDegrees(u * Math.PI));
+    y = MapTo(0, 1, v, 0, length);
+    z = rad * Math.Sin(Math.RadiansToDegrees(u * Math.PI));
+    return = Point.ByCoordinates(x, y, z);
+}
+
+def spirograph(srf, pts_per_turn, turn_cnt, spiral_cen, offset)
+{
+    pts = { };
+    [Imperative]
+    {
+        tool_diameter = 0.125;
+        offset = Math.Round(offset * pts_per_turn);
+        steps = pts_per_turn * turn_cnt;
+        tvals = 0..1..#steps;
+        for (t in tvals)
+        {
+            u = spiral_cen.X + t * Math.Cos(Math.RadiansToDegrees(2 * Math.PI * turn_cnt * t));
+            v = spiral_cen.Y + t * Math.Sin(Math.RadiansToDegrees(2 * Math.PI * turn_cnt * t));
+            if (u < 0 || u > 1 || v < 0 || v > 1)
+            {
+                pts[Count(pts)] = Point.ByCoordinates(100000,0,0);
+            }
+            else
+            {
+                spi_pt = srf.PointAtParameter(u, v);
+                if (Count(pts) < pts_per_turn + offset)
+                {
+                    pts[Count(pts)] = spi_pt;
+                }
+                else
+                {
+                    nei_pt = pts[-pts_per_turn];
+                    if (nei_pt == false)
+                    {
+                        pts[Count(pts)] = spi_pt;
+                    }
+                    else if (nei_pt.DistanceTo(spi_pt) > tool_diameter)
+                    {
+                        pts[Count(pts)] = spi_pt;
+                    }
+                    else
+                    {
+                        pts[Count(pts)] = Point.ByCoordinates(100000,0,0);
+                    }
+                }
+            }
+        }
+    }
+    return = pts;
+}
+    
+def parser(pt_list : Geometry[])
+{
+    lines_out = { };
+    
+    [Imperative]
+    {
+        plines = { { } };
+        line_count = 0;
+        //Sorting the valid points into a list of lists.
+        for(indx in 0..Count(pt_list)-1)
+        {
+            p = pt_list[indx];
+            if (p.X == 100000)
+            {
+                none = null;
+            }
+            else
+            {
+                if (indx < (Count(pt_list) - 1))
+                {
+                    if (pt_list[indx + 1].X == 100000)
+                    {
+                        plines[line_count][Count(plines[line_count])] = p;
+                        line_count = line_count + 1;
+                        plines[Count(plines)] = { };
+                    }
+                    else
+                    {
+                        plines[line_count][Count(plines[line_count])] = p;
+                    }
+                }
+            }
+        }
+        
+        for(p in plines)
+        {
+            if (p == false)
+            {
+                none = null;
+            }
+            else
+            {
+                //to remove single points for outputting lines, this can lead to resolution issues.
+                if (Count(p) == 1)
+                {
+                    none = null;
+                }
+                else
+                {
+                    lines_out[Count(lines_out)] = BSplineCurve.ByPoints(p);
+                }
+            }
+        }
+    }
+    return = lines_out;
+}
+
+    
+tol = 0.1;
+srf_domain = 0..1..tol;
+srf = BSplineSurface.ByPoints(func(srf_domain<1>, srf_domain<2>)).SetVisibility(false);
+    
+cp = Point.ByCoordinates(0.25, 0.57, 0);
+crvs = parser(spirograph(srf, 50, 50, cp, 0.25));
