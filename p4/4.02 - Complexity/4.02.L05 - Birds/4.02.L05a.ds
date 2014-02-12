@@ -1,0 +1,90 @@
+import("ProtoGeometry.dll");
+import("Math.dll");
+import("../../../library/decodes_functions.ds");
+
+//A simple Bird class is defined with position, velocity, acceleration vectors, and history.
+class Bird
+{
+    Pos;
+    Vel;
+    Max_vel;
+    Acl;
+    Max_frc;
+    Hist_pos;
+    Hist_vel;
+    Hist_acl;
+    Is_alive;
+    
+    constructor FromPosVel(pos_start, vel_start)
+    {
+        // set the Bird's position to the initial point
+        Pos = pos_start;
+        // set the Bird's velocity to the initial velocity
+        Vel = vel_start;
+        // set a limit to the Bird's velocity
+        Max_vel = 2.00;
+        // set the initial acceleration to zero
+        Acl = Vector.ByCoordinates(0,0,0);
+        // set a limit to the Bird's acceleration
+        Max_frc = 0.35;
+        // initalize history lists 
+        this.clear_history();
+        // record this initial condition as a "step"
+        this.record();
+    }
+    
+    //Cause the Bird object to move, using its current velocity and acceleration.      
+    def step()
+    {
+        // add the acceleration to the velocity
+        this.Vel = Vector.ByCoordinates(this.Vel.X + this.Acl.X, this.Vel.Y + this.Acl.Y, this.Vel.Z + this.Acl.Z);
+        // limit to the maximum velocity
+        this.Vel = this.Vel.Normalize().Scale(this.Max_vel);
+        // record the step (note that we record before moving)
+        this.record();
+        // move bird
+        this.Pos = Point.ByCoordinates(this.Pos.X + this.Vel.X, this.Pos.Y + this.Vel.Y, this.Pos.Z + this.Vel.Z);
+        // reset acceleration back to zero for next step
+        this.Acl = Vector.ByCoordinates(0, 0, 0);
+    }
+            
+    //Steer the Bird by adding the given vector to the acceleration  
+    def steer(vec)
+    {
+        // keep the acceleration to within the maximum
+        vec = vec.Normalize().Scale(this.Max_frc);
+        // add the accelation vector
+        this.Acl = Vector.ByCoordinates(this.Acl.X + vec.X, this.Acl.Y + vec.Y, this.Acl.Z + vec.Z);
+    }
+
+    //Reset the Bird to its initial position and values 
+    def reset()
+    {
+        //resets this bird back to his initialized condition.
+        //replaces existing history lists with single inital values
+        this.Is_alive = true;
+        this.Pos = Count(this.Hist_pos) > 0 ? this.Hist_pos[0] : this.Pos;
+        this.Vel = Count(this.Hist_pos) > 0 ? this.Hist_vel[0] : this.Vel;
+        this.Acl = Count(this.Hist_pos) > 0 ? this.Hist_acl[0] : this.Acl;
+        this.clear_history();
+        this.record();
+    }     
+        
+    //Functions to clear the history and record a step
+    // clear the position, velocity and acceleration histories
+    def clear_history()
+    {
+        this.Hist_pos = { };
+        this.Hist_vel = { };
+        this.Hist_acl = { };
+    }
+        
+    // record this step 
+    def record()
+    {
+        // add its position, velocity and accelaration to the history
+        this.Hist_pos[Count(this.Hist_pos)] = this.Pos;
+        this.Hist_vel[Count(this.Hist_vel)] = this.Vel;
+        this.Hist_acl[Count(this.Hist_acl)] = this.Acl;
+    }
+}

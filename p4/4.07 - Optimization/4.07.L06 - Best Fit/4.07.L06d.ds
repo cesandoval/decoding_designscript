@@ -1,0 +1,31 @@
+import("ProtoGeometry.dll");
+import("Math.dll");
+import("../../../library/decodes_functions.ds");
+
+//Method that creates a copy of a PGon rotated to its best-fit bounding box.
+def rotated_to_min_bounds(pgon, divs, min_a, max_a)
+{
+    // define the rotation per iteration
+    delta_a = (max_a - min_a) / divs;
+    old_cs = CoordinateSystem.ByOriginVectors(pgon.Plane.Origin, Vector.ByCoordinates(1, 0, 0), Vector.ByCoordinates(0, 1, 0));
+
+    rot_vals = 0..max_a..Math.Abs(min_a - delta_a);
+    rot_vals = min_a - delta_a < 0 ? rot_vals * - 1 : rot_vals;
+    new_cs = old_cs.Rotate(rot_vals, Vector.ByCoordinates(0, 0, 1), pgon.Plane.Origin);
+    rot_pgons = pgon.Transform(old_cs, new_cs);
+    sort_areas = SortIndexByValue(rec_area(bbox(rot_pgons)));
+    return = rot_pgons[sort_areas[0]];
+}
+    
+pt1 = Point.ByCoordinates( 87.203388, 0.52832, 0.0);
+pt2 = Point.ByCoordinates( 42.235215, 12.641043, 0.0);
+pt3 = Point.ByCoordinates( 9.841794, 42.797236, 0.0);
+pt4 = Point.ByCoordinates( - 6.330236, 12.10954, 0.0);
+pt5 = Point.ByCoordinates( - 33.901658, -44.227449, 0.0);
+pt6 = Point.ByCoordinates( 28.493072, -70.194269, 0.0);
+pt7 = Point.ByCoordinates( 42.996108, -41.577944, 0.0);
+pt8 = Point.ByCoordinates( 35.272798, -31.250708, 0.0);
+pt9 = Point.ByCoordinates(48.306591, 0.0, 0.0);
+
+pgon = Polygon.ByVertices({ pt1, pt2, pt3, pt4, pt5, pt6, pt7, pt8, pt9 });
+trial = rotated_to_min_bounds(pgon, 55, 0, 180);

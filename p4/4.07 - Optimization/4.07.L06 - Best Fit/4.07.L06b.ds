@@ -1,0 +1,57 @@
+import("ProtoGeometry.dll");
+import("Math.dll");
+import("../../../library/decodes_functions.ds");
+
+//Returns a best fit line defined by total least squares.
+def leastSquaresLineTotal(pts_in : Point[])
+{
+    x_m = Sum(pts_in.X / Count(pts_in));
+    y_m = Sum(pts_in.Y / Count(pts_in));
+    xsq_m = Sum(Math.Pow(pts_in.X, 2) / Count(pts_in));
+    ysq_m = Sum(Math.Pow(pts_in.Y, 2) / Count(pts_in));
+    xy_m = Sum((pts_in.X * pts_in.Y) / Count(pts_in));
+    
+    p_ls; u_ls;
+    [Imperative]
+    {
+        if (xy_m!= x_m * y_m)
+        {
+            B = 0.5 * ((ysq_m - Math.Pow(y_m, 2)) - (xsq_m - Math.Pow(x_m, 2))) / (x_m * y_m - xy_m);
+            m = { - B + Math.Sqrt(Math.Pow(B, 2) + 1), -B - Math.Sqrt(Math.Pow(B, 2) + 1) };
+            y_coeff = { y_m - m[0] * x_m, y_m - m[1] * x_m };
+            p = { Point.ByCoordinates(0, y_coeff[0], 0), Point.ByCoordinates(0, y_coeff[1], 0) };
+            n0 = Vector.ByCoordinates(-m[0], 1, 0).Normalize();
+            n1 = Vector.ByCoordinates(-m[1], 1, 0).Normalize();
+           
+            // test for the line that gives the least (not the most!) distance
+            d0; d1;
+            [Associative]
+            {
+                d0 = Sum(Math.Abs(vec_two_points(p[0], pts_in).Dot(n0)));
+                d1 = Sum(Math.Abs(vec_two_points(p[1], pts_in).Dot(n1)));
+            }
+            indx_min = 1;
+            if (d0 < d1)
+            {
+                indx_min = 0;
+            }
+            p_ls = p[indx_min];
+            u_ls = Vector.ByCoordinates(1, m[indx_min], 0).Normalize();
+        }
+        else
+        {
+            p_ls = Point.ByCoordinates(x_m, 0, 0);
+            u_ls = Vector.ByCoordinates(0, 1, 0);
+        }
+    }
+    d = vec_two_points(p_ls, pts_in).Dot(u_ls);
+    d_max = d[SortIndexByValue(d)[-1]];
+    d_min = d[SortIndexByValue(d)[0]];
+    
+    start_pt = Point.ByCoordinates(p_ls.X + u_ls.X * d_min, p_ls.Y + u_ls.Y * d_min, p_ls.Z + u_ls.Z * d_min);
+    end_pt = Point.ByCoordinates(p_ls.X + u_ls.X * d_max, p_ls.Y + u_ls.Y * d_max, p_ls.Z + u_ls.Z * d_max);
+    return = Line.ByStartPointEndPoint(start_pt, end_pt);
+}
+
+pts = { Point.ByCoordinates(191.708327, 59.109746, 0.0), Point.ByCoordinates(165.687163, 103.713103, 0.0), Point.ByCoordinates(144.614144, 64.185974, 0.0), Point.ByCoordinates(136.081219, 98.428218, 0.0) };
+line = leastSquaresLineTotal(pts);

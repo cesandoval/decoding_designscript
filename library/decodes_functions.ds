@@ -31,6 +31,15 @@ def vec_two_points(spt, ept)
 {
     return =  Vector.ByCoordinates(ept.X - spt.X, ept.Y - spt.Y, ept.Z - spt.Z);
 }
+
+// Creates a random vector
+def vec_random(rand_min,rand_max,constrain_2d)
+{
+    x = Math.Rand(rand_min, rand_max);
+    y = Math.Rand(rand_min, rand_max);
+    z = Math.Rand(rand_min, rand_max);
+    return = constrain_2d == true ? Vector.ByCoordinates(x, y, 0) : Vector.ByCoordinates(x, y, z);
+}
     
 //Returns the normalized bisector of two vectors.
 def bisector(v0,v1)
@@ -78,6 +87,65 @@ def from_tan(spt, ept, tan)
     return = Arc.ByCenterPointStartPointSweepPoint(center, spt, ept);
 }
 
+//Returns a best fit arc using the modified least squares method.
+def leastSquaresArc(pts_in : Point[])
+{
+    cnt = Count(pts_in);
+    // if there is less than two points given
+    message = cnt < 2 ? "Please provide more points" : null;
+
+    x = Sum(pts_in.X);
+    y = Sum(pts_in.Y);
+    xsq = Sum(Math.Pow(pts_in.X, 2));
+    ysq = Sum(Math.Pow(pts_in.Y, 2));
+    xy = Sum(pts_in.X * pts_in.Y);
+    xysq = Sum(pts_in.X * Math.Pow(pts_in.Y, 2));
+    xsqy = Sum(Math.Pow(pts_in.X, 2) * pts_in.Y);
+    xcube = Sum(Math.Pow(pts_in.X, 3));
+    ycube = Sum(Math.Pow(pts_in.Y, 3));
+
+    A = cnt * xsq - Math.Pow(x, 2);
+    B = cnt * xy - x * y;
+    C = cnt * ysq - Math.Pow(y, 2);
+    D = 0.5 * (cnt * xysq - x * ysq + cnt * xcube - x * xsq);
+    E = 0.5 * (cnt * xsqy - y * xsq + cnt * ycube - y * ysq);
+    
+    // set the denominator
+    denom = A * C - B * B;
+    // if the denominator is not 0:
+    center = denom!= 0 ? Point.ByCoordinates((D * C - B * E) / denom, (A * E - B * D) / denom, 0) : null;
+    // set the radius of the arc as the average dist between the center and the pts.
+    rad = Sum(pts_in.DistanceTo(center)) / cnt;
+    //create a segment from the center to that point
+    segs = Line.ByStartPointEndPoint(center, pts_in); 
+    
+    // make the first Vec a reference for the rest
+    ref_vec = vec_from_line(segs[0]);
+    // for each segment in the list of segments:
+    ang = { };
+    [Imperative]
+    {
+        for(seg in segs)
+        {
+            if (ref_vec.Cross(vec_from_line(seg)).Z < 0)
+            {
+                ang[Count(ang)] = angle(ref_vec, vec_from_line(seg)) * - 1;
+            }
+            else
+            {
+                ang[Count(ang)] = angle(ref_vec, vec_from_line(seg));
+            }
+        }
+    }
+    // sort all segments by the calculated angles
+    new_segs = segs[SortIndexByValue(ang)];
+    new_ang = ang[SortIndexByValue(ang)];
+    sweep = new_ang[-1] - new_ang[0];
+    cs = CoordinateSystem.ByOriginVectors(center, vec_from_line(segs[0]), vec_from_line(segs[1]));
+    Print({ rad, sweep });
+    return = Arc.ByCenterPointRadiusAngle(cs.Origin, rad, angle( CoordinateSystem.Identity().XAxis, cs.XAxis), sweep, cs.ZAxis);
+}
+
 
 
 /*
@@ -93,7 +161,21 @@ def rotate(pgon,n)
     return = Polygon.ByVertices(verts);
 }
 
+// Creates a 2d BBox around a Polygon
+def bbox(p_gon)
+{
+    x = { p_gon.Vertices.X[SortIndexByValue(p_gon.Vertices.X)[0]], p_gon.Vertices.X[SortIndexByValue(p_gon.Vertices.X)[-1]] };
+    y = { p_gon.Vertices.Y[SortIndexByValue(p_gon.Vertices.Y)[0]], p_gon.Vertices.Y[SortIndexByValue(p_gon.Vertices.Y)[-1]] };
+    pts = Flatten(Point.ByCoordinates(x<2>, y<1>, 0));
+    return = Polygon.ByVertices({ pts[0], pts[1], pts[3], pts[2] });
+}
 
+// Returns the Area of a Rectangle
+def rec_area(rec)
+{
+    lengths = rec.Edges.Length[SortIndexByValue(rec.Edges.Length)];
+    return = lengths[0] * lengths[-1];
+}
 
 /*
 Point Functions
