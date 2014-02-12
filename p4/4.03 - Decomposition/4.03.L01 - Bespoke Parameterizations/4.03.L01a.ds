@@ -1,0 +1,59 @@
+import("ProtoGeometry.dll");
+import("Math.dll");
+import("../../../library/decodes_functions.ds");
+
+
+def func2(u, v)
+{
+    steps = 20; // the smoothnes of the rotated curve
+    height = 20;
+    interv = 0..1..#steps;
+    // assign a height, rotation angle and radius to a point as factors of u
+    z = interv * height;
+    theta = 2 * Math.PI * (u + interv);
+    rad = Math.Sin(Math.RadiansToDegrees(Math.PI * interv + sine)) + radius;
+    pt = Point.ByCylindricalCoordinates(CoordinateSystem.Identity(), rad, theta, z);
+    //Print(pt);
+    crv = BSplineCurve.ByPoints(pt);
+    return = crv;
+     /*
+    pts = []
+    for n in Interval(). divide(steps, True):
+        # for each subdivision of the interval
+        # assign a height, rotation angle and radius to a point as factors of u
+        z = n*height 
+        theta = 2*pi*(n+u)
+        rad = sin(pi*n+sine)+radius
+        # evaluate the point on the cylindrical coordinate system
+        pt = CylCS().eval(rad, theta, z)
+        pts.append(pt)
+    # create a curve, and evaluate that curve at v
+    pt_out = PLine(pts).eval(v)
+    return pt_out*/
+}
+
+//srf = Surface(func2, tol_u = 0.05, tol_v = 0.05)
+
+radius = 0.5;
+sine = 0.5;
+
+tol = 0.1;
+srf_domain = 0..1..tol;
+test =func2(srf_domain<1>, srf_domain<2>);
+//srf = BSplineSurface.ByPoints(func2(srf_domain<1>, srf_domain<2>));
+
+/*
+skew = 0.6;
+count = 18;
+interval = 0..1..#count;
+skew_val = MapTo(f(0), f(1), f(interval), 0, 1);
+
+len_x = 10.0;
+len_y = 6.0;
+num_floors = 15;
+f_height = 3.0;
+floor_range = 0..num_floors;
+
+tol = 0.01;
+crv_domain = 0..1..tol;
+//curves = BSplineCurve.ByPoints(func(floor_range<1>, crv_domain<2>, skew_val<1>));*/
