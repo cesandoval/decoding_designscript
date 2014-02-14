@@ -2,6 +2,29 @@ import("ProtoGeometry.dll");
 import("Math.dll");
 
 /*
+Polygon Classes
+*/
+// Create an RGon with a number of sides
+class RGon
+{
+    Num_of_sides;
+    Radius;
+    Vertices;
+    PGon;
+    
+    constructor FromSidesRadius(num_of_sides, radius)
+    {
+        Num_of_sides = num_of_sides;
+        Radius = radius;
+        
+        step = Math.PI * 2.0 / this.Num_of_sides;
+        interv = 0..this.Num_of_sides-1;
+        Vertices = Point.ByCoordinates(this.Radius * Math.Cos(Math.RadiansToDegrees(step * interv)), this.Radius * Math.Sin(Math.RadiansToDegrees(step * interv)), 0);
+        PGon = BSplineCurve.ByControlVertices(this.Vertices,1,true);
+    }
+}
+
+/*
 Vector Functions
 */
 

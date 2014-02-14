@@ -1,0 +1,41 @@
+import("ProtoGeometry.dll");
+import("Math.dll");
+import("../../../library/decodes_functions.ds");
+/*
+//Digati
+def digati_func(u, v)
+{
+    x = Math.Cos(Math.RadiansToDegrees(u * Math.PI / 100)) + 0.03 * Math.Cos(Math.RadiansToDegrees(7 * u * Math.PI / 40)) + 0.25 * Math.Cos(Math.RadiansToDegrees(v * Math.PI / 50));
+    y = 1.1 * Math.Sin(Math.RadiansToDegrees(u * Math.PI / 100)) + 0.03 * Math.Sin(Math.RadiansToDegrees(7 * u * Math.PI / 40)) + 0.25 * Math.Sin(Math.RadiansToDegrees(v * Math.PI / 50));
+    z = v / 10;
+    return = Point.ByCoordinates(x, y, z);
+}
+
+
+// Resolution
+divs = 50;
+srf_domain_u = 0..200..#divs;
+srf_domain_v = 0..25..#divs;
+
+// Create a surface from a function
+srf = BSplineSurface.ByPoints(digati_func(srf_domain_u<1>, srf_domain_v<2>));*/
+
+// Gnocci
+def gnocci_func(u, v)
+{
+    alpha = u / 40 * Math.Sin(Math.RadiansToDegrees(v / 130 * Math.PI));
+    beta = Math.Abs(Math.Cos(Math.RadiansToDegrees((v + 13) / 26 * Math.PI)));
+    x = 0.2 * Math.Cos(Math.RadiansToDegrees(u * Math.PI * 1.3 / 40)) * Math.Sin(Math.RadiansToDegrees(v * Math.PI / 130)) * beta + alpha * Math.Cos(Math.RadiansToDegrees(u * 1.3 * Math.PI / 40));
+    y = 0.2 * Math.Sin(Math.RadiansToDegrees(u * Math.PI * 1.3 / 40)) * Math.Sin(Math.RadiansToDegrees(v * Math.PI / 130)) * beta + alpha * Math.Sin(Math.RadiansToDegrees(u * 1.3 * Math.PI / 40));
+    z = 1.5 * Math.Cos(Math.RadiansToDegrees(v * Math.PI / 130));
+    return = Point.ByCoordinates(x, y, z);
+}
+    
+// Resolution
+divs = 50;
+srf_domain_u = 0..40..#divs;
+srf_domain_v = 0..130..#divs;
+
+// Create a surface from a function
+srf = BSplineSurface.ByPoints(gnocci_func(srf_domain_u<1>, srf_domain_v<2>));
+

@@ -1,0 +1,78 @@
+import("ProtoGeometry.dll");
+import("Math.dll");
+import("../../../library/decodes_functions.ds");
+
+/*
+def func2(u, v)
+{
+    steps = 20; // the smoothnes of the rotated curve
+    height = 20;
+    interv = 0..1..#steps+1;
+    // assign a height, rotation angle and radius to a point as factors of u
+    z = interv * height;
+    theta = 2 * Math.PI * (u + interv);
+    rad = Math.Sin(Math.RadiansToDegrees(Math.PI * interv + sine)) + radius;
+    // Get points from cylindrical coordinates
+    pt = Point.ByCylindricalCoordinates(CoordinateSystem.Identity(), rad, Math.RadiansToDegrees(theta), z);
+    // Evaluate the curve on v
+    crv = BSplineCurve.ByPoints(pt);
+    return = Point.AtParameter(crv,v);
+}*/
+
+
+def func2(u, v)
+{
+    // create a regular 5 sided polygon of radius 1
+    rg = RGon.FromSidesRadius(5, 1).PGon;
+    // create the interval to be evaluated at each height of the mesh
+    //ival_u = u..u + v; // Interval(u, u + v)
+    int_divs = 0..1..#section_count;
+    old_cs = CoordinateSystem.Identity();// CoordinateSystem.ByOriginVectors(rg.PGon.Plane.Origin, Vector.ByCoordinates(1, 0, 0), Vector.ByCoordinates(0, 1, 0));
+    scale_val = Math.Sin(Math.DegreesToRadians(v * Math.PI + 1)) * 0.05 + 1;
+    new_cs = CoordinateSystem.Identity().Scale(scale_val);
+    //rg_h = rg.Transform(old_cs, new_cs);
+    rg_h = rg.Translate(0, 0, height * int_divs);
+    //Print(MapTo(0, 1, int_divs, u, u + v));
+    pts = Point.AtParameter(rg_h, MapTo(0,1, int_divs, u, v));
+    u_line = BSplineCurve.ByPoints(pts);
+    pt_out = Point.AtParameter(u_line, v);
+    //pts = Point.AtParameter(rg_h,
+    //return = Point.AtParameter(u_line,0..1..tol);
+    return = u_line;
+    //test = Math.Sin(ival_u * Math.PI + 1) * .05 + 1;
+    //new_cs = old_cs.Scale(test);
+    //rg_h = rg.Transform(old_cs, new_cs);
+    //rg_h.Translate(0, 0, height * ival_u);
+    //return = rg_h;
+    /*
+    pts = []
+    for h in Interval().divide(section_count,True):
+        # for each section in the section count
+        # move the polygon to the appropriate height
+        rg.basis = CS(0,0,height*h)
+        # apply transformations
+        xfs = Xform.scale(math.sin(v*math.pi+1)*0.05+1)
+        rg_h = rg * xfs
+        # evaluate the polygon at the given u,v interval
+        pts.append(rg_h.eval(ival_u.eval(h)))
+    # and create a line with all of the evaluated points
+    u_line = PLine(pts)
+    
+    # evaluate that line at v
+    pt_out = u_line.eval( v )
+        return pt_out */
+}
+    
+
+
+// this number maintains the form of the mesh throughout its height by creating "floors"
+section_count = 15;
+height = 20.0;
+tol = 0.05;
+srf_domain = 0..1..tol;
+    
+test = Point.AtParameter(RGon.FromSidesRadius(5, 2.0).PGon,0.5);
+// Create a surface from a function
+//srf = BSplineSurface.ByPoints(func2(srf_domain<2>, srf_domain<1>));
+test2 = func2(srf_domain<1>, srf_domain<2>);
+Print(test2);
