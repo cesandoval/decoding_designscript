@@ -1,0 +1,116 @@
+import("ProtoGeometry.dll");
+import("Math.dll");
+import("../../../library/decodes_functions.ds");
+
+
+class Torus
+{
+    Cs;
+    Major_radius;
+    Minor_radius;
+    Param_type;
+    Draw;
+
+    constructor FromMajorMinorRadius(cs, major_radius, minor_radius, dom_u : double[], dom_v : double[], divs, param_type)
+    {
+        // Define a CS, major and minor radii, and a parameterization type for the torus
+        Cs = cs;
+        Major_radius = major_radius;
+        Minor_radius = minor_radius;
+        Param_type = param_type;
+        // Call the constructor of the super class with the constructor of the Torus subclass
+        Draw = BSplineSurface.ByPoints(func(dom_u<1>, dom_v<2>));
+    }
+        
+    def func(u, v)
+    {
+        // If the parameterization is different than the regular (0), use these functions
+        return = [Imperative]
+        {
+            if (this.Param_type == 1 || this.Param_type == 2)
+            {
+                //Set v to phi which determines 2 V-circles.  Choose one and let u traverse pts on that circle
+                phi = v;
+                cos_gamma = -this.Minor_radius * Math.Sin(Math.RadiansToDegrees(phi)) / (this.Major_radius * this.sin_alpha());
+                psi_v1;
+                if (phi > 0.5 * Math.PI && phi < 1.5 * Math.PI)
+                {
+                    psi_v1 = Math.Atan2(-this.Major_radius * Math.Sqrt(1 - cos_gamma * cos_gamma) + this.Minor_radius, this.Major_radius * this.cos_alpha() * cos_gamma);
+                }
+                else
+                {
+                    psi_v1 = Math.Atan2(this.Major_radius * Math.Sqrt(1 - cos_gamma * cos_gamma) + this.Minor_radius, this.Major_radius * this.cos_alpha() * cos_gamma);
+                }
+                //Villarceau #1  (t = "gamma") function for param_type 1
+                if (this.Param_type == 1)
+                {
+                    test = this.func_v1(u, psi_v1);
+                    //Print(test);
+                    return = test;
+                }
+                //Villarceau #2  (t = "gamma") function for param_type 2
+                else
+                {
+                    return = this.func_v2(u, psi_v1);
+                }
+            }
+                
+            // If this is a regular parameterization, use this function
+            else
+            {
+                rho = this.Major_radius + this.Minor_radius * Math.Cos(Math.RadiansToDegrees(v));
+                pt_out = Point.ByCartesianCoordinates(this.Cs, rho * Math.Cos(Math.RadiansToDegrees(u)), rho * Math.Sin(Math.RadiansToDegrees(u)), this.Minor_radius * Math.Sin(Math.RadiansToDegrees(v)));
+                return = pt_out;
+            }
+        }
+    }
+
+    // Define a number of mathematical functions
+    def alpha()
+    {
+        return = Math.Asin(this.Minor_radius / this.Major_radius);
+    }
+        
+    def cos_alpha()
+    {
+        return = Math.Cos(Math.RadiansToDegrees(this.alpha()));
+    }
+        
+    def sin_alpha()
+    {
+        return = Math.Sin(Math.RadiansToDegrees(this.alpha()));
+    }
+        
+    //param_type 1 function Villarceau #1  (t = "gamma")
+    def func_v1(t, psi)
+    {
+        x1 = this.Major_radius * this.cos_alpha() * Math.Cos(Math.RadiansToDegrees(t));
+        y1 = this.Major_radius * Math.Sin(Math.RadiansToDegrees(t)) + this.Minor_radius;
+        z1 = -this.Major_radius * this.sin_alpha() * Math.Cos(Math.RadiansToDegrees(t));
+        old_cs = CoordinateSystem.ByOriginVectors(this.Cs.Origin,Vector.ByCoordinates(0,0,1),Vector.ByCoordinates(0,1,0));
+        new_cs = CoordinateSystem.ByOriginVectors(this.Cs.Origin,Vector.ByCoordinates(0,0,1),Vector.ByCoordinates(0,1,0)).Rotate(-psi, Vector.ByCoordinates(1, 0, 0));
+        pt_out = Point.ByCartesianCoordinates(this.Cs, x1, y1, z1);
+        return = pt_out.Transform(old_cs, new_cs);
+    }
+    
+    // param_type 2 function Villarceau #2  (t = "gamma")
+    def func_v2(t, psi)
+    {
+        x = this.Major_radius * this.cos_alpha() * Math.Cos(Math.RadiansToDegrees(t));
+        y = this.Major_radius * Math.Sin(Math.RadiansToDegrees(t)) - this.Minor_radius;
+        z = -this.Major_radius * this.sin_alpha() * Math.Cos(Math.RadiansToDegrees(t));
+        old_cs = CoordinateSystem.ByOriginVectors(this.Cs.Origin,Vector.ByCoordinates(0,0,1),Vector.ByCoordinates(0,1,0));
+        new_cs =CoordinateSystem.ByOriginVectors(this.Cs.Origin,Vector.ByCoordinates(0,0,1),Vector.ByCoordinates(0,1,0)).Rotate(-psi, Vector.ByCoordinates(1, 0, 0));
+        pt_out = Point.ByCartesianCoordinates(this.Cs, x, y, z);
+        return = pt_out.Transform(old_cs, new_cs);
+    }
+}
+
+offset_radius = 5.06;
+param_type = 2;
+divs = 30;
+dom_u = 0..Math.PI * 2..#divs;
+dom_v = 0..Math.PI * 2..#divs;
+
+cs = CoordinateSystem.ByOriginVectors(Point.ByCoordinates(0, 0, -3), Vector.ByCoordinates(0, 0, 1), Vector.ByCoordinates(0, 1, 0));
+srf = Torus.FromMajorMinorRadius(cs, offset_radius, 2.7, dom_u, dom_v, 20, param_type).Draw;

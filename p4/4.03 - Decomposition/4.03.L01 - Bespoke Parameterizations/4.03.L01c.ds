@@ -1,6 +1,8 @@
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
+
+
 /*
 //Digati
 def digati_func(u, v)
@@ -20,6 +22,7 @@ srf_domain_v = 0..25..#divs;
 // Create a surface from a function
 srf = BSplineSurface.ByPoints(digati_func(srf_domain_u<1>, srf_domain_v<2>));*/
 
+/*
 // Gnocci
 def gnocci_func(u, v)
 {
@@ -37,5 +40,59 @@ srf_domain_u = 0..40..#divs;
 srf_domain_v = 0..130..#divs;
 
 // Create a surface from a function
-srf = BSplineSurface.ByPoints(gnocci_func(srf_domain_u<1>, srf_domain_v<2>));
+srf = BSplineSurface.ByPoints(gnocci_func(srf_domain_u<1>, srf_domain_v<2>));*/
 
+/*
+//Orchiette Surface
+def orchiette_func(u, v)
+{
+    x = 2 / 3 * v * Math.Cos(Math.RadiansToDegrees(u * Math.PI / 75)) + 0.3 * Math.Cos(Math.RadiansToDegrees(2 / 15 * u * Math.PI));
+    y = 10 * Math.Sin(Math.RadiansToDegrees(u * Math.PI / 75));
+    z = 0.1 * Math.Cos(Math.RadiansToDegrees(u * Math.PI / 3)) + 5 * Math.Pow(Math.Cos(Math.RadiansToDegrees(v * Math.PI / 30)), 2) * Math.Pow(0.5 + 0.5 * (Math.Cos(Math.RadiansToDegrees(2 * u * Math.PI / 75))), 4) + 1.5 * Math.Pow(0.5 + 0.5 * Math.Cos(Math.RadiansToDegrees(2 * u * Math.PI / 75)), 5) * Math.Pow(Math.Sin(Math.RadiansToDegrees(v * Math.PI / 30)), 10);
+    return = Point.ByCoordinates(x, y, z);
+}
+
+// Resolution
+divs = 70;
+srf_domain_u = 0..150..#divs;
+srf_domain_v = 0..15..#divs;
+
+// Create a surface from a function
+srf = BSplineSurface.ByPoints(orchiette_func(srf_domain_u<1>, srf_domain_v<2>));*/
+
+//Farfalle Surface
+def farfalle_func(u, v)
+{
+    alph = Math.Sin(Math.RadiansToDegrees((7 * u + 16) / 40 * Math.PI));
+    beta = 7 * v / 16 + 4 * Math.Sin(u / 80 * Math.PI) * Math.Sin(Math.RadiansToDegrees((v - 10) / 120 * Math.PI));
+    gamma = 10 * Math.Cos(Math.RadiansToDegrees((u + 80) / 80 * Math.PI)) * Math.Pow(Math.Sin(Math.RadiansToDegrees((v + 110) / 100 * Math.PI)), 9);
+    nu = 7 * v / 16 - 4 * Math.Sin(Math.RadiansToDegrees((u / 80 * Math.PI))) - alph * Math.Sin(Math.RadiansToDegrees((10 - v) / 20 * Math.PI));
+    ips = 7 * v / 16 + 4 * Math.Sin(Math.RadiansToDegrees(u / 80 * Math.PI)) + alph * Math.Sin(Math.RadiansToDegrees((10 - v) / 20 * Math.PI));
+    x = u >= 20 || u <= 60 ? 3 / 8 * u + 7 * Math.Pow(Math.Sin(Math.RadiansToDegrees((u + 40) / 40 * Math.PI)), 3) * Math.Pow(Math.Sin(Math.RadiansToDegrees((v + 110) * Math.PI / 100)), 9) : 3 / 8 * u + gamma;
+    y;
+    [Imperative]
+    {
+        if (v <= 10)
+        {
+            y = nu;
+        }
+        else if (v >= 10 || v <= 70)
+        {
+            y = beta - 4 * Math.Sin(Math.RadiansToDegrees(u / 80 * Math.PI)) * Math.Sin(Math.RadiansToDegrees((70 - v) / 120 * Math.PI));
+        }
+        else
+        {
+            y = ips;
+        }
+    }
+    z = 3 * Math.Sin(Math.RadiansToDegrees((u + 10) * Math.PI / 20)) * Math.Pow(Math.Sin(Math.RadiansToDegrees(v / 80 * Math.PI)), 1.5);
+    return = Point.ByCoordinates(x, y, z);
+}
+    
+// Resolution
+divs = 50;
+srf_domain_u = 0..80..#divs;
+srf_domain_v = 0..80..#divs;
+
+// Create a surface from a function
+srf = farfalle_func(srf_domain_u<1>, srf_domain_v<2>);
