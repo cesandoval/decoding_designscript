@@ -1,0 +1,37 @@
+import("ProtoGeometry.dll");
+import("Math.dll");
+import("../../../library/decodes_functions.ds");
+
+
+def circle_mutually_tangent(cir_a,cir_b,tangent_offset=0.0)
+{
+    z_axis = cir_a.Normal;
+
+    vec_rad = vec_two_points(cir_a.CenterPoint, cir_b.CenterPoint).Normalize().Scale(cir_a.Radius);
+    pt_tan = Point.ByCoordinates(cir_a.CenterPoint.X + vec_rad.X, cir_a.CenterPoint.Y + vec_rad.Y, cir_a.CenterPoint.Z + vec_rad.Z);
+    cs;
+    [Imperative]
+    {
+        if (tangent_offset!= 0.0)
+        {
+            cs = CoordinateSystem.ByOriginVectors(cir_a.CenterPoint, vec_rad, vec_rad.Cross(z_axis));
+            pt_tan = Point.ByCartesianCoordinates(cs, cir_a.Radius * Math.Cos(Math.RadiansToDegrees(tangent_offset)), cir_a.Radius * Math.Sin(tangent_offset), 0);
+        }
+    }
+    vec_b = vec_two_points(pt_tan, cir_a.CenterPoint).Normalize().Scale(cir_b.Radius);
+    pt_ff = Point.ByCoordinates(pt_tan.X + vec_b.X, pt_tan.Y + vec_b.Y, pt_tan.Z + vec_b.Z);
+    ln_f = Line(pt_ff, Vec(pt_ff, pt_tan)); // need to figure this out...
+
+    pt_gg = Point.AtParameter(Line.ByStartPointEndPoint(pt_ff, cir_b.CenterPoint), 0.5);
+    ln_g = Line(pt_gg, Vec(pt_ff, cir_b.plane.origin).cross(z_axis)); // need to figure this out...
+
+    inters = ln_g.Intersect(ln_f)[0];
+    rad = inters.DistanceTo(pt_tan);
+    cir = Circle.ByCenterPointRadius(inters, rad, z_axis);
+    return = cir;
+}
+
+cir_a = Circle.ByCenterPointRadius(Point.ByCoordinates(0, 5.1, 0), 1.50);
+cir_b = Circle.ByCenterPointRadius(Point.ByCoordinates(4.95, 4.70, 0), 2.88);
+cir_c = Circle.ByCenterPointRadius(Point.ByCoordinates(10, 4.88, 0), 1.86);
+tan_off = -0.40 * Math.PI;
