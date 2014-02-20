@@ -3,35 +3,44 @@ import("Math.dll");
 import("../../../library/decodes_functions.ds");
 
 
-def circle_mutually_tangent(cir_a,cir_b,tangent_offset=0.0)
-{
-    z_axis = cir_a.Normal;
-
-    vec_rad = vec_two_points(cir_a.CenterPoint, cir_b.CenterPoint).Normalize().Scale(cir_a.Radius);
-    pt_tan = Point.ByCoordinates(cir_a.CenterPoint.X + vec_rad.X, cir_a.CenterPoint.Y + vec_rad.Y, cir_a.CenterPoint.Z + vec_rad.Z);
-    cs;
-    [Imperative]
-    {
-        if (tangent_offset!= 0.0)
-        {
-            cs = CoordinateSystem.ByOriginVectors(cir_a.CenterPoint, vec_rad, vec_rad.Cross(z_axis));
-            pt_tan = Point.ByCartesianCoordinates(cs, cir_a.Radius * Math.Cos(Math.RadiansToDegrees(tangent_offset)), cir_a.Radius * Math.Sin(tangent_offset), 0);
-        }
-    }
-    vec_b = vec_two_points(pt_tan, cir_a.CenterPoint).Normalize().Scale(cir_b.Radius);
-    pt_ff = Point.ByCoordinates(pt_tan.X + vec_b.X, pt_tan.Y + vec_b.Y, pt_tan.Z + vec_b.Z);
-    ln_f = Line(pt_ff, Vec(pt_ff, pt_tan)); // need to figure this out...
-
-    pt_gg = Point.AtParameter(Line.ByStartPointEndPoint(pt_ff, cir_b.CenterPoint), 0.5);
-    ln_g = Line(pt_gg, Vec(pt_ff, cir_b.plane.origin).cross(z_axis)); // need to figure this out...
-
-    inters = ln_g.Intersect(ln_f)[0];
-    rad = inters.DistanceTo(pt_tan);
-    cir = Circle.ByCenterPointRadius(inters, rad, z_axis);
-    return = cir;
-}
-
 cir_a = Circle.ByCenterPointRadius(Point.ByCoordinates(0, 5.1, 0), 1.50);
 cir_b = Circle.ByCenterPointRadius(Point.ByCoordinates(4.95, 4.70, 0), 2.88);
 cir_c = Circle.ByCenterPointRadius(Point.ByCoordinates(10, 4.88, 0), 1.86);
 tan_off = -0.40 * Math.PI;
+
+// Get the mutually tangent circle to two given circles, and the tangent points on the circles
+circ1_extras = circle_mutually_tangent(cir_a, cir_b, tan_off, true).SetVisibility(false);
+cir_ab = circ1_extras[0].SetVisibility(false);
+pt_ab = circ1_extras[1];
+pt_ba = circ1_extras[2];
+
+// Get the mutually tangent circle to two given circles, and the tangent points on the circles
+circ2_extras = circle_mutually_tangent(cir_b, cir_c, tan_off, true).SetVisibility(false);
+cir_bc = circ2_extras[0].SetVisibility(false);
+pt_bc = circ2_extras[1];
+pt_cb = circ2_extras[2];
+
+
+// Get the starting point of the first arc by getting a point diagonal to the circle origin
+vec_a = Vector.ByCoordinates(-1, 1, 0).Normalize().Scale(cir_a.Radius);
+pt_a = Point.ByCoordinates(cir_a.CenterPoint.X + vec_a.X, cir_a.CenterPoint.Y + vec_a.Y, cir_a.CenterPoint.Z + vec_a.Z);
+
+
+// Get the starting point of the first arc by getting a point diagonal to the circle origin
+vec_c = Vector.ByCoordinates(1, 1, 0).Normalize().Scale(cir_c.Radius);
+pt_c = Point.ByCoordinates(cir_c.CenterPoint.X + vec_c.X, cir_c.CenterPoint.Y + vec_c.Y, cir_c.CenterPoint.Z + vec_c.Z);
+
+
+// Make an arc with the centroid of circle A, the given point in the circle and the tangent point on the circle
+arc_a = Arc.ByCenterPointStartPointSweepPoint(cir_a.CenterPoint, pt_ab, pt_a);
+// Make an arc from the centroid of the circle tangent to circles and the tangen points in circles a and b.
+arc_ab = Arc.ByCenterPointStartPointSweepPoint(cir_ab.CenterPoint, pt_ab, pt_ba);
+// Make an arc with the centroid of circle B, and the tangent points in circles b and c
+arc_b = Arc.ByCenterPointStartPointSweepPoint(cir_b.CenterPoint, pt_bc, pt_ba);
+// Make an arc from the centroid of the circle tangent to circles B and C and the tangen points in circles b and c.
+arc_bc = Arc.ByCenterPointStartPointSweepPoint(cir_bc.CenterPoint, pt_bc, pt_cb);
+// Make an arc with the centroid of circle B, the given point in the circle and the tangent point on the circle
+arc_c = Arc.ByCenterPointStartPointSweepPoint(cir_c.CenterPoint, pt_c, pt_cb);
+
+rot_w = 0.30 * Math.PI;
+srf = Surface.Revolve({ arc_a, arc_ab, arc_b, arc_bc, arc_c }, Point.ByCoordinates(0,0,0),Vector.ByCoordinates(1, 0, 0), Math.RadiansToDegrees((Math.PI / 2) - rot_w), Math.RadiansToDegrees((Math.PI / 2) + rot_w));

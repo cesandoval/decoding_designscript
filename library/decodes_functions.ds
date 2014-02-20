@@ -97,6 +97,58 @@ def on_xy_rotate(rot)
 
 
 /*
+Circle Functions
+*/
+def circle_mutually_tangent(cir_a,cir_b,tangent_offset, calc_extras)
+{
+    z_axis = cir_a.Normal;
+
+    vec_rad = vec_two_points(cir_a.CenterPoint, cir_b.CenterPoint).Normalize().Scale(cir_a.Radius);
+    pt_tan = Point.ByCoordinates(cir_a.CenterPoint.X + vec_rad.X, cir_a.CenterPoint.Y + vec_rad.Y, cir_a.CenterPoint.Z + vec_rad.Z);
+    cs;
+    [Imperative]
+    {
+        if (tangent_offset!= 0.0)
+        {
+            cs = CoordinateSystem.ByOriginVectors(cir_a.CenterPoint, vec_rad, vec_rad.Cross(z_axis));
+            pt_tan = Point.ByCartesianCoordinates(cs, cir_a.Radius * Math.Cos(Math.RadiansToDegrees(tangent_offset)), cir_a.Radius * Math.Sin(Math.RadiansToDegrees(tangent_offset)), 0);
+        }
+    }
+    
+    vec_b = vec_two_points(pt_tan, cir_a.CenterPoint).Normalize().Scale(cir_b.Radius);
+    pt_ff = Point.ByCoordinates(pt_tan.X + vec_b.X, pt_tan.Y + vec_b.Y, pt_tan.Z + vec_b.Z);
+    vec_c = vec_two_points(pt_ff, pt_tan);
+    pt_fa = Point.ByCoordinates(pt_ff.X + vec_c.Scale(-1000).X, pt_ff.Y + vec_c.Scale(-1000).Y, pt_ff.Z + vec_c.Scale(-1000).Z);
+    pt_fb = Point.ByCoordinates(pt_ff.X + vec_c.Scale(1000).X, pt_ff.Y + vec_c.Scale(1000).Y, pt_ff.Z + vec_c.Scale(1000).Z);
+    ln_f = Line.ByStartPointEndPoint(pt_fa, pt_fb);
+
+    pt_gg = Point.AtParameter(Line.ByStartPointEndPoint(pt_ff, cir_b.CenterPoint), 0.5);
+    vec_d = vec_two_points(pt_ff, cir_b.CenterPoint).Cross(z_axis);
+    pt_ga = Point.ByCoordinates(pt_gg.X + vec_d.Scale(-1000).X, pt_gg.Y + vec_d.Scale(-1000).Y, pt_gg.Z + vec_d.Scale(-1000).Z);
+    pt_gb = Point.ByCoordinates(pt_gg.X + vec_d.Scale(1000).X, pt_gg.Y + vec_d.Scale(1000).Y, pt_gg.Z + vec_d.Scale(1000).Z);
+    ln_g = Line.ByStartPointEndPoint(pt_ga, pt_gb);    
+    inters = ln_g.Intersect(ln_f);
+    rad = inters.DistanceTo(pt_tan);
+    cir = Circle.ByCenterPointRadius(inters, rad, z_axis);
+
+    return = [Imperative]
+    {
+        if (calc_extras == true)
+        {
+            extra_vec = vec_two_points(cir.CenterPoint, cir_b.CenterPoint).Normalize().Scale(cir.Radius);
+            pt_tan_b = Point.ByCoordinates(cir.CenterPoint.X+extra_vec.X, cir.CenterPoint.Y+extra_vec.Y, cir.CenterPoint.Z+extra_vec.Z);
+            return = { cir, pt_tan, pt_tan_b };
+        }
+        else
+        {
+            return = cir;
+        }
+    }
+}
+
+
+
+/*
 Arc Functions
 */
 
