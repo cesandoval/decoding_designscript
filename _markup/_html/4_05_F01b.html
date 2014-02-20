@@ -1,0 +1,263 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html>
+<head>
+  <title></title>
+  <meta http-equiv="content-type" content="text/html; charset=None">
+  <style type="text/css">
+  
+.narr_wrap {
+    font-style: italic;
+    text-align: center;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    width: 760px;
+}
+.py_wrap{
+    width: 760px;
+}
+
+.py_para{
+    float:left;
+    height: 14px;
+}
+
+.py_para pre { 
+    margin: 0px;
+    font-family: monospace;
+    font-size: 11px;
+}
+
+pre {
+    /* background-color: #0fd; */
+} 
+
+.cmt_para{
+    float: left;
+    height: 14px;
+    text-align: right;
+    overflow: hidden;
+    font-family: sans-serif;
+    font-size: 12px;
+    font-style: italic;
+}
+
+/* clearfix */
+.py_wrap:after { 
+   content: " ";
+   display: block; 
+   height: 0; 
+   clear: both;
+}
+
+.svg_wrap{
+    position: absolute;
+    width: 760px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+  
+td.linenos { background-color: #f0f0f0; padding-right: 10px; }
+span.lineno { background-color: #f0f0f0; padding: 0 5px 0 5px; }
+body .hll { background-color: #ffffcc }
+body  { background: #ffffff; }
+body .c { color: #aaaaaa; font-style: italic } /* Comment */
+body .err { color: #F00000; background-color: #F0A0A0 } /* Error */
+body .k { color: #0000aa } /* Keyword */
+body .cm { color: #aaaaaa; font-style: italic } /* Comment.Multiline */
+body .cp { color: #4c8317 } /* Comment.Preproc */
+body .c1 { color: #aaaaaa; font-style: italic } /* Comment.Single */
+body .cs { color: #0000aa; font-style: italic } /* Comment.Special */
+body .gd { color: #aa0000 } /* Generic.Deleted */
+body .ge { font-style: italic } /* Generic.Emph */
+body .gr { color: #aa0000 } /* Generic.Error */
+body .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+body .gi { color: #00aa00 } /* Generic.Inserted */
+body .go { color: #888888 } /* Generic.Output */
+body .gp { color: #555555 } /* Generic.Prompt */
+body .gs { font-weight: bold } /* Generic.Strong */
+body .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+body .gt { color: #aa0000 } /* Generic.Traceback */
+body .kc { color: #0000aa } /* Keyword.Constant */
+body .kd { color: #0000aa } /* Keyword.Declaration */
+body .kn { color: #0000aa } /* Keyword.Namespace */
+body .kp { color: #0000aa } /* Keyword.Pseudo */
+body .kr { color: #0000aa } /* Keyword.Reserved */
+body .kt { color: #00aaaa } /* Keyword.Type */
+body .m { color: #009999 } /* Literal.Number */
+body .s { color: #aa5500 } /* Literal.String */
+body .na { color: #1e90ff } /* Name.Attribute */
+body .nb { color: #00aaaa } /* Name.Builtin */
+body .nc { color: #00aa00; text-decoration: underline } /* Name.Class */
+body .no { color: #aa0000 } /* Name.Constant */
+body .nd { color: #888888 } /* Name.Decorator */
+body .ni { color: #800000; font-weight: bold } /* Name.Entity */
+body .nf { color: #00aa00 } /* Name.Function */
+body .nn { color: #00aaaa; text-decoration: underline } /* Name.Namespace */
+body .nt { color: #1e90ff; font-weight: bold } /* Name.Tag */
+body .nv { color: #aa0000 } /* Name.Variable */
+body .ow { color: #0000aa } /* Operator.Word */
+body .w { color: #bbbbbb } /* Text.Whitespace */
+body .mf { color: #009999 } /* Literal.Number.Float */
+body .mh { color: #009999 } /* Literal.Number.Hex */
+body .mi { color: #009999 } /* Literal.Number.Integer */
+body .mo { color: #009999 } /* Literal.Number.Oct */
+body .sb { color: #aa5500 } /* Literal.String.Backtick */
+body .sc { color: #aa5500 } /* Literal.String.Char */
+body .sd { color: #aa5500 } /* Literal.String.Doc */
+body .s2 { color: #aa5500 } /* Literal.String.Double */
+body .se { color: #aa5500 } /* Literal.String.Escape */
+body .sh { color: #aa5500 } /* Literal.String.Heredoc */
+body .si { color: #aa5500 } /* Literal.String.Interpol */
+body .sx { color: #aa5500 } /* Literal.String.Other */
+body .sr { color: #009999 } /* Literal.String.Regex */
+body .s1 { color: #aa5500 } /* Literal.String.Single */
+body .ss { color: #0000aa } /* Literal.String.Symbol */
+body .bp { color: #00aaaa } /* Name.Builtin.Pseudo */
+body .vc { color: #aa0000 } /* Name.Variable.Class */
+body .vg { color: #aa0000 } /* Name.Variable.Global */
+body .vi { color: #aa0000 } /* Name.Variable.Instance */
+body .il { color: #009999 } /* Literal.Number.Integer.Long */
+  </style>
+</head>
+<body>4.05.F01b
+<div class='narr_wrap'></div><div class='svg_wrap' style='background-image: url(4_05_F01b1.svg), none; height: 1092px;'></div>
+<div class='py_wrap'>
+<div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;ProtoGeometry.dll&quot;</span><span class="p">);</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;Math.dll&quot;</span><span class="p">);</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;../../../library/decodes_functions.ds&quot;</span><span class="p">);</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:9px; width:261px;'>Get the first perpendicular vector</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="k">def</span> <span class="nf">perp_vec</span><span class="p">(</span><span class="n">vec1</span><span class="p">,</span> <span class="n">vec2</span><span class="p">,</span> <span class="n">pt</span><span class="p">)</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">{</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>Get the bisector of vec1 and vec2</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">bisecs</span> <span class="o">=</span> <span class="n">bisector</span><span class="p">(</span><span class="n">vec1</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">vec2</span><span class="p">);</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>Get the perpendicular vector to the bisector</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">return</span> <span class="o">=</span> <span class="n">bisecs</span><span class="o">.</span><span class="n">Cross</span><span class="p">(</span><span class="nb-Decodes">CoordinateSystem</span><span class="o">.</span><span class="n">ByOriginVectors</span><span class="p">(</span><span class="n">pt</span><span class="p">,</span> <span class="n">bisecs</span><span class="p">,</span> <span class="nb-Decodes">Vector</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">ZAxis</span><span class="p">)</span><span class="o">.</span><span class="n">Normalize</span><span class="p">();</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">}</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:9px; width:261px;'>Divide a curve with the given points into segments and arcs</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="k">def</span> <span class="nf">divide_crv</span><span class="p">(</span><span class="n">pt_a</span><span class="p">,</span> <span class="n">pt_b</span><span class="p">,</span> <span class="n">vec</span><span class="p">)</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">{</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">tan</span> <span class="o">=</span> <span class="nb-Decodes">Vector</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="n">vec</span><span class="o">.</span><span class="n">X</span> <span class="o">*</span> <span class="n">rad</span><span class="p">,</span> <span class="n">vec</span><span class="o">.</span><span class="n">Y</span> <span class="o">*</span> <span class="n">rad</span><span class="p">,</span> <span class="n">vec</span><span class="o">.</span><span class="n">Z</span> <span class="o">*</span> <span class="n">rad</span><span class="p">);</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>Move the point with the tan vector</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">new_pt</span> <span class="o">=</span> <span class="n">pt_a</span><span class="o">.</span><span class="n">Translate</span><span class="p">(</span><span class="n">tan</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">tan</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">tan</span><span class="o">.</span><span class="n">Z</span><span class="p">);</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>Find the tangent point on a circle from a given point</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">pt</span> <span class="o">=</span> <span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">AtParameter</span><span class="p">(</span><span class="nb-Decodes">Line</span><span class="o">.</span><span class="n">ByStartPointEndPoint</span><span class="p">(</span><span class="n">new_pt</span><span class="p">,</span> <span class="n">pt_b</span><span class="p">),</span> <span class="mf">0.5</span><span class="p">);</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">cira</span> <span class="o">=</span> <span class="nb-Decodes">Circle</span><span class="o">.</span><span class="n">ByCenterPointRadius</span><span class="p">(</span><span class="n">new_pt</span><span class="p">,</span> <span class="n">rad</span><span class="p">,</span> <span class="nb-Decodes">CoordinateSystem</span><span class="o">.</span><span class="n">ByOriginVectors</span><span class="p">(</span><span class="n">new_pt</span><span class="p">,</span> <span class="n">tan</span><span class="p">,</span> <span class="nb-Decodes">Vector</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">ZAxis</span><span class="p">);</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">cirb</span> <span class="o">=</span> <span class="nb-Decodes">Circle</span><span class="o">.</span><span class="n">ByCenterPointRadius</span><span class="p">(</span><span class="n">pt</span><span class="p">,</span> <span class="n">pt</span><span class="o">.</span><span class="n">DistanceTo</span><span class="p">(</span><span class="n">new_pt</span><span class="p">),</span> <span class="nb-Decodes">CoordinateSystem</span><span class="o">.</span><span class="n">ByOriginVectors</span><span class="p">(</span><span class="n">pt</span><span class="p">,</span> <span class="n">tan</span><span class="p">,</span> <span class="nb-Decodes">Vector</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">ZAxis</span><span class="p">);</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>Get the intersections between the circles to get the tangent points</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">inters</span> <span class="o">=</span> <span class="n">Count</span><span class="p">(</span><span class="n">cira</span><span class="o">.</span><span class="n">Intersect</span><span class="p">(</span><span class="n">cirb</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="err">?</span> <span class="n">cira</span><span class="o">.</span><span class="n">Intersect</span><span class="p">(</span><span class="n">cirb</span><span class="p">)</span> <span class="p">:</span> <span class="n">null</span><span class="p">;</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>Only keep the intersection point closer to the original point</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">segs_index</span> <span class="o">=</span> <span class="n">Count</span><span class="p">(</span><span class="n">inters</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="err">?</span> <span class="n">SortIndexByValue</span><span class="p">(</span><span class="nb-Decodes">Line</span><span class="o">.</span><span class="n">ByStartPointEndPoint</span><span class="p">(</span><span class="n">pt_a</span><span class="p">,</span> <span class="n">inters</span><span class="p">)</span><span class="o">.</span><span class="n">Length</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">new_inters</span> <span class="o">=</span> <span class="n">inters</span><span class="p">[</span><span class="n">segs_index</span><span class="p">];</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>Create a straight segment</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">ln</span> <span class="o">=</span> <span class="nb-Decodes">Line</span><span class="o">.</span><span class="n">ByStartPointEndPoint</span><span class="p">(</span><span class="n">new_inters</span><span class="p">,</span> <span class="n">pt_b</span><span class="p">);</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>Get the angle between the tan and a new vector from the intersection to the center pt</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">ang</span> <span class="o">=</span> <span class="n">angle</span><span class="p">(</span><span class="n">tan</span><span class="p">,</span> <span class="n">vec_two_points</span><span class="p">(</span><span class="n">new_inters</span><span class="p">,</span> <span class="n">new_pt</span><span class="p">));</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>Create the arc</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">cross_vec</span> <span class="o">=</span> <span class="n">tan</span><span class="o">.</span><span class="n">Cross</span><span class="p">(</span><span class="nb-Decodes">CoordinateSystem</span><span class="o">.</span><span class="n">ByOriginVectors</span><span class="p">(</span><span class="n">new_pt</span><span class="p">,</span> <span class="n">tan</span><span class="p">,</span> <span class="n">vec_two_points</span><span class="p">(</span><span class="n">new_pt</span><span class="p">,</span> <span class="n">pt_b</span><span class="p">))</span><span class="o">.</span><span class="n">ZAxis</span><span class="p">)</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">cs</span> <span class="o">=</span> <span class="nb-Decodes">CoordinateSystem</span><span class="o">.</span><span class="n">ByOriginVectors</span><span class="p">(</span><span class="n">new_pt</span><span class="p">,</span> <span class="n">tan</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">cross_vec</span><span class="p">);</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>arc = Arc.ByCenterPointRadiusAngle(cs.Origin, rad, 0, ang, cs.ZAxis);</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">arc</span> <span class="o">=</span> <span class="nb-Decodes">Arc</span><span class="o">.</span><span class="n">ByCenterPointStartPointSweepAngle</span><span class="p">(</span><span class="n">cs</span><span class="o">.</span><span class="n">Origin</span><span class="p">,</span><span class="n">pt_a</span><span class="p">,</span><span class="n">ang</span><span class="p">,</span><span class="n">cs</span><span class="o">.</span><span class="n">ZAxis</span><span class="p">);</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">return</span> <span class="o">=</span> <span class="p">{</span> <span class="n">arc</span><span class="p">,</span> <span class="n">ln</span> <span class="p">};</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">}</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">rad_small</span> <span class="o">=</span> <span class="mf">5.06</span><span class="p">;</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">rad_large</span> <span class="o">=</span> <span class="mf">26.14</span><span class="p">;</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">divs</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">mid_pt</span> <span class="o">=</span> <span class="mf">0.35</span><span class="p">;</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">height</span> <span class="o">=</span> <span class="mf">8.00</span><span class="p">;</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">strength</span> <span class="o">=</span> <span class="mf">2.80</span><span class="p">;</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>Create the interior and exterior circles</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">cir1</span> <span class="o">=</span> <span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">AtParameter</span><span class="p">(</span><span class="nb-Decodes">Circle</span><span class="o">.</span><span class="n">ByCenterPointRadius</span><span class="p">(</span><span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">rad_small</span><span class="p">),</span><span class="mf">0.</span><span class="o">.</span><span class="mf">1.</span><span class="o">.</span><span class="c">#divs);</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">cir2</span> <span class="o">=</span> <span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">AtParameter</span><span class="p">(</span><span class="nb-Decodes">Circle</span><span class="o">.</span><span class="n">ByCenterPointRadius</span><span class="p">(</span><span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">rad_large</span><span class="p">),</span><span class="mf">0.</span><span class="o">.</span><span class="mf">1.</span><span class="o">.</span><span class="c">#divs);</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>Move the points of the larger circle up with sine values.</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">humps</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">sine</span> <span class="o">=</span> <span class="p">(</span><span class="n">Math</span><span class="o">.</span><span class="n">Sin</span><span class="p">(</span><span class="n">Math</span><span class="o">.</span><span class="n">RadiansToDegrees</span><span class="p">(</span><span class="mf">0.</span><span class="o">.</span><span class="n">Math</span><span class="o">.</span><span class="n">PI</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">humps</span><span class="o">..</span><span class="c">#divs)) + 1) * strength; //[(math.sin(i) + 1) * strength for i in Interval(0, math.pi * 2 * humps).divide(divs)];</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">cir2</span> <span class="o">=</span> <span class="n">cir2</span><span class="o">.</span><span class="n">Translate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sine</span><span class="p">);</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">mid</span> <span class="o">=</span> <span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">AtParameter</span><span class="p">(</span><span class="nb-Decodes">Line</span><span class="o">.</span><span class="n">ByStartPointEndPoint</span><span class="p">(</span><span class="n">cir1</span><span class="p">,</span> <span class="n">cir2</span><span class="p">),</span><span class="n">mid_pt</span><span class="p">)</span><span class="o">.</span><span class="n">Translate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">height</span><span class="p">);</span> <span class="o">//</span><span class="p">{</span>  <span class="n">cir1</span> <span class="p">,</span> <span class="n">cir2</span><span class="p">};</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>Construct BSplineCurves with 3 Points</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">crvs</span> <span class="o">=</span> <span class="p">{</span> <span class="p">};</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">[</span><span class="n">Imperative</span><span class="p">]</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">{</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="ow">in</span> <span class="mf">0.</span><span class="o">.</span><span class="n">divs</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">{</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">%</span><span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="p">{</span><span class="n">crvs</span><span class="p">[</span><span class="n">Count</span><span class="p">(</span><span class="n">crvs</span><span class="p">)]</span> <span class="o">=</span> <span class="n">BSplineCurve</span><span class="o">.</span><span class="n">ByPoints</span><span class="p">({</span> <span class="n">cir1</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">mid</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">cir2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">});}</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="k">else</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="p">{</span><span class="n">crvs</span><span class="p">[</span><span class="n">Count</span><span class="p">(</span><span class="n">crvs</span><span class="p">)]</span> <span class="o">=</span> <span class="n">BSplineCurve</span><span class="o">.</span><span class="n">ByPoints</span><span class="p">({</span> <span class="n">cir2</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">mid</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">cir1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">});}</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">}</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">}</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">crv_divs</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">rad</span> <span class="o">=</span> <span class="mf">3.00</span><span class="p">;</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>Divide the crvs in 4 pts</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">t</span> <span class="o">=</span> <span class="mf">0.</span><span class="o">.</span><span class="mf">1.</span><span class="o">.</span><span class="c">#crv_divs;</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">pts</span> <span class="o">=</span> <span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">AtParameter</span><span class="p">(</span><span class="n">crvs</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">t</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">);</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">all_crvs</span> <span class="o">=</span> <span class="p">{</span> <span class="p">};</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">[</span><span class="n">Imperative</span><span class="p">]</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">{</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="ow">in</span> <span class="mf">0.</span><span class="o">.</span><span class="n">Count</span><span class="p">(</span><span class="n">crvs</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">{</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>Get the first Sement and Arc</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">pts</span> <span class="o">=</span> <span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">AtParameter</span><span class="p">(</span><span class="n">crvs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">t</span><span class="p">);</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">new_crvs</span> <span class="o">=</span> <span class="p">{</span> <span class="n">divide_crv</span><span class="p">(</span><span class="n">pts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pts</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">perp_vec</span><span class="p">(</span><span class="nb-Decodes">Vector</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">vec_two_points</span><span class="p">(</span><span class="n">pts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pts</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">pts</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="p">};</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>With the perpendicular vector, loop throught the remaining points to create new Arcs and Segments</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="k">for</span><span class="p">(</span><span class="n">n</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="n">Count</span><span class="p">(</span><span class="n">pts</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="p">{</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">vec</span> <span class="o">=</span> <span class="n">vec_from_line</span><span class="p">(</span><span class="n">new_crvs</span><span class="p">[</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]);</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">cs</span> <span class="o">=</span> <span class="nb-Decodes">CoordinateSystem</span><span class="o">.</span><span class="n">ByOriginVectors</span><span class="p">(</span><span class="n">pts</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">vec_from_line</span><span class="p">(</span><span class="n">new_crvs</span><span class="p">[</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="nb-Decodes">Vector</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">ZAxis</span><span class="p">;</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">vec_a</span> <span class="o">=</span> <span class="n">vec</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Cross</span><span class="p">(</span><span class="n">cs</span><span class="p">)</span><span class="o">.</span><span class="n">Normalize</span><span class="p">();</span><span class="n">new_crvs</span><span class="p">[</span><span class="n">Count</span><span class="p">(</span><span class="n">new_crvs</span><span class="p">)]</span> <span class="o">=</span> <span class="n">divide_crv</span><span class="p">(</span><span class="n">pts</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">pts</span><span class="p">[</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">vec_a</span><span class="p">);</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="p">}</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">all_crvs</span><span class="p">[</span><span class="n">Count</span><span class="p">(</span><span class="n">all_crvs</span><span class="p">)]</span> <span class="o">=</span> <span class="n">new_crvs</span><span class="p">;</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">}</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">}</span>
+</pre></div>
+</div>
+</div>

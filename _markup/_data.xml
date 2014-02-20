@@ -1,0 +1,444 @@
+<examples>
+<part title='Part Four' id='4'>
+    <chapter title='Aggregation' id='01'>
+        <example title='Neil Katz Tiling' id='F02'>
+            <script id='a' src='4_01_F02a.html'>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND TWO COMMENTS IN A ROW - ignoring the first one in codeblock 1"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND TWO COMMENTS IN A ROW - ignoring the first one in codeblock 1"></error>
+                <error msg="FOUND TWO COMMENTS IN A ROW - ignoring the first one in codeblock 1"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+            </script>
+        </example>
+    </chapter>
+    <chapter title='Complexity' id='02'>
+        <example title='Walkers' id='L04'>
+            <script id='a' src='4_02_L04a.html'>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+            </script>
+            <script id='b' src='4_02_L04b.html'>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+            </script>
+            <script id='c' src='4_02_L04c.html'>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+            </script>
+            <script id='d' src='4_02_L04d.html'>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+            </script>
+        </example>
+        <example title='Birds' id='L05'>
+            <script id='a' src='4_02_L05a.html'>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND TWO COMMENTS IN A ROW - ignoring the first one in codeblock 1"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND TWO COMMENTS IN A ROW - ignoring the first one in codeblock 1"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+            </script>
+            <script id='b' src='4_02_L05b.html'>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND TWO COMMENTS IN A ROW - ignoring the first one in codeblock 1"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND TWO COMMENTS IN A ROW - ignoring the first one in codeblock 1"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+            </script>
+        </example>
+    </chapter>
+    <chapter title='Decomposition' id='03'>
+        <example title='Foster Torus Prerational' id='F01'>
+            <script id='a' src='4_03_F01a.html'>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+            </script>
+            <script id='b' src='4_03_F01b.html'>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+            </script>
+        </example>
+        <example title='Dennis Shelden' id='F02'>
+            <script id='b' src='4_03_F02b.html'>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+            </script>
+            <script id='c' src='4_03_F02c.html'>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND TWO COMMENTS IN A ROW - ignoring the first one in codeblock 1"></error>
+                <error msg="FOUND TWO COMMENTS IN A ROW - ignoring the first one in codeblock 1"></error>
+                <error msg="FOUND TWO COMMENTS IN A ROW - ignoring the first one in codeblock 1"></error>
+                <error msg="FOUND TWO COMMENTS IN A ROW - ignoring the first one in codeblock 1"></error>
+            </script>
+        </example>
+        <example title='Bespoke Parameterizations' id='L01'>
+            <script id='a' src='4_03_L01a.html'>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+            </script>
+            <script id='b' src='4_03_L01b.html'>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND TWO COMMENTS IN A ROW - ignoring the first one in codeblock 1"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND TWO COMMENTS IN A ROW - ignoring the first one in codeblock 1"></error>
+                <error msg="FOUND TWO COMMENTS IN A ROW - ignoring the first one in codeblock 1"></error>
+                <error msg="FOUND TWO COMMENTS IN A ROW - ignoring the first one in codeblock 1"></error>
+                <error msg="FOUND TWO COMMENTS IN A ROW - ignoring the first one in codeblock 1"></error>
+                <error msg="FOUND TWO COMMENTS IN A ROW - ignoring the first one in codeblock 1"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND TWO COMMENTS IN A ROW - ignoring the first one in codeblock 1"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+            </script>
+            <script id='c' src='4_03_L01c.html'>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+            </script>
+        </example>
+        <example title='Curve Decomposition' id='L02'>
+            <script id='a' src='4_03_L02a.html'>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+            </script>
+        </example>
+    </chapter>
+    <chapter title='Exploration' id='04'>
+        <example title='Design Space of Colors' id='L01'>
+            <script id='a' src='4_04_L01a.html'>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+            </script>
+            <script id='b' src='4_04_L01b.html'>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+            </script>
+        </example>
+        <example title='A Design Space of Flatware' id='L02'>
+            <script id='a' src='4_04_L02a.html'>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+            </script>
+            <script id='b' src='4_04_L02b.html'>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND TWO COMMENTS IN A ROW - ignoring the first one in codeblock 1"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+            </script>
+            <script id='c' src='4_04_L02c.html'>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND TWO COMMENTS IN A ROW - ignoring the first one in codeblock 1"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND TWO COMMENTS IN A ROW - ignoring the first one in codeblock 1"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND TWO COMMENTS IN A ROW - ignoring the first one in codeblock 1"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+            </script>
+        </example>
+        <example title='Mathematical Tweening' id='L03'>
+            <script id='a' src='4_04_L03a.html'>
+            </script>
+            <script id='b' src='4_04_L03b.html'>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+            </script>
+            <script id='c' src='4_04_L03c.html'>
+            </script>
+            <script id='d' src='4_04_L03d.html'>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+            </script>
+        </example>
+        <example title='Design Space of Columns' id='L04'>
+            <script id='a' src='4_04_L04a.html'>
+                <error msg="FOUND TWO COMMENTS IN A ROW - ignoring the first one in codeblock 1"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+            </script>
+        </example>
+        <example title='Design Space of Blobs' id='L05'>
+            <script id='a' src='4_04_L05a.html'>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+            </script>
+            <script id='b' src='4_04_L05b.html'>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+            </script>
+        </example>
+    </chapter>
+    <chapter title='Fabrication' id='05'>
+        <example title='Bending Active' id='F01'>
+            <script id='a' src='4_05_F01a.html'>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+            </script>
+            <script id='b' src='4_05_F01b.html'>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND TWO COMMENTS IN A ROW - ignoring the first one in codeblock 1"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+            </script>
+        </example>
+        <example title='Toolpathing' id='L03'>
+            <script id='a' src='4_05_L03a.html'>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+            </script>
+            <script id='d' src='4_05_L03d.html'>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+            </script>
+        </example>
+    </chapter>
+    <chapter title='Optimization' id='07'>
+        <example title='Color Optimization' id='L01'>
+            <script id='a' src='4_07_L01a.html'>
+            </script>
+            <script id='b' src='4_07_L01b.html'>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+            </script>
+            <script id='c' src='4_07_L01c.html'>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND TWO COMMENTS IN A ROW - ignoring the first one in codeblock 1"></error>
+                <error msg="FOUND TWO COMMENTS IN A ROW - ignoring the first one in codeblock 1"></error>
+                <error msg="FOUND TWO COMMENTS IN A ROW - ignoring the first one in codeblock 1"></error>
+            </script>
+        </example>
+        <example title='Best Fit' id='L06'>
+            <script id='a' src='4_07_L06a.html'>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+            </script>
+            <script id='b' src='4_07_L06b.html'>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+            </script>
+            <script id='c' src='4_07_L06c.html'>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+            </script>
+            <script id='d' src='4_07_L06d.html'>
+                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+            </script>
+        </example>
+    </chapter>
+</part>
+</examples>
