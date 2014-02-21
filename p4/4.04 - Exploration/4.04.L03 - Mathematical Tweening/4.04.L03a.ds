@@ -1,10 +1,28 @@
+/*//
+4.04.L03a
+Given a a length in X ans Y, create a Diamond and and Astroid, create an interpolated Curve based on an m value.
+
+required: 
+len_x (float) Length of the Curve in X.
+len_y (float) Length of the Curve in Y.
+m (float) Interpolation value.
+
+result:
+crv_out (Curve) Interpolated Curve. 
+//*/
+
 import("Math.dll");
 import("ProtoGeometry.dll");
+
+/*
+Methods to create diamond and astroid curves. 
+*/
 
 def diamond(t)
 {
     c = Math.Cos((2 * Math.PI * t)*57.2957795);
     s = Math.Sin((2 * Math.PI * t)*57.2957795);
+    // create the Point
     pt_out = Point.ByCoordinates(len_x*Math.Abs(c)*c, len_y*Math.Abs(s)*s,0);
     return = pt_out;
 }
@@ -13,10 +31,14 @@ def astroid(t)
 {
     c = Math.Cos((2 * Math.PI * t)*57.2957795);
     s = Math.Sin((2 * Math.PI * t)*57.2957795);
+    // create the Point
     pt_out = Point.ByCoordinates(len_x * c * c * c, len_y * s * s * s,0);
     return = pt_out;
 }
 
+/*
+Method to interpolate between two curves given by func1 and func2, both defined on [0,1].
+*/     
 def func(t)
 {
     t1 = (1 - m);
@@ -25,10 +47,13 @@ def func(t)
     return = Point.ByCoordinates(x, y, 0); 
 }
 
+/*
+Interpolate between two different functions with the given values. 
+*/
 len_x = 10.0;
 len_y = 6.0;
 m = 0.8;
 tol = 0.01;
 crv_domain = 0..1..tol;
-Print(crv_domain);
+// pass an array and replicate the method for every value of the array
 morph = BSplineCurve.ByPoints(func(crv_domain));

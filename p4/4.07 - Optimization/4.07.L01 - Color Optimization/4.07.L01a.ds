@@ -1,16 +1,40 @@
+/*//
+4.07.L01a
+Given a sample Color and a goal Color to test against (either in HSV or RGB), check their closeness.
+
+required:
+sample (Color) A sample Color.
+goal (Color) A goal Color.
+
+result:
+fitness (func)  Function to check closeness of a sample color to the goal color (0 to 1).
+//*/
+
 import("ProtoGeometry.dll");
 import("Math.dll");
 
+/*
+Method that checks the closeness of a sample Color to the goal Color (0 to 1).
+*/
 def fitness(sample)
 {
+    // get the difference between sample and goal Color
     dhue = 1 - Math.Abs(sample.RedValue - goal.RedValue);
     dsat = 1 - Math.Abs(sample.GreenValue - goal.GreenValue);
     dval = 1 - Math.Abs(sample.BlueValue - goal.BlueValue);
+    // get the sum of the differences
     sum = (dhue * red_weight) + (dsat * green_weight) + (dval * blue_weight);
+    // get the average
     return = sum / (red_weight + green_weight + blue_weight);
 }
 
+/*
+Get a fit Color
+*/
+
+// define the weight of each RGB color in the search
 red_weight = 255;
 green_weight = 255;
 blue_weight = 255;
+// define a goal Color
 goal = Color.ByARGB(255, 180, 60, 90);

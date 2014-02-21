@@ -1,6 +1,27 @@
+/*//
+4.05.F01a
+Given 2 Circle radii, create 2 Circles and subdivide them in a given number of Points. Translate the Points of the larger Circle in Z direction with a sine function. Create bezier Curves with the Points of both Circles and a mid Point.
+
+required:
+rad_small (float) Radius of the inner Circle.
+rad_large (float) Radius of the outter Circle.
+divs (int) Number of divisions for the Circle.
+mid_pt (float) Value to evaluate the Segments between inner and outer Circle to get the mid Point. 
+height (float) Heigth of the bezier Curve.
+strength (float) Displacement strength for the Points affected by the sine function.
+
+result:
+curve (Curve) Bezier Curves.
+//*/
+
 import("ProtoGeometry.dll");
 import("Math.dll");
 
+/*
+Create 2 Circles, subdvide the Circles into a number of Points. With the given Points construct segments, and displace the mid Point of the Segment in Z. 
+*/
+
+// define some initial values
 rad_small = 5.06;
 rad_large = 26.14;
 divs = 50;
@@ -8,23 +29,31 @@ mid_pt = 0.35;
 height = 8.00;
 strength = 2.80;
 
-// Create the interior and exterior circles 
+// create the interior and exterior circles 
 cir1 = Point.AtParameter(Circle.ByCenterPointRadius(Point.ByCoordinates(0, 0, 0), rad_small),0..1..#divs); 
 cir2 = Point.AtParameter(Circle.ByCenterPointRadius(Point.ByCoordinates(0, 0, 0), rad_large),0..1..#divs);
 
-// Move the points of the larger circle up with sine values.
+// move the points of the larger circle in z with sine values.
 humps = 3;
 sine = (Math.Sin(Math.RadiansToDegrees(0..Math.PI * 2 * humps..#divs)) + 1) * strength; //[(math.sin(i) + 1) * strength for i in Interval(0, math.pi * 2 * humps).divide(divs)];
 
 cir2 = cir2.Translate(0, 0, sine);
+// get the mid Point between inner and outer Points
 mid = Point.AtParameter(Line.ByStartPointEndPoint(cir1, cir2),mid_pt).Translate(0,0,height); //{  cir1 , cir2};
+
+/*
+Create Curves with the given lists of Points.
+*/
 pl = { };
 [Imperative]
 {
+    // for every index and Point in the lists of Points: 
     for(i in 0..divs - 1)
     {
+        // if even: flip the order of the list
         if (i%2 == 0)
             {pl[Count(pl)] = BSplineCurve.ByPoints({ cir1[i], mid[i], cir2[i] });}
+        // create a Curve with the list of points
         else
             {pl[Count(pl)] = BSplineCurve.ByPoints({ cir2[i], mid[i], cir1[i] });}
     }

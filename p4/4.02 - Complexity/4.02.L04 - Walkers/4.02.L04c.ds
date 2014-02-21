@@ -48,6 +48,9 @@ class Guy
     }
 }
 
+/*
+Steps a number of times with a collection in an Associative code
+*/
 def stepper(x, guy)
 {
     guy.Step();
@@ -60,5 +63,6 @@ start_vel = Vector.ByCoordinates(0.59, 1.0, 0);
 // initialize an instance of the Guy class
 debord = Guy.FromPosVel(start_pt, start_vel);
 steps = 30;
+// steps multiple times
 pts = stepper(0..steps, debord);
-lines = pts_to_lines(pts);
+// make a path from the points

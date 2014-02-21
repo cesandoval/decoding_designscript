@@ -1,10 +1,28 @@
+/*//
+4.04.L03b
+Given a 2 curve methods, generate a number of interpolated Curves to define a series of tower floor plates.
+
+requires: 
+func1 (func) Method to create a diamond Curve.
+func2 (func) Method to create an astroid Curve.
+numfloors (int) Number of floor plates for the tower.
+floorheight (float) Distance between floor plates. 
+
+return:
+floor_plate (Curve) Tweened curve.
+//*/
+
 import("Math.dll");
 import("ProtoGeometry.dll");
 
+/*
+Methods to create ellipse and astroid curves. 
+*/
 def ellipse(t)
 {
     c = Math.Cos((2 * Math.PI * t)*57.2957795);
     s = Math.Sin((2 * Math.PI * t)*57.2957795);
+    // create the Point
     pt_out = Point.ByCoordinates(len_x * c, len_y * s,0);
     return = pt_out;
 }
@@ -14,20 +32,27 @@ def astroid(t)
 {
     c = Math.Cos((2 * Math.PI * t)*57.2957795);
     s = Math.Sin((2 * Math.PI * t)*57.2957795);
+    // create the Point
     pt_out = Point.ByCoordinates(len_x * c * c * c, len_y * s * s * s,0);
     return = pt_out;
 }
 
 def func(n,t)
 {
+    // every floor has a different m value
     m = n/num_floors;
     t1 = (1 - m);
     x = ellipse(t).X * t1 + astroid(t).X * m;
     y = ellipse(t).Y * t1 + astroid(t).Y * m;
+    // create a new CS for every floor plate
     base_cs = CoordinateSystem.ByOriginVectors(Point.ByCoordinates(0, 0, n*f_height), Vector.ByCoordinates(1, 0, 0), Vector.ByCoordinates(0, 1, 0));
+    // create the Point
     return = Point.ByCartesianCoordinates(base_cs, x, y, 0); 
 }
 
+/*
+Generate a number of tweened Curves to define a series of floor plates.
+*/
 len_x = 10.0;
 len_y = 6.0;
 num_floors = 15;
@@ -36,4 +61,5 @@ floor_range = 0..num_floors;
 
 tol = 0.01;
 crv_domain = 0..1..tol;
+// create an interpolated Curve on every floor height
 curves = BSplineCurve.ByPoints(func(floor_range<1>, crv_domain<2>));

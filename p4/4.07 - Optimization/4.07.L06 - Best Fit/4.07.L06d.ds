@@ -1,22 +1,45 @@
+/*//
+4.07.L06d
+Method that creates a bounding box around a PGon, and rotates the PGon incrementally until the bounding box with the least possible area is created.
+
+required: 
+divs (int) Number of divisions of rotation per level.
+levels (int) Number of iterations.
+min_a (float) Minimum angle of rotation.
+max_a (float) Maximum angle of rotation.
+
+result: 
+trial (PGon) Polygon rotated to minimum bounds.
+//*/
+
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
 
-//Method that creates a copy of a PGon rotated to its best-fit bounding box.
+/*
+Method that creates a copy of a PGon rotated to its best-fit bounding box.
+*/
+
 def rotated_to_min_bounds(pgon, divs, min_a, max_a)
 {
     // define the rotation per iteration
     delta_a = (max_a - min_a) / divs;
     old_cs = CoordinateSystem.ByOriginVectors(pgon.Plane.Origin, Vector.ByCoordinates(1, 0, 0), Vector.ByCoordinates(0, 1, 0));
-
+    // create an array of rotation values
     rot_vals = 0..max_a..Math.Abs(min_a - delta_a);
     rot_vals = min_a - delta_a < 0 ? rot_vals * - 1 : rot_vals;
+    // rotate the pgon a number of times
     new_cs = old_cs.Rotate(rot_vals, Vector.ByCoordinates(0, 0, 1), pgon.Plane.Origin);
     rot_pgons = pgon.Transform(old_cs, new_cs);
     sort_areas = SortIndexByValue(rec_area(bbox(rot_pgons)));
+    // get the pgon with smaller area
     return = rot_pgons[sort_areas[0]];
 }
     
+/*
+Create a Polygon and get the bounding box with the minimum area
+*/
+// Polygon vertices
 pt1 = Point.ByCoordinates( 87.203388, 0.52832, 0.0);
 pt2 = Point.ByCoordinates( 42.235215, 12.641043, 0.0);
 pt3 = Point.ByCoordinates( 9.841794, 42.797236, 0.0);
@@ -27,5 +50,6 @@ pt7 = Point.ByCoordinates( 42.996108, -41.577944, 0.0);
 pt8 = Point.ByCoordinates( 35.272798, -31.250708, 0.0);
 pt9 = Point.ByCoordinates(48.306591, 0.0, 0.0);
 
+// create a polygon and get the minimum bounding box
 pgon = Polygon.ByVertices({ pt1, pt2, pt3, pt4, pt5, pt6, pt7, pt8, pt9 });
 trial = rotated_to_min_bounds(pgon, 55, 0, 180);

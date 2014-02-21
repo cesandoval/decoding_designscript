@@ -1,3 +1,21 @@
+/*//
+4.04.L02a
+Creates a Prong class with methods for the creation of a Prong object for the flatware design space.
+
+members:
+chin (Point) A Point that represents the Prong's origin
+cheek (Point) A Point that represents the Prong's midpoint
+head (Point) A point that represents the Prong's tip
+is_left (bool) A boolean value that indicates the location of this Prong on the flatware
+
+methods:
+set_knife(Point, Point) Sets the final chin and tip Points for the knife location of this Prong
+set_fork(Point, Point) Sets the final chin and tip Points for the fork location of this Prong
+set_spoon(Point, Point) Sets the final chin and tip Points for the spoon location of this Prong
+make_cutlery(float, float, float) Modifies the chin, cheek and head Point locations based on knifiness, forkiness, spooniness
+to_curve() Returns the modified Plines representation of this Prong
+//*/
+
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
@@ -49,7 +67,9 @@ class Prong
         Head_Spoon = head;
     }
       
-    //Given forkiness, spooniness and knifiness values, this function creates a hybridized Prong.
+    /*
+    Given forkiness, spooniness and knifiness values, this function creates a hybridized Prong.
+    */
     def make_cutlery(knifiness, forkiness, spooniness)
     {
         // create a cheek movement vector from all given values

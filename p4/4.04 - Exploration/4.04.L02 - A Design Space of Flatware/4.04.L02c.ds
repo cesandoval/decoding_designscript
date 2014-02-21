@@ -1,3 +1,19 @@
+/*//
+4.04.L02c
+Given three parameters - knifiness, spooniness, and forkiness - produce a two-dimensional outline of a piece of flatware that is an appropriate "hybrid" of each of these three archetypes.
+
+required:
+Prong (class) A class that creates Prongs from given Points
+Webs(class) A class that creates Webs from two Prongs
+knifiness (float) An index of the current flatware's knifiness
+forkiness (float) An index of the current flatwares's forkiness
+spooniness (float) An index of the current flateware's spooniness
+
+
+results:
+([Pline]) A list of Plines representing a "hybrid" piece of flatware
+//*/
+
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
@@ -49,7 +65,9 @@ class Prong
         Head_Spoon = head;
     }
       
-    //Given forkiness, spooniness and knifiness values, this function creates a hybridized Prong.
+    /*
+    Given forkiness, spooniness and knifiness values, this function creates a hybridized Prong.
+    */
     def make_cutlery(knifiness, forkiness, spooniness)
     {
         // create a cheek movement vector from all given values
@@ -135,7 +153,9 @@ class Web
         Pull_spoon = pull;
     }
               
-    //Given forkiness, spooniness and knifiness values, this function creates a hybridized Web.
+    /*
+    Given forkiness, spooniness and knifiness values, this function creates a hybridized Web.
+    */
     def make_cutlery(knifiness, forkiness, spooniness)
     {
         // create a movement vector from all given values
@@ -153,7 +173,9 @@ class Web
         Middle = Middle.Translate(pull_vec.X, pull_vec.Y, pull_vec.Z);
     }
     
-    //This function calculates the Web's intersection with the prongs and returns a trimmed Web
+    /*
+    This function calculates the Web's intersection with the prongs and returns a trimmed Web
+    */
     def get_subcrv()
     {
         w_edge = this.to_curve();
@@ -177,7 +199,9 @@ class Web
     }
 
 
-    //This function determines the concavity of the Web
+    /*
+    This function determines the concavity of the Web
+    */
     def is_mountain()
     {
         // if the web is on the left side of the flatware:
@@ -229,13 +253,16 @@ class Web
     }
 }
 
-// Initial values
+/*
+Create Prongs and Webs for the Design space of flatware
+*/
+
+// initial values
 knifiness = 0.0;
 forkiness = 1.0;// 0.47;
 spooniness = 1.0;
 
-// Create Prongs and Webs for the Design space of flatware
-// Initialize Prongs at chin locations
+// initialize Prongs at chin locations
 prong_lst = { Prong.ByChin(Point.ByCoordinates(-4, 0, 0), true), Prong.ByChin(Point.ByCoordinates(-2, 0, 0), true), Prong.ByChin(Point.ByCoordinates(1, 0, 0), false), Prong.ByChin(Point.ByCoordinates(3, 0, 0), false) };
 
 // set knife, fork, and spoon values for each Prong's cheek and head
@@ -266,7 +293,9 @@ web_lst.set_spoon(Point.ByCoordinates(0, 24, 0));
 web_lst.make_cutlery(knifiness, forkiness, spooniness);
 
 
-// Modify the webs according to their concavity. This allows for webs to combine in case of knifiness or spooniness.
+/*
+Modify the webs according to their concavity. This allows for webs to combine in case of knifiness or spooniness.
+*/
 // if the center Web is convex:
 [Imperative]
 {

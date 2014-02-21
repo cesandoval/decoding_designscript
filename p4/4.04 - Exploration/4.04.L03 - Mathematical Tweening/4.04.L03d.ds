@@ -1,3 +1,20 @@
+/*//
+4.04.L03d
+Given a list of numbers, 2 curve functions and a floor height, generate a number of tweened Curves to define a series of tower floor plates.
+
+required: 
+func1 (func) Method to create a diamond Curve.
+func2 (func) Method to create an astroid Curve.
+floorheight (float) Distance between floor plates. 
+skew ([float]) List of values to interpolate the Curves.
+
+result:
+floor_plates ([Curve])
+//*/
+
+/*
+Methods to create ellipse and astroid curves. 
+*/
 import("ProtoGeometry.dll");
 import("Math.dll");
 
@@ -27,6 +44,9 @@ def func(n,t,skew)
     return = Point.ByCartesianCoordinates(base_cs, x, y, 0); 
 }
 
+/*
+Method to modify a value with mathematical functions.
+*/
 def f(x)
 {
     return = [Imperative]
@@ -46,17 +66,25 @@ def f(x)
     }
 }
 
+/*
+Generate a series of numbers, and modify them with a method based on mathematical functions.
+*/
 skew = 0.6;
 count = 18;
 interval = 0..1..#count;
 skew_val = MapTo(f(0), f(1), f(interval), 0, 1);
 
+/*
+Given a list of values, interpolate between 2 curves based on each one of the values of the list. 
+*/
 len_x = 10.0;
 len_y = 6.0;
 num_floors = 15;
 f_height = 3.0;
+// create an array of floor indeces
 floor_range = 0..num_floors;
 
 tol = 0.01;
 crv_domain = 0..1..tol;
+// create a interpolated Curve on every floor height
 curves = BSplineCurve.ByPoints(func(floor_range<1>, crv_domain<2>, skew_val<1>));

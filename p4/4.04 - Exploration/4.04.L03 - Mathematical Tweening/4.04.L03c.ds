@@ -1,16 +1,35 @@
+/*//
+4.04.L03c
+Given an Interval, a count, and a skew factor, generate a series of numbers whose distribution mirror a mathematical curve.
+
+required: 
+ival (Interval) Base Interval to use.
+count (int) Number of numbers.
+skew (float) Skew factor. 
+
+return: 
+vals ([float]) List of numbers.
+//*/
+
 import("Math.dll");
 
+/*
+Method to modify a value with mathematical functions.
+*/
 def f(x)
 {
     return = [Imperative]
     {
+        // construct an interval and evaluate a number
         s = MapTo(0, 1, skew, 0.00001, 4);
         x = x - 0.5;
         y = 0.0;
+        // if x smaller than zero: the value will be negative
         if (x < 0)
         {
             y = -Math.Pow(Math.Sqrt(-x),s);
         }
+        // if x larger than zero: the value will be positive
         if (x > 0)
         {
             y = Math.Pow(Math.Sqrt(x),s);
@@ -19,10 +38,14 @@ def f(x)
     }
 }
 
+/*
+Generate a series of numbers, and modify them with a method based on mathematical functions.
+*/
 skew = 0.84;
 count = 20;
 interval = 0..1..#count;
+// remap within the base y values Interval
 skew_val = MapTo(f(0), f(1), f(interval), 0, 1);
-Print(skew_val);
+
 
     

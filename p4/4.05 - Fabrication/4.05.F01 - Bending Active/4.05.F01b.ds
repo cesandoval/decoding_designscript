@@ -1,45 +1,64 @@
+/*//
+4.05.F01b
+Given a number of Curves, subidivide them, create an Arc with a given radius and get the tangent Points of the current Circle with the previous Point to create straight Segments.
+
+required:
+crvs ([Cuve]) Given Curves to subdivide.
+rad (float) Radius for the Arcs.
+divs (int) Number of divisions for the curves 
+
+result:
+pts ([Point]) List of starting Points for the new Curves.
+new_crvs ([Arc and Segment]) Arcs and Segments created from the bezier Curves.
+//*/
+
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
 
-
-// Get the first perpendicular vector
+/*
+Methods to get the first perpendicular vector on a Curve, and divide a Curve with the given Points into Segments and Arcs
+*/
 def perp_vec(vec1, vec2, pt)
 {
-    // Get the bisector of vec1 and vec2
+    // get the bisector of vec1 and vec2
     bisecs = bisector(vec1.Scale(-1), vec2);
-    // Get the perpendicular vector to the bisector
+    // get the perpendicular vector to the bisector
     return = bisecs.Cross(CoordinateSystem.ByOriginVectors(pt, bisecs, Vector.ByCoordinates(0, 0, 1)).ZAxis).Normalize();
 }
 
-// Divide a curve with the given points into segments and arcs
+// divide a curve with the given points into segments and arcs
 def divide_crv(pt_a, pt_b, vec)
 {
     tan = Vector.ByCoordinates(vec.X * rad, vec.Y * rad, vec.Z * rad);
-    // Move the point with the tan vector
+    // move the point with the tan vector
     new_pt = pt_a.Translate(tan.X, tan.Y, tan.Z);
-    // Find the tangent point on a circle from a given point
+    // find the tangent point on a circle from a given point
     pt = Point.AtParameter(Line.ByStartPointEndPoint(new_pt, pt_b), 0.5);
     cira = Circle.ByCenterPointRadius(new_pt, rad, CoordinateSystem.ByOriginVectors(new_pt, tan, Vector.ByCoordinates(0, 0, -1)).ZAxis);
     cirb = Circle.ByCenterPointRadius(pt, pt.DistanceTo(new_pt), CoordinateSystem.ByOriginVectors(pt, tan, Vector.ByCoordinates(0, 0, -1)).ZAxis);
-    // Get the intersections between the circles to get the tangent points
+    // get the intersections between the circles to get the tangent points
     inters = Count(cira.Intersect(cirb)) > 0 ? cira.Intersect(cirb) : null;
-    // Only keep the intersection point closer to the original point
+    // only keep the intersection point closer to the original point
     segs_index = Count(inters) > 1 ? SortIndexByValue(Line.ByStartPointEndPoint(pt_a, inters).Length)[0] : 0;
     new_inters = inters[segs_index];
-    // Create a straight segment
+    // create a straight segment
     ln = Line.ByStartPointEndPoint(new_inters, pt_b);
-    // Get the angle between the tan and a new vector from the intersection to the center pt
+    // get the angle between the tan and a new vector from the intersection to the center pt
     ang = angle(tan, vec_two_points(new_inters, new_pt));
-    // Create the arc 
+    // create the arc 
     cross_vec = tan.Cross(CoordinateSystem.ByOriginVectors(new_pt, tan, vec_two_points(new_pt, pt_b)).ZAxis).Scale(-1);
     cs = CoordinateSystem.ByOriginVectors(new_pt, tan.Scale(-1), cross_vec);
-    //arc = Arc.ByCenterPointRadiusAngle(cs.Origin, rad, 0, ang, cs.ZAxis);
     arc = Arc.ByCenterPointStartPointSweepAngle(cs.Origin,pt_a,ang,cs.ZAxis);
     return = { arc, ln };
 }
 
 
+/*
+Create 2 Circles, subdvide the Circles into a number of Points. With the given Points construct segments, and discrvsace the mid Point of the Segment in Z. 
+*/
+
+// define some initial values
 rad_small = 5.06;
 rad_large = 26.14;
 divs = 50;
@@ -47,32 +66,43 @@ mid_pt = 0.35;
 height = 8.00;
 strength = 2.80;
 
-// Create the interior and exterior circles 
+// create the interior and exterior circles 
 cir1 = Point.AtParameter(Circle.ByCenterPointRadius(Point.ByCoordinates(0, 0, 0), rad_small),0..1..#divs); 
 cir2 = Point.AtParameter(Circle.ByCenterPointRadius(Point.ByCoordinates(0, 0, 0), rad_large),0..1..#divs);
 
-// Move the points of the larger circle up with sine values.
+// move the points of the larger circle in z with sine values.
 humps = 3;
 sine = (Math.Sin(Math.RadiansToDegrees(0..Math.PI * 2 * humps..#divs)) + 1) * strength; //[(math.sin(i) + 1) * strength for i in Interval(0, math.pi * 2 * humps).divide(divs)];
 
 cir2 = cir2.Translate(0, 0, sine);
+// get the mid Point between inner and outer Points
 mid = Point.AtParameter(Line.ByStartPointEndPoint(cir1, cir2),mid_pt).Translate(0,0,height); //{  cir1 , cir2};
-// Construct BSplineCurves with 3 Points
+
+/*
+Create Curves with the given lists of Points.
+*/
 crvs = { };
 [Imperative]
 {
+    // for every index and Point in the lists of Points: 
     for(i in 0..divs - 1)
     {
+        // if even: flip the order of the list
         if (i%2 == 0)
             {crvs[Count(crvs)] = BSplineCurve.ByPoints({ cir1[i], mid[i], cir2[i] });}
+        // create a Curve with the list of points
         else
             {crvs[Count(crvs)] = BSplineCurve.ByPoints({ cir2[i], mid[i], cir1[i] });}
     }
 }
 
+/*
+Given a list of bezier Curves, subdivide them into a number of Points, and use every pair of Points to create an Arc and a Segment. 
+*/
+
 crv_divs = 5;
 rad = 3.00;
-// Divide the crvs in 4 pts 
+// divide the crvs in 4 pts 
 t = 0..1..#crv_divs;
 pts = Point.AtParameter(crvs<1>, t<2>);
 
@@ -81,11 +111,11 @@ all_crvs = { };
 {
     for (i in 0..Count(crvs) - 1)
     {
-        // Divide the crvs in Segments and Arcs
-        // Get the first Sement and Arc
+        // divide the crvs in Segments and Arcs
+        // get the first Segment and Arc
         pts = Point.AtParameter(crvs[i], t);
         new_crvs = { divide_crv(pts[0], pts[1], perp_vec(Vector.ByCoordinates(0, 0, -1), vec_two_points(pts[0], pts[1]), pts[0])) };
-        // With the perpendicular vector, loop throught the remaining points to create new Arcs and Segments
+        // with the perpendicular vector, loop throught the remaining points to create new Arcs and Segments
         for(n in 1..Count(pts) - 2)
         { 
             vec = vec_from_line(new_crvs[n - 1][1]);

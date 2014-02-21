@@ -1,29 +1,56 @@
+/*//
+4.07.L01c
+Given a fitness function, perform a directed search. Step size by checking neighboring Colors and moving in the direction of best fit. Create a path representing search history.
+
+required: 
+fitness (func) Fitness function.
+step (float) Step size for search.
+threshold (float) Threshold for fitness. 
+sample (Color) Sample Color.
+
+result: 
+sample (Color) Sample Color to compare. 
+//*/
+
 import("ProtoGeometry.dll");
 import("Math.dll");
 
+/*
+Method that checks the closeness of a sample Color to the goal Color (0 to 1).
+*/
 def fitness(sample)
 {
-    dhue = 255 - Math.Abs(Math.Floor(sample.RedValue - goal.RedValue));
-    dsat = 255 - Math.Abs(Math.Floor(sample.GreenValue - goal.GreenValue));
-    dval = 255 - Math.Abs(Math.Floor(sample.BlueValue - goal.BlueValue));
+    // get the difference between sample and goal Color
+    dhue = 1 - Math.Abs(sample.RedValue - goal.RedValue);
+    dsat = 1 - Math.Abs(sample.GreenValue - goal.GreenValue);
+    dval = 1 - Math.Abs(sample.BlueValue - goal.BlueValue);
+    // get the sum of the differences
     sum = (dhue * red_weight) + (dsat * green_weight) + (dval * blue_weight);
-    //Print(Math.Floor(sum / (red_weight + green_weight + blue_weight)));
-    return = Math.Floor(sum / (red_weight + green_weight + blue_weight));
+    // get the average
+    return = sum / (red_weight + green_weight + blue_weight);
 }
 
-// function to return a list of colors in the neighborhood to evaluate
+/*
+Function to return a list of colors in the neighborhood to evaluate.
+*/
 def nearby_clrs(clr, r_delta,g_delta,b_delta)
 {
     return = [Imperative]
     {
+        // if the sum of the abs values is not 0
         if ((Math.Abs(Math.Floor(r_delta)) + Math.Abs(Math.Floor(g_delta)) + Math.Abs(Math.Floor(b_delta))) != 0)
         {
+            // create a new Color
             clr = Color.ByARGB(255, samp.RedValue + r_delta, samp.GreenValue + g_delta, samp.BlueValue + b_delta);
+            // add the Color 
             return = clr;
         }
     }
 }
 
+/*
+Check each sample Point against nearby Points.
+*/
 
 // define goal values
 red_weight = 255;

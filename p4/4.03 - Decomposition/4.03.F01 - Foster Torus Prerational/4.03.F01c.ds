@@ -1,22 +1,40 @@
+/*//
+4.03.F01d
+Given three Circles and a tangent Vec, create three Circles and create a Circle that is tangent to every pair of Circles. Create Arcs with the intersection Points and the centroids of the Circles. 
+
+required: 
+cir_a (Circle) First circle. 
+cir_b (Circle) Second circle. 
+cir_c (Circle) Third Circle.
+tan_off (float) Tangent offset value for the circles.
+
+out: 
+ret ([Arc]) List of Arcs. 
+//*/
+
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
 
-
+/*
+Given 3 Circles, create 2 mutually tangent Circles, and Arcs based on their tangent Points. Create a RotationalSurface with the Arcs.
+*/
 cir_a = Circle.ByCenterPointRadius(Point.ByCoordinates(0, 5.1, 0), 1.50);
 cir_b = Circle.ByCenterPointRadius(Point.ByCoordinates(4.95, 4.70, 0), 2.88);
 cir_c = Circle.ByCenterPointRadius(Point.ByCoordinates(10, 4.88, 0), 1.86);
 tan_off = -0.40 * Math.PI;
 
-// Get the mutually tangent circle to two given circles, and the tangent points on the circles
+// given two Circles, get a mutually tangent Circle 
 circ1_extras = circle_mutually_tangent(cir_a, cir_b, tan_off, true).SetVisibility(false);
 cir_ab = circ1_extras[0].SetVisibility(false);
+// get a point on the perimeter of the Circle
 pt_ab = circ1_extras[1];
 pt_ba = circ1_extras[2];
 
-// Get the mutually tangent circle to two given circles, and the tangent points on the circles
+// given two Circles, get a mutually tangent Circle 
 circ2_extras = circle_mutually_tangent(cir_b, cir_c, tan_off, true).SetVisibility(false);
 cir_bc = circ2_extras[0].SetVisibility(false);
+// get a point on the perimeter of the Circle
 pt_bc = circ2_extras[1];
 pt_cb = circ2_extras[2];
 
@@ -26,7 +44,7 @@ vec_a = Vector.ByCoordinates(-1, 1, 0).Normalize().Scale(cir_a.Radius);
 pt_a = Point.ByCoordinates(cir_a.CenterPoint.X + vec_a.X, cir_a.CenterPoint.Y + vec_a.Y, cir_a.CenterPoint.Z + vec_a.Z);
 
 
-// Get the starting point of the first arc by getting a point diagonal to the circle origin
+// Get the starting point of the second arc by getting a point diagonal to the circle origin
 vec_c = Vector.ByCoordinates(1, 1, 0).Normalize().Scale(cir_c.Radius);
 pt_c = Point.ByCoordinates(cir_c.CenterPoint.X + vec_c.X, cir_c.CenterPoint.Y + vec_c.Y, cir_c.CenterPoint.Z + vec_c.Z);
 
@@ -43,4 +61,5 @@ arc_bc = Arc.ByCenterPointStartPointSweepPoint(cir_bc.CenterPoint, pt_bc, pt_cb)
 arc_c = Arc.ByCenterPointStartPointSweepPoint(cir_c.CenterPoint, pt_c, pt_cb);
 
 rot_w = 0.30 * Math.PI;
+// create a RotationalSurface with the array of arcs
 srf = Surface.Revolve({ arc_a, arc_ab, arc_b, arc_bc, arc_c }, Point.ByCoordinates(0,0,0),Vector.ByCoordinates(1, 0, 0), Math.RadiansToDegrees((Math.PI / 2) - rot_w), Math.RadiansToDegrees((Math.PI / 2) + rot_w));

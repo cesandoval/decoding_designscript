@@ -1,3 +1,15 @@
+/*//
+4.02.L04a
+Create a simple Guy class
+
+members:
+pos (Point) The location of the Guy object
+vel (Vec) The velocity vector of the Guy object
+
+methods:
+step (None) Update Guys position and choose a new direction velocity vector
+//*/ 
+
 import("ProtoGeometry.dll");
 import("Math.dll");
 

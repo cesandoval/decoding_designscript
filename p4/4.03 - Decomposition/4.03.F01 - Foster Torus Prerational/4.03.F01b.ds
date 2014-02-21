@@ -1,8 +1,22 @@
+/*//
+4.03.F01c
+Create a Torus and a Plane to split it. Return a list with the split portions of the Torus.
+
+required: 
+split_pline (func) A function to split PLines.
+param (int) Type of torus parameterization. 
+
+result: 
+ret ([Pline]) a list of PLines.
+//*/
+
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
 
-
+/*
+Creates a Torus class with methods to create different types of Surface parameterizations. The Torus class is a subclass of the ClassicalSurface class
+*/
 class Torus
 {
     Cs;
@@ -10,7 +24,8 @@ class Torus
     Minor_radius;
     Param_type;
     Draw;
-
+    
+    // Torus constructor
     constructor FromMajorMinorRadius(cs, major_radius, minor_radius, dom_u : double[], dom_v : double[], divs, param_type)
     {
         // Define a CS, major and minor radii, and a parameterization type for the torus
@@ -18,7 +33,7 @@ class Torus
         Major_radius = major_radius;
         Minor_radius = minor_radius;
         Param_type = param_type;
-        // Call the constructor of the super class with the constructor of the Torus subclass
+        // Call the constructor of a BSplineSurface with the constructor of the Torus
         Draw = BSplineSurface.ByPoints(func(dom_u<1>, dom_v<2>));
     }
         
@@ -33,6 +48,7 @@ class Torus
                 phi = v;
                 cos_gamma = -this.Minor_radius * Math.Sin(Math.RadiansToDegrees(phi)) / (this.Major_radius * this.sin_alpha());
                 psi_v1;
+                // if phi is within a range:
                 if (phi > 0.5 * Math.PI && phi < 1.5 * Math.PI)
                 {
                     psi_v1 = Math.Atan2(-this.Major_radius * Math.Sqrt(1 - cos_gamma * cos_gamma) + this.Minor_radius, this.Major_radius * this.cos_alpha() * cos_gamma);
@@ -44,9 +60,7 @@ class Torus
                 //Villarceau #1  (t = "gamma") function for param_type 1
                 if (this.Param_type == 1)
                 {
-                    test = this.func_v1(u, psi_v1);
-                    //Print(test);
-                    return = test;
+                    return = this.func_v1(u, psi_v1);
                 }
                 //Villarceau #2  (t = "gamma") function for param_type 2
                 else
@@ -59,6 +73,7 @@ class Torus
             else
             {
                 rho = this.Major_radius + this.Minor_radius * Math.Cos(Math.RadiansToDegrees(v));
+                // obtain a point by evaluating the Torus' CS
                 pt_out = Point.ByCartesianCoordinates(this.Cs, rho * Math.Cos(Math.RadiansToDegrees(u)), rho * Math.Sin(Math.RadiansToDegrees(u)), this.Minor_radius * Math.Sin(Math.RadiansToDegrees(v)));
                 return = pt_out;
             }
@@ -81,38 +96,50 @@ class Torus
         return = Math.Sin(Math.RadiansToDegrees(this.alpha()));
     }
         
-    //param_type 1 function Villarceau #1  (t = "gamma")
+    // method to create a param_type 1 or Villarceau #1 
     def func_v1(t, psi)
     {
+        // define X, Y, and Z values
         x1 = this.Major_radius * this.cos_alpha() * Math.Cos(Math.RadiansToDegrees(t));
         y1 = this.Major_radius * Math.Sin(Math.RadiansToDegrees(t)) + this.Minor_radius;
         z1 = -this.Major_radius * this.sin_alpha() * Math.Cos(Math.RadiansToDegrees(t));
         old_cs = CoordinateSystem.ByOriginVectors(this.Cs.Origin,Vector.ByCoordinates(0,0,1),Vector.ByCoordinates(0,1,0));
+        // define a rotation CS
         new_cs = CoordinateSystem.ByOriginVectors(this.Cs.Origin,Vector.ByCoordinates(0,0,1),Vector.ByCoordinates(0,1,0)).Rotate(-psi, Vector.ByCoordinates(1, 0, 0));
+        // obtain a point by evaluating the Torus' CS
         pt_out = Point.ByCartesianCoordinates(this.Cs, x1, y1, z1);
         return = pt_out.Transform(old_cs, new_cs);
     }
     
-    // param_type 2 function Villarceau #2  (t = "gamma")
+    // method to create a param_type 2 or Villarceau #2  
     def func_v2(t, psi)
     {
+        // define X, Y, and Z values
         x = this.Major_radius * this.cos_alpha() * Math.Cos(Math.RadiansToDegrees(t));
         y = this.Major_radius * Math.Sin(Math.RadiansToDegrees(t)) - this.Minor_radius;
         z = -this.Major_radius * this.sin_alpha() * Math.Cos(Math.RadiansToDegrees(t));
         old_cs = CoordinateSystem.ByOriginVectors(this.Cs.Origin,Vector.ByCoordinates(0,0,1),Vector.ByCoordinates(0,1,0));
+        // define a rotation CS
         new_cs =CoordinateSystem.ByOriginVectors(this.Cs.Origin,Vector.ByCoordinates(0,0,1),Vector.ByCoordinates(0,1,0)).Rotate(-psi, Vector.ByCoordinates(1, 0, 0));
+        // obtain a point by evaluating the Torus' CS
         pt_out = Point.ByCartesianCoordinates(this.Cs, x, y, z);
         return = pt_out.Transform(old_cs, new_cs);
     }
 }
 
-// Function to create isocurves from a torus surface 
+
+/*
+Method to create isocurves from a Torus Surface 
+*/
 def iso_crvs(torus, torus2, flip)
 {
     u_divs = 0..1..#30;
     v_divs = 0..1..#30;
+    // replicate the domain to create v BSplineCurves
     tor_lns_u = BSplineCurve.ByPoints(torus.PointAtParameter(u_divs<1>, v_divs<2>));
+    // replicate the domain to create u BSplineCurves, flip the graph if necessary
     tor_lns_v = flip == true ? BSplineCurve.ByPoints(torus2.PointAtParameter(u_divs<1>, v_divs<2>)) : BSplineCurve.ByPoints(torus2.PointAtParameter(u_divs<2>, v_divs<1>));
+    // return an array of BSplineCurves
     return = { tor_lns_u.SetVisibility(false), tor_lns_v.SetVisibility(false) };
 }
 
@@ -124,22 +151,25 @@ divs = 30;
 dom_u = 0..Math.PI * 2..#divs;
 dom_v = 0..Math.PI * 2..#divs;
 
+/*
+Combine a number of Tori to create different Torus parameterizations.
+*/
 tor_lines; torus; torus2; cs;
 [Imperative]
 {
-    // Type 3 Parameterization
+    // type 3 Parameterization
     if (param == 3)
     {
         // create a torus on a given domain
         cs = CoordinateSystem.ByOriginVectors(Point.ByCoordinates(0, 0, -3), Vector.ByCoordinates(0, 0, 1), Vector.ByCoordinates(0, 1, 0));
         torus = Torus.FromMajorMinorRadius(cs, major_radius, 2.7, dom_u, dom_v, 20, 1).Draw.SetVisibility(false);
-        // Create a second torus
+        // create a second torus
         torus2 = Torus.FromMajorMinorRadius(cs, major_radius, 2.7, dom_u, dom_v, 20, 2).Draw.SetVisibility(false);
-        // Get all the Isocurves
+        // get all the Isocurves
         tor_lines = iso_crvs(torus, torus2, true);
     }
    
-    // Type 4 or 5 parameterization
+    // type 4 or 5 parameterization
     else if (param == 4 || param == 5)
     {
         if (param == 4)
@@ -147,7 +177,7 @@ tor_lines; torus; torus2; cs;
             // create a torus on a given domain
             cs = CoordinateSystem.ByOriginVectors(Point.ByCoordinates(0, 0, -3), Vector.ByCoordinates(0, 0, 1), Vector.ByCoordinates(0, 1, 0));
             torus = Torus.FromMajorMinorRadius(cs, major_radius, 2.7, dom_u, dom_v, 20, 1).Draw.SetVisibility(false);
-            // Create a second torus
+            // create a second torus
             torus2 = Torus.FromMajorMinorRadius(cs, major_radius, 2.7, dom_u, dom_v, 20, 0).Draw.SetVisibility(false);
         }
         else
@@ -155,14 +185,14 @@ tor_lines; torus; torus2; cs;
             // create a torus on a given domain
             cs = CoordinateSystem.ByOriginVectors(Point.ByCoordinates(0, 0, -3), Vector.ByCoordinates(0, 0, 1), Vector.ByCoordinates(0, 1, 0));
             torus = Torus.FromMajorMinorRadius(cs, major_radius, 2.7, dom_u, dom_v, 20, 2).Draw.SetVisibility(false);
-            // Create a second torus
+            // create a second torus
             torus2 = Torus.FromMajorMinorRadius(cs, major_radius, 2.7, dom_u, dom_v, 20, 0).Draw.SetVisibility(false);
         }
-        // Get all the Isocurves
+        // get all the Isocurves
         tor_lines = iso_crvs(torus, torus2, false);
     }
 
-    // Type 0, 1 or 2 Parameterization
+    // type 0, 1 or 2 Parameterization
     else
     {
         // create a torus on a given domain
@@ -174,8 +204,10 @@ tor_lines; torus; torus2; cs;
 
 // create the intersection plane and torus transformations
 cut_z = 1;
+// create a bounding box
 bcrv = BSplineCurve.ByControlVertices({ Point.ByCoordinates(major_radius, major_radius * 2, cut_z), Point.ByCoordinates(major_radius, -major_radius * 2, cut_z), Point.ByCoordinates(-major_radius, -major_radius * 2, cut_z), Point.ByCoordinates(-major_radius, major_radius * 2, cut_z) },1,true);
+// create a box to trim the torus
 patch = PatchSurface.FromCurve(bcrv).Thicken(-major_radius * 2, false).SetVisibility(false);
 
+// split all the BSplineCurves with associative replication
 splits = tor_lines.Intersect(patch);
-

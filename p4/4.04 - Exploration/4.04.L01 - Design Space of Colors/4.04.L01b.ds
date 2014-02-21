@@ -1,15 +1,37 @@
+/*//
+4.04.L01b
+Create a number of Points with a given Interval. Color the Points with a RGB Color corresponding to their XYZ position.
+
+required: 
+color_point (func) Function to create and assign Color to Points.
+n (int) Number of divisions for the Interval.
+
+result: 
+pts ([Point]) List of colored Points.
+//*/
+
 import("ProtoGeometry.dll");
+
+/*
+Given an RGB value, create a Point and assign the RGB color to the Point.
+*/
 
 def color_point(r_val,g_val,b_val)
 {
+    // create a Point with the RGB values
     res = Point.ByCoordinates(r_val, g_val, b_val);
+    // set the color of the Point to the RGB values
     res.Color = Color.ByARGB(255,MapTo(0, 1, r_val, 0, 255), MapTo(0, 1, g_val, 0, 255), MapTo(0, 1, b_val, 0, 255));
     return = res;
 }
 
-// create a color point cloud
+/* 
+Create a color point cloud.
+*/
+
 r = 0.8;
 g = 0.5;
 b = 0.3;
 color_range = 0..1..#10;
+// create Points with replications of the array of numbers
 pt = color_point(color_range<1>, color_range<2>, color_range<3>);

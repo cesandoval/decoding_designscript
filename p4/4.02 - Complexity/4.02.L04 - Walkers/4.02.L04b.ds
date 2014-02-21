@@ -1,3 +1,18 @@
+/*//
+4.02.L04b
+Make an instance of the Guy class and make it wander around.
+
+required: 
+Guy (class) A class of walker
+start_pt (Point) Initial point of the wandering Guy
+start_vel (Vec) Initial velocity of the the wandering Guy
+count (int) Amount of time for Guy to wander
+
+result:
+path_pts (List of Points) Position of the wandering Guy at each time step
+path_line (Pline) Path of the wandering Guy
+//*/
+
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
@@ -31,6 +46,9 @@ class Guy
     }
 }
 
+/*
+Steps a number of times with a collection in an Associative code
+*/
 def stepper(x, guy)
 {
     guy.Step();
@@ -43,5 +61,7 @@ start_vel = Vector.ByCoordinates(0.59, 1.0, 0);
 // initialize an instance of the Guy class
 debord = Guy.FromPosVel(start_pt, start_vel);
 steps = 30;
+// steps multiple times
 pts = stepper(0..steps, debord);
+// make a path from the points
 lines = pts_to_lines(pts);

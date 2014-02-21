@@ -1,8 +1,24 @@
+/*//
+4.02.L05b
+Move a flock of simple Birds toward a goal.
+
+required:
+Bird (class) A simple Bird class
+goal_pt (Point) The point that the flock will seek
+close_enough (float) The distance from the goal that will cause Bird to stop
+count (int) The number of steps 
+
+result:
+flock ([Bird]) A group of Birds with their history filled out
+//*/
+
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
 
-//A simple Bird class is defined with position, velocity, acceleration vectors, and history.
+/*
+A simple Bird class is defined with position, velocity, acceleration vectors, and history.
+*/
 class Bird
 {
     Pos;
@@ -33,7 +49,9 @@ class Bird
         this.record();
     }
     
-    //Cause the Bird object to move, using its current velocity and acceleration.      
+    /*
+    Cause the Bird object to move, using its current velocity and acceleration.      
+    */
     def step()
     {
         // add the acceleration to the velocity
@@ -48,7 +66,9 @@ class Bird
         this.Acl = Vector.ByCoordinates(0, 0, 0);
     }
             
-    //Steer the Bird by adding the given vector to the acceleration  
+    /*
+    Steer the Bird by adding the given vector to the acceleration  
+    */
     def steer(vec)
     {
         // keep the acceleration to within the maximum
@@ -57,11 +77,15 @@ class Bird
         this.Acl = Vector.ByCoordinates(this.Acl.X + vec.X, this.Acl.Y + vec.Y, this.Acl.Z + vec.Z);
     }
 
-    //Reset the Bird to its initial position and values 
+    /*
+    Reset the Bird to its initial position and values 
+    */
     def reset()
     {
-        //resets this bird back to his initialized condition.
-        //replaces existing history lists with single inital values
+        /*
+        resets this bird back to his initialized condition.
+        replaces existing history lists with single inital values
+        */
         this.Is_alive = true;
         this.Pos = Count(this.Hist_pos) > 0 ? this.Hist_pos[0] : this.Pos;
         this.Vel = Count(this.Hist_pos) > 0 ? this.Hist_vel[0] : this.Vel;
@@ -70,8 +94,10 @@ class Bird
         this.record();
     }     
         
-    //Functions to clear the history and record a step
-    // clear the position, velocity and acceleration histories
+    /*
+    Functions to clear the history and record a step clear the position, velocity and acceleration histories
+    */
+    //clear the position, velocity and acceleration histories
     def clear_history()
     {
         this.Hist_pos = { };
@@ -96,11 +122,16 @@ goal_pt = Point.ByCoordinates(30, 23, 0);
 close_enough = 1.25;
 step_count = 100;
 
-flock = { };
+/*
+Create a flock of simple Bird objects.
+*/
+flock = { }; //initialize an empty flock
 [Imperative]
 {
+    // for each Bird in the flock:
     for(n in 0..count)
     {
+        // append a random Bird
         flock[Count(flock)] = Bird.FromPosVel(Point.ByCoordinates(0, 0, 0), vec_random(-1, 1, true));
     }
 }
@@ -109,16 +140,21 @@ flock.reset();
 flock.Max_frc = max_frc;
 flock.Max_vel = max_vel;
 
+/*
+Move a flock of simple Birds toward a goal point
+*/
 [Imperative]
 {
     // for each time step:
     for(step in 0..step_count)
     {
+        // for each Bird in the flock:
         for(bird in flock)
         {
             // if this is the first step
             if (step == 0)
             {
+                // reset the Bird's history
                 bird.reset();
             }
             // create a steering vector
@@ -126,6 +162,7 @@ flock.Max_vel = max_vel;
             // if Bird is not close to goal point:
             if (vec.Length > close_enough)
             {  
+                // steer bird toward goal and update
                 bird.steer(vec_two_points(bird.Vel, vec));
                 bird.step();
             }

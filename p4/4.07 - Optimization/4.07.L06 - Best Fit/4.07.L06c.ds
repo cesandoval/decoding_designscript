@@ -1,8 +1,21 @@
+/*//
+4.07.L06c
+Method that returns a best fit Arc using the modified least squares method.
+
+required: 
+pts_in ([Point]) A list of Points.
+
+result: 
+(Arc) An arc 
+//*/
+
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
 
-//Returns a best fit arc using the modified least squares method.
+/*
+Returns a best fit arc using the modified least squares method.
+*/
 def lstSquaresArc(pts_in : Point[])
 {
     cnt = Count(pts_in);
@@ -55,11 +68,15 @@ def lstSquaresArc(pts_in : Point[])
     // sort all segments by the calculated angles
     new_segs = segs[SortIndexByValue(ang)];
     new_ang = ang[SortIndexByValue(ang)];
+    // set the sweep angle 
     sweep = new_ang[-1] - new_ang[0];
+    // set the CS of the Arc
     cs = CoordinateSystem.ByOriginVectors(center, vec_from_line(segs[0]), vec_from_line(segs[1]));
-    Print({ rad, sweep });
     return = Arc.ByCenterPointRadiusAngle(cs.Origin, rad, angle( CoordinateSystem.Identity().XAxis, cs.XAxis), sweep, cs.ZAxis);
 }
 
+/*
+Create an Arc between a number of Points
+*/
 pts = { Point.ByCoordinates(191.708327, 59.109746, 0.0), Point.ByCoordinates(165.687163, 103.713103, 0.0), Point.ByCoordinates(144.614144, 64.185974, 0.0), Point.ByCoordinates(136.081219, 98.428218, 0.0) };
 arc = lstSquaresArc(pts);

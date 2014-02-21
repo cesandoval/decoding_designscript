@@ -1,25 +1,36 @@
+/*//
+4.03.F02b
+Methods to recursively subdivide a panel based on material width.
+
+required:
+p_gon (PGon) Panel to subdivide.
+mat_width (float) Material width.
+edg_num (int) Initial edge of the PGon.
+
+result:
+ret [PGons] Sub panels.
+//*/
+
 import("ProtoGeometry.dll");
 import("Math.dll");
+import("../../../library/decodes_functions.ds");
 
 /*
-Creates a Vector between two points.
+Method to sort edged based on length.
 */
-def vec_two_points(spt, ept)
+def sort_edges(pgon, reverse)
 {
-    return =  Vector.ByCoordinates(ept.X - spt.X, ept.Y - spt.Y, ept.Z - spt.Z);
-}
-
-/* 
-Rotates the vertices in this object.
-*/
-def rotate(pgon,n)
-{
-    n = n > Count(pgon.Vertices)-1 ? n%Count(pgon.Vertices) : n;
-    n = n < -Count(pgon.Vertices) - 1 ? -Math.Abs(n)%Count(pgon.Vertices) : n;
-    verts = SetUnion(pgon.Vertices[n..Count(pgon.Vertices) - 1], pgon.Vertices[0..n]);
-    return = Polygon.ByVertices(verts);
+    // get the edges of a Polygon
+    edges = pgon.Edges;
+    result = 0..Count(edges) - 1;
+    // sort the edges by length
+    result = SortIndexByValue(edges.Length, reverse);
+    return = result[0];
 }
     
+/*
+Subdivide a panel with a Herringbone pattern.
+*/
 def panel_cut(pgon, panel_width, ei)
 {
     return = [Imperative]
@@ -33,7 +44,7 @@ def panel_cut(pgon, panel_width, ei)
         // set a counter for how many edges are not being used
         rem_edge = Count(pgon.Edges) - 2;
         
-        // Set up the offset line and intialize intersection pts and rotational markers
+        // set up the offset line and initialize intersection pts and rotational markers
         off_vec = vec_two_points(edge.StartPoint, edge.EndPoint).Cross(vec_two_points(edge.StartPoint, pgon.Plane.Origin)).Cross(vec_two_points(edge.StartPoint, edge.EndPoint)).Normalize().Scale(panel_width);
         line = Plane.ByOriginNormal(edge.StartPoint.Translate(off_vec.X, off_vec.Y, off_vec.Z), vec_two_points(edge.StartPoint, edge.EndPoint).Cross(Vector.ByCoordinates(0, 0, 1)));
         
@@ -44,19 +55,24 @@ def panel_cut(pgon, panel_width, ei)
         // check for intersections with the left-hand adjacent line, set and record a new left-hand adjacent line if necessary, if there are no remaining panels to be cut, return
         if (Count(line.Intersect(lhedge)) > 0)
         {
+            // define an intersection Point
             p0 = line.Intersect(lhedge);
         }
         else
         {
+            // subtract one number to the remaining edges counter
             rem_edge = rem_edge - 1;
+            // if there are no remaining edges: return False
             if (rem_edge == 0)
             {
                 return = { false, false, false };
             }
             lhedge = pgon.Edges[2];
             lh_step = true;
+            // if there is an intersection between edges:
             if (Count(line.Intersect(lhedge)) > 0)
             {
+                // define an intersection Point
                 p0 = line.Intersect(lhedge);
             }
         }
@@ -74,8 +90,10 @@ def panel_cut(pgon, panel_width, ei)
             }
             rhedge = pgon.Edges[-2];
             rh_step = true;
+            // if there is an intersection between edges:
             if (Count(line.Intersect(rhedge)) > 0)
             {
+                // define an intersection Point
                 p1 = line.Intersect(rhedge);
             }
         }
@@ -84,7 +102,7 @@ def panel_cut(pgon, panel_width, ei)
         {
             return = { false, false, false };
         }
-        // find the pts for the panel which has been cut
+        // create a list with the Points for the panel
         panelpts = { p0, p1, pgon.Vertices[0], pgon.Vertices[1] };
 
         if (lh_step == true && rh_step == false)
@@ -99,26 +117,35 @@ def panel_cut(pgon, panel_width, ei)
         {
             panelpts = { pgon.Vertices[-1], pgon.Vertices[0], pgon.Vertices[1], pgon.Vertices[2], p0, p1 };
         }
+        // create a Polygon with the list of Points
         panel = Polygon.ByVertices(panelpts);
         
         // Set up the next polygon and return to global orientation
         npgonpts = { p0, p1 };
         
+        // for every edge number in the remaining edges:
         for(r in 0..rem_edge-1)
         {
+            // add a number to the edge number
             r = r + 1;
+            // if there is a rh_step: add a number to the edge number
             if (rh_step == true)
             {
                 r = r + 1;
             }
+            // add the last vertice to the list of Points
             npgonpts[Count(npgonpts)] = pgon.Vertices[-r];
         }
+        // create a PGon with the list of Points
         npgon = Polygon.ByVertices(npgonpts);
         //npgon.rotate(-ei);
         return = { panel, npgon, true };
     } 
 }
 
+/*
+Subdivide a Panel.
+*/
 
 pa = Point.ByCoordinates(24.4, 4.2, 0.0);
 pb = Point.ByCoordinates(19.0, 12.6, 0.0);
@@ -127,8 +154,6 @@ pd = Point.ByCoordinates(43.5, 11.8, 0.0);
 my_pgon = Polygon.ByVertices({ pa, pb, pc, pd });
 p_width = 2.41;
 edge_num = 2;
-
-//test = panel_cut(my_pgon, p_width, edge_num);
 
 
 panels = { };

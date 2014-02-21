@@ -1,8 +1,27 @@
+/*//
+4.04.L01a
+Method to produce a point and a color, given three parameters, red, green, blue. 
+
+required: 
+rd (float) Normalized red value.
+gr (float) Normalized green value.
+bl (float) Normalized blue value.
+
+result:
+pt (Point) Point with a Color property.
+//*/
+
 import("ProtoGeometry.dll");
+
+/*
+Given an RGB value, create a Point and assign the RGB color to the Point.
+*/
 
 def color_point(r_val,g_val,b_val)
 {
+    // create a Point with the RGB values
     res = Point.ByCoordinates(r_val, g_val, b_val);
+    // set the color of the Point to the RGB values
     res.Color = Color.ByARGB(255,MapTo(0, 1, r_val, 0, 255), MapTo(0, 1, g_val, 0, 255), MapTo(0, 1, b_val, 0, 255));
     return = res;
 }

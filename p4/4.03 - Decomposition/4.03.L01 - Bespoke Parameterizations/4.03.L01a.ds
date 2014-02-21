@@ -1,29 +1,49 @@
+/*//
+4.03.L01a
+Given a base curve evaluate a helix and construct a Gherkin shaped surface.
+
+
+required:
+radius (float) A number that affects the helix sine Curve radius.
+sine (float) A number that affects the helix sine Curve offset.
+
+result:
+ret (Mesh) A gherkin shaped Mesh.
+//*/
+
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
 
-
+/*
+A method for creating surfaces based on constructing and evaluating helices.  
+*/
 def func2(u, v)
 {
-    steps = 20; // the smoothnes of the rotated curve
+    // define the smoothness of the rotated curve
+    steps = 20; 
     height = 20;
     interv = 0..1..#steps+1;
     // assign a height, rotation angle and radius to a point as factors of u
     z = interv * height;
     theta = 2 * Math.PI * (u + interv);
     rad = Math.Sin(Math.RadiansToDegrees(Math.PI * interv + sine)) + radius;
-    // Get points from cylindrical coordinates
+    // get points from cylindrical coordinates
     pt = Point.ByCylindricalCoordinates(CoordinateSystem.Identity(), rad, Math.RadiansToDegrees(theta), z);
     // Evaluate the curve on v
     crv = BSplineCurve.ByPoints(pt);
     return = Point.AtParameter(crv,v);
 }
 
-// Initial values for the surface
+/*
+Create a Surface
+*/
+
+// initial values for the surface
 radius = 0.5;
 sine = 0.5;
 tol = 0.05;
 srf_domain = 0..1..tol;
 
-// Create a surface from a function
+// create a surface from a function
 srf =BSplineSurface.ByPoints(func2(srf_domain<2>, srf_domain<1>));

@@ -1,3 +1,26 @@
+/*//
+4.04.L02b
+Creates a Web class with methods for the creation of a Web object between Prongs for the flatware design space.
+
+members:
+outer (Point) A Point that represents the start of the Web
+inner (Point) A Point that represents the end of the Web
+middle (Point) The middle point in the Web curve
+outer_prong (Prong) The starting Prong
+inner_prong (Prong) The ending Prong
+is_left (bool) The sidedness of the Web
+tolerance (float) A float used to check web straightness
+
+methods:
+set_knife(Point, Point) Sets the final mid Point for the knife location of this Web
+set_fork(Point, Point) Sets the final mid Point for the fork location of this Web
+set_spoon(Point, Point) Sets the final mid Point for the spoon location of this Web
+make_cutlery(float, float, float) Modifies the mid Point location based on knifiness, forkiness, spooniness
+get_sbcrv() Trims the Web at intersections with it's Prongs
+is_mountain() Tests the concavity of this Web.
+to_curve() Returns the modified PLine representation of this Web
+//*/
+
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
@@ -49,7 +72,9 @@ class Prong
         Head_Spoon = head;
     }
       
-    //Given forkiness, spooniness and knifiness values, this function creates a hybridized Prong.
+    /*
+    Given forkiness, spooniness and knifiness values, this function creates a hybridized Prong.
+    */
     def make_cutlery(knifiness, forkiness, spooniness)
     {
         // create a cheek movement vector from all given values
@@ -135,7 +160,9 @@ class Web
         Pull_spoon = pull;
     }
               
-    //Given forkiness, spooniness and knifiness values, this function creates a hybridized Web.
+    /*
+    Given forkiness, spooniness and knifiness values, this function creates a hybridized Web.
+    */
     def make_cutlery(knifiness, forkiness, spooniness)
     {
         // create a movement vector from all given values
@@ -170,14 +197,15 @@ class Web
         original_crv = this.to_curve();
         // get its segment index 
         ni = Flatten(intersection_lst)[0].IndexOfNearest(Flatten(intersection_lst)[0].Project(decompose_curve(original_crv, 10)));
-        //Print(decompose_curve(original_crv, 10));
         // and remove all of the segments after the index
         new_crv = decompose_curve(original_crv, 10)[0..ni];
         return = new_crv;
     }
 
 
-    //This function determines the concavity of the Web
+    /*
+    This function determines the concavity of the Web
+    */
     def is_mountain()
     {
         // if the web is on the left side of the flatware:

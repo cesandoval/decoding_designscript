@@ -1,7 +1,22 @@
+/*//
+4.05.L03c
+Given a Surface and a center Point, create tool paths which spiral out from the central Point on a surface. Points which are unnecessarily close to one another will be removed from the sequence.
+
+required:
+surf (Surface) Surface to create toolpaths from.
+cp (Point) Spiral center 
+
+results:
+lns([PLine]) PLines representing the cutpaths.
+//*/
+
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
 
+/*
+Method to generate a surface.
+*/
 def func(u, v)
 {
     length = 4.0;
@@ -14,43 +29,58 @@ def func(u, v)
     return = Point.ByCoordinates(x, y, z);
 }
 
+/*
+Method to evaluate spiral Points on a given Surface.
+*/
 def spirograph(srf, pts_per_turn, turn_cnt, spiral_cen, offset)
 {
     pts = { };
     [Imperative]
     {
+        // set the tool diameter
         tool_diameter = 0.125;
         offset = Math.Round(offset * pts_per_turn);
+        // set the number of steps for the toolpather
         steps = pts_per_turn * turn_cnt;
         tvals = 0..1..#steps;
+        // for every value in tvals:
         for (t in tvals)
         {
+            // set the u and v values to evaluate from the Point
             u = spiral_cen.X + t * Math.Cos(Math.RadiansToDegrees(2 * Math.PI * turn_cnt * t));
             v = spiral_cen.Y + t * Math.Sin(Math.RadiansToDegrees(2 * Math.PI * turn_cnt * t));
+            // if the u or v values are out of range: flag the value
             if (u < 0 || u > 1 || v < 0 || v > 1)
             {
                 pts[Count(pts)] = Point.ByCoordinates(100000,0,0);
             }
             else
             {
+                // evaluate the Surface at the u and v value
                 spi_pt = srf.PointAtParameter(u, v);
+                // if there are less pts than pts_per_turn: add spi_pt
                 if (Count(pts) < pts_per_turn + offset)
                 {
                     pts[Count(pts)] = spi_pt;
                 }
                 else
                 {
+                    // select a Point
                     nei_pt = pts[-pts_per_turn];
+                    // if the Point doesn't exist: add the evaluated Point
                     if (nei_pt == false)
                     {
                         pts[Count(pts)] = spi_pt;
                     }
+                    // the distance between the Points is too large:
                     else if (nei_pt.DistanceTo(spi_pt) > tool_diameter)
                     {
+                        // we need the Point, add it
                         pts[Count(pts)] = spi_pt;
                     }
                     else
                     {
+                        // we don't need the Point
                         pts[Count(pts)] = Point.ByCoordinates(100000,0,0);
                     }
                 }
@@ -60,53 +90,65 @@ def spirograph(srf, pts_per_turn, turn_cnt, spiral_cen, offset)
     return = pts;
 }
     
+/*
+Method to parse the list of Points into the correct spiral structure. Create spiral PLines.
+*/    
 def parser(pt_list : Geometry[])
 {
     lines_out = { };
-    
     [Imperative]
     {
         plines = { { } };
+        // set the first line
         line_count = 0;
-        //Sorting the valid points into a list of lists.
+        // for every index in the pt_list:
         for(indx in 0..Count(pt_list)-1)
         {
             p = pt_list[indx];
+            // if the item is not a Point: skip it
             if (p.X == 100000)
             {
                 none = null;
             }
             else
             {
+                // if the index is smaller that pt_list - 1:
                 if (indx < (Count(pt_list) - 1))
                 {
+                    // if there is no list with a higher index:
                     if (pt_list[indx + 1].X == 100000)
                     {
+                        // add the point to the proper sublist
                         plines[line_count][Count(plines[line_count])] = p;
+                        // increase the line count
                         line_count = line_count + 1;
+                        // add an empty list
                         plines[Count(plines)] = { };
                     }
                     else
                     {
+                        // add the point to the proper sublist
                         plines[line_count][Count(plines[line_count])] = p;
                     }
                 }
             }
         }
-        
+        // for every list of Points in plines:
         for(p in plines)
         {
+            // if there is no list: skip it
             if (p == false)
             {
                 none = null;
             }
             else
             {
-                //to remove single points for outputting lines, this can lead to resolution issues.
+                // if the list only has one Point: don't make a PLine
                 if (Count(p) == 1)
                 {
                     none = null;
                 }
+                // else: create a PLine with the Points
                 else
                 {
                     lines_out[Count(lines_out)] = BSplineCurve.ByPoints(p);
@@ -117,10 +159,14 @@ def parser(pt_list : Geometry[])
     return = lines_out;
 }
 
-    
+/*
+Generate a surface, and create toolpaths based on a tool width
+*/   
 tol = 0.1;
 srf_domain = 0..1..tol;
+// create the surface
 srf = BSplineSurface.ByPoints(func(srf_domain<1>, srf_domain<2>)).SetVisibility(false);
     
 cp = Point.ByCoordinates(0.25, 0.57, 0);
+// create spiral toolpaths
 crvs = parser(spirograph(srf, 50, 50, cp, 0.25));

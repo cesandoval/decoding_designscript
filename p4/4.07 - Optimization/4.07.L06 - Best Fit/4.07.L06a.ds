@@ -1,8 +1,21 @@
+/*//
+4.07.L06a
+Methods that returns a best fit Segment defined by ordinary least squares.
+
+required:
+pts_in ([Point]) A list of Points.
+
+result: 
+(seg) A segment.
+//*/
+
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
 
-//Returns a best fit line defined by ordinary least squares.
+/*
+Returns a best fit line defined by ordinary least squares.
+*/
 def leastSquaresLine(pts_in : Point[])
 {
     // create and set variables to 0
@@ -33,11 +46,14 @@ def leastSquaresLine(pts_in : Point[])
     d_min = val_lst[sorted[0]];
     d_max = val_lst[sorted[-1]];
     
+    // start and end Points for the Segment
     start_pt = Point.ByCoordinates(p_ls.X + u_ls.X * d_min, p_ls.Y + u_ls.Y * d_min, p_ls.Z + u_ls.Z * d_min);
     end_pt = Point.ByCoordinates(p_ls.X + u_ls.X * d_max, p_ls.Y + u_ls.Y * d_max, p_ls.Z + u_ls.Z * d_max);
     return = Line.ByStartPointEndPoint(start_pt, end_pt);
 }
 
-
+/*
+Create a Line between a number of Points
+*/
 pts = { Point.ByCoordinates(191.708327, 59.109746, 0.0), Point.ByCoordinates(165.687163, 103.713103, 0.0), Point.ByCoordinates(144.614144, 64.185974, 0.0), Point.ByCoordinates(136.081219, 98.428218, 0.0) };
 line = leastSquaresLine(pts);

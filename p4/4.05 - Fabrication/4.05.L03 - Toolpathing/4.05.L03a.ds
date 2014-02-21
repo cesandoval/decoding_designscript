@@ -1,7 +1,22 @@
+/*//
+4.05.L03a
+Given a Surface and a swap bool, divide the Surface evenly along its isoparms to develop toolpaths for a CNC mill.
+
+required:
+surf (Surface) A Surface to create toolpaths from.
+swap (bool) Whether or not to swap the direction of the toolpaths. 
+
+results:
+lns([PLine]) PLines representing the cutpaths.
+//*/
+
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
 
+/*
+Method to generate a surface.
+*/
 def func(u, v)
 {
     length = 4.0;
@@ -14,16 +29,26 @@ def func(u, v)
     return = Point.ByCoordinates(x, y, z);
 }
 
+/*
+Method to divide a Surface evenly along its isoparms to develop toolpaths for a CNC mill.
+*/
 def cutter(srf, tool_spacing)
 {
+    // get the number of u and v divisions of the Surface
     u_divs = 0..1..#Math.Round(1 / tool_spacing);
     v_divs = 0..1..#Math.Round(1 / tool_spacing);
+    // return Iso Curves with different orientation by Associative replication
     return = swap == true ? BSplineCurve.ByPoints(srf.PointAtParameter(u_divs<1>, v_divs<2>)) : BSplineCurve.ByPoints(srf.PointAtParameter(u_divs<2>, v_divs<1>));
 }
 
+/*
+Generate a surface, and create toolpaths based on a tool width
+*/
 tol = 0.1;
+// generate the initial surface
 srf_domain = 0..1..tol;
 srf = BSplineSurface.ByPoints(func(srf_domain<1>, srf_domain<2>)).SetVisibility(false);
 
+// create the iso Curves
 swap = true;
 iso_crvs = cutter(srf, 0.05);

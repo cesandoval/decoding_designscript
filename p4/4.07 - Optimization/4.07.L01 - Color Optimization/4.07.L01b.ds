@@ -1,31 +1,62 @@
+/*//
+4.07.L01b
+Given a fitness function and a number of samples, perform a brute force search of the solution space (n X n X n samples). Output only values that pass a certain threshold.
+
+required: 
+fitness (func) Fitness function.
+n (int Number of samples.
+
+results: 
+pts ([Point]) Points with colors.
+best_clr (Color) Best fit Color.
+best_fit (float) Value of best fit.
+//*/
+
 import("ProtoGeometry.dll");
 import("Math.dll");
 
+/*
+Method that checks the closeness of a sample Color to the goal Color (0 to 1).
+*/
 def fitness(sample)
 {
-    dhue = 255 - Math.Abs(sample.RedValue - goal.RedValue);
-    dsat = 255 - Math.Abs(sample.GreenValue - goal.GreenValue);
-    dval = 255 - Math.Abs(sample.BlueValue - goal.BlueValue);
+    // get the difference between sample and goal Color
+    dhue = 1 - Math.Abs(sample.RedValue - goal.RedValue);
+    dsat = 1 - Math.Abs(sample.GreenValue - goal.GreenValue);
+    dval = 1 - Math.Abs(sample.BlueValue - goal.BlueValue);
+    // get the sum of the differences
     sum = (dhue * red_weight) + (dsat * green_weight) + (dval * blue_weight);
+    // get the average
     return = sum / (red_weight + green_weight + blue_weight);
 }
 
+/*
+Given Red, Green, and Blue values, return a Point object with a Color property set.
+*/
 def color_point(r_val, g_val, b_val)
 {
     return = Point.ByCoordinates(r_val, g_val, b_val).SetColor(Color.ByARGB(255, r_val, g_val, b_val));
 }
 
+/*
+Method to get the most fit Points iteratively
+*/
 def get_fitness(r, g, b)
 {
     return = [Imperative]
     {
+        // create a Color Point
         pt = color_point(r, g, b);
+        // evaluate the fitness of the Point
         fit = fitness(pt.Color);
+        // if it's more fit than the current value
         if (fit > best_fit)
         {
+            // set the fitness value to the current one
             best_fit = fit;
             best_clr = pt.Color;
         }
+        // if the fitness is within a threshold, keep the Point
         if (fit > thresh)
         {
             return = pt;
@@ -33,6 +64,9 @@ def get_fitness(r, g, b)
     }
 }
 
+/*
+Get space of fit Colors
+*/
 // define goal values
 red_weight = 255;
 green_weight = 255;
@@ -48,4 +82,5 @@ n = 8;
 
 // create an interval with n steps
 color_int = 0..255..#n;
+// get the fitness with Associative replication
 pts = get_fitness(color_int<1>, color_int<2>, color_int<3>);

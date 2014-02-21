@@ -121,15 +121,43 @@ body .il { color: #009999 } /* Literal.Number.Integer.Long */
   </style>
 </head>
 <body>4.03.L01c
-<div class='narr_wrap'></div><div class='svg_wrap' style='background-image: url(4_03_L01c1.svg), none; height: 1204px;'></div>
+<div class='narr_wrap'></div><div class='svg_wrap' style='background-image: url(4_03_L01c1.svg), none; height: 1484px;'></div>
 <div class='py_wrap'>
-<div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;ProtoGeometry.dll&quot;</span><span class="p">);</span>
+<div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">/*//</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="mf">4.03</span><span class="o">.</span><span class="n">L01c</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">Methods</span> <span class="n">to</span> <span class="n">create</span> <span class="n">a</span> <span class="n">series</span> <span class="n">of</span> <span class="n">explicitly</span> <span class="n">designed</span> <span class="n">surfaces</span> <span class="n">based</span> <span class="n">on</span> <span class="n">pasta</span> <span class="n">shapes</span><span class="o">.</span> <span class="n">Based</span> <span class="n">on</span> <span class="n">the</span> <span class="n">work</span> <span class="n">of</span> <span class="n">George</span> <span class="n">L</span><span class="o">.</span> <span class="n">Legendre</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">required</span><span class="p">:</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">surf_func</span> <span class="p">(</span><span class="n">function</span><span class="p">)</span> <span class="n">Explicit</span> <span class="n">surface</span> <span class="n">function</span><span class="o">.</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">dom_u</span> <span class="p">(</span><span class="nb-Decodes">Interval</span><span class="p">)</span> <span class="n">Surface</span> <span class="n">domain</span> <span class="ow">in</span> <span class="n">U</span> <span class="n">direction</span><span class="o">.</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">dom_v</span> <span class="p">(</span><span class="nb-Decodes">Interval</span><span class="p">)</span> <span class="n">Surface</span> <span class="n">domain</span> <span class="ow">in</span> <span class="n">V</span> <span class="n">direction</span><span class="o">.</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">result</span><span class="p">:</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">wavy</span> <span class="p">(</span><span class="nb-Decodes">Mesh</span><span class="p">)</span> <span class="n">A</span> <span class="n">Pasta</span> <span class="n">Surface</span><span class="o">.</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">curly</span> <span class="p">(</span><span class="nb-Decodes">Mesh</span><span class="p">)</span> <span class="n">A</span> <span class="n">Pasta</span> <span class="n">Surface</span><span class="o">.</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>*/</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;ProtoGeometry.dll&quot;</span><span class="p">);</span>
 </pre></div>
 </div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;Math.dll&quot;</span><span class="p">);</span>
 </pre></div>
 </div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;../../../library/decodes_functions.ds&quot;</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">/*</span>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">/*</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">Methods</span> <span class="k">for</span> <span class="n">creating</span> <span class="n">Farfalle</span> <span class="ow">and</span> <span class="n">Gnocci</span> <span class="n">Surfaces</span> <span class="k">with</span> <span class="n">given</span> <span class="n">U</span> <span class="ow">and</span> <span class="n">V</span> <span class="n">values</span><span class="o">.</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">Based</span> <span class="n">on</span> <span class="n">the</span> <span class="n">work</span> <span class="n">of</span> <span class="n">George</span> <span class="n">L</span><span class="o">.</span> <span class="n">Legendre</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">*/</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">/*</span>
 </pre></div>
 </div><div class='cmt_para' style='padding-right:9px; width:261px;'>Digati</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="k">def</span> <span class="nf">digati_func</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
 </pre></div>
@@ -259,7 +287,13 @@ body .il { color: #009999 } /* Literal.Number.Integer.Long */
 </pre></div>
 </div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">}</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>Resolution</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">divs</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">/*</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">Given</span> <span class="n">Surface</span> <span class="n">methods</span><span class="p">,</span> <span class="n">create</span> <span class="n">Pasta</span> <span class="n">shaped</span> <span class="n">Meshes</span><span class="o">.</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">*/</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>Resolution</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">divs</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span>
 </pre></div>
 </div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">srf_domain_u</span> <span class="o">=</span> <span class="mf">0.</span><span class="o">.</span><span class="mf">80.</span><span class="o">.</span><span class="c">#divs;</span>
 </pre></div>

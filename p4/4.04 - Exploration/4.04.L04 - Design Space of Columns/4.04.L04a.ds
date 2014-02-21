@@ -1,8 +1,27 @@
+/*//
+4.04.L04a
+Given a base PGon, create a mesh by displacing it twice on the Z axis. Given a rotation and scaling values, transform the mesh. The transformations will be polar. 
+
+required: 
+pgon_top (PGon) Base PGon to build the Mesh.
+rot_mid(int) Rotation in radians.
+f_mid (float) Scaling factor.
+
+result:
+pts_top ([Point]) Vertices of the geometries.
+pts_mid ([Point]) Vertices of the geometries.
+pts_btm ([Point]) Vertices of the geometries.
+column (Mesh) Resulting Mesh 
+//*/
+
 import("ProtoGeometry.dll");
 import("Math.dll");
 // TODO: figure out how to make a function by passing lists
 // figure out how to scale geometry
 
+/* 
+Method to create a Mesh given 3 lists of Points.
+*/
 def mesh_pgons(verts)// pts_top, pts_mid, pts_btm)
 {
     [Imperative]
@@ -26,9 +45,10 @@ pts_top = pgon_top.Vertices;
 rot_mid = 90;
 sc = 3;
     
-// Get the vertices for the mid PGon from a displaced top Pgon. 
+// displace the top PGon, and get its vertices 
 pts_mid = Point.AtParameter(pgon_top.Edges, 0.5).Translate(0, 0, -cen.Z * 0.5);
 mid_cen = cen.Translate(0,0,-cen.Z*0.5);
+// create a rotation transformation 
 new_cs = CoordinateSystem.Identity().Rotate(rot_mid, Vector.ByCoordinates(0, 0, 1),mid_cen);
 pts_mid = pts_mid.Transform(CoordinateSystem.Identity(), new_cs);
 pts_btm = Point.AtParameter(pgon_top.Edges, 0.5).Translate(0, 0, -cen.Z);

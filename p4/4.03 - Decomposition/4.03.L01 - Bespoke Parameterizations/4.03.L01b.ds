@@ -1,3 +1,14 @@
+/*//
+4.03.L01b
+Evaluate a PGon over a given height, and create a tower with a controlled mesh.
+
+required:
+height (float) The height of the tower.
+
+result:
+ret (Mesh) A tower.
+//*/
+
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
