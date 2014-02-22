@@ -3,20 +3,7 @@
     <chapter title='Aggregation' id='01'>
         <example title='Neil Katz Tiling' id='F02'>
             <script id='a' src='4_01_F02a.html'>
-                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
-                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
-                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
-                <error msg="FOUND TWO COMMENTS IN A ROW - ignoring the first one in codeblock 1"></error>
-                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
-                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
-                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
-                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
-                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
-                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
-                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
-                <error msg="FOUND TWO COMMENTS IN A ROW - ignoring the first one in codeblock 1"></error>
-                <error msg="FOUND TWO COMMENTS IN A ROW - ignoring the first one in codeblock 1"></error>
-                <error msg="FOUND A COMMENT THAT IS TOO LONG in codeblock 1 max is 56 chars"></error>
+                <error msg="list index out of range"></error>
             </script>
         </example>
     </chapter>
@@ -31,14 +18,10 @@
                 <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
             </script>
             <script id='c' src='4_02_L04c.html'>
-                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
-                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
-                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="list index out of range"></error>
             </script>
             <script id='d' src='4_02_L04d.html'>
-                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
-                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
-                <error msg="FOUND A LINE OF CODE THAT IS TOO LONG in codeblock 1 max is 80 chars"></error>
+                <error msg="list index out of range"></error>
             </script>
         </example>
         <example title='Birds' id='L05'>

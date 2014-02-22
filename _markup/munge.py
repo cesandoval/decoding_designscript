@@ -52,8 +52,10 @@ def munge_part(part_path,part_title,part_id,xml):
                                 xml.append("            <script id='"+script_id+"' src='"+script_src+".html'>")
                                 print "---",file[:-3], "---"
                                 try:
-                                    with open(os.path.join(dcfolder, file), "r") as f: codestring = f.read()
-                                    process_all(codestring, os.path.join(subfolder, file[:-3]), os.path.join(html_path, script_src),xml)
+                                    with open(os.path.join(dcfolder, file), "r") as f: 
+                                        codestring = f.read()
+                                    with open(os.path.join(dcfolder, file), "r") as f: lines = f.readlines()
+                                    process_all(codestring, os.path.join(subfolder, file[:-3]), os.path.join(html_path, script_src),xml,lines)
                                 except Exception,e:
                                     print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
                                     print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"

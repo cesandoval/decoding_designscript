@@ -1,4 +1,4 @@
-/*//
+/*
 4.07.L06d
 Method that creates a bounding box around a PGon, and rotates the PGon incrementally until the bounding box with the least possible area is created.
 
@@ -10,7 +10,7 @@ max_a (float) Maximum angle of rotation.
 
 result: 
 trial (PGon) Polygon rotated to minimum bounds.
-//*/
+*/
 
 import("ProtoGeometry.dll");
 import("Math.dll");

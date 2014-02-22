@@ -31,16 +31,64 @@ tab_width = 3 * ppmm #CHANGE IN SVG WRITER FILE TOO
 max_code_chars = 80
 max_comment_chars = 56
 
-def process_all(codestring,indd_tar_file,html_tar_file,xmlstr):
-    #headstring, codestring = split_header(codestring)
-    headstring = indd_tar_file.split('\\')[-1]
+def record_tbs(lns):
+    cnt = []
+    for ln in lns:
+        #if len(ln) > max_code_chars : append_error(xmlstr, "FOUND A LINE OF CODE THAT IS TOO LONG in codeblock "+str(codeblock_num)+" max is "+str(max_code_chars)+" chars")
+        
+        #if "\t" in ln : append_error(xmlstr, "FOUND A LINE OF CODE THAT CONTAINS A TAB - INDENTATION LIKELY INCORRECT in codeblock "+str(codeblock_num))
+        leading_spaces = len(ln) - len(ln.lstrip())
+        tab_cnt = leading_spaces//4
+        cnt.append(tab_cnt)
+        
+        #tabs.append(tab_cnt)
+        """
+        if line.strip() == "" : 
+            code.append("")
+        else:
+            code.append(ln)"""
+    return cnt
+
+def process_all(codestring,indd_tar_file,html_tar_file,xmlstr,lines):
+    # TODO
+    #headdict, codestring = split_header(codestring)
+    ##############################################
+    codes = []
+    comments = []
+    in_code = True
+    for n,line in enumerate(lines):
+        if "/*" in line: 
+            in_code = False
+            comments.append([])
+            continue
+        if "*/" in line: 
+            in_code = True
+            codes.append([])
+            continue
+        
+        if in_code: codes[-1].append(line)
+        else: comments[-1].append(line)
+        
+    test = zip(comments, codes)
+    for section in test:
+        for t, codex in enumerate(section):
+            if t%2==0:
+                line_cmt = codex
+                #print codex
+            else:
+                line_code = codex
+                tbs_cntx =  record_tbs(line_code)
+                print line_code
+                print tbs_cntx
+    #print test[0][1], len(test[0][0])
+    
+    #print len(comments), len(codes)
+    ################################################
+    headdict = indd_tar_file.split('\\')[-1]
     codearr = split_sections(codestring)
     if codearr: 
         c=1 #code block num
-        htmlstr = open_html(headstring)
-       # TODO 
-       # process_html(codearr, headstring, html_tar_file)
-        
+        htmlstr = open_html(headdict)
         for code, narrative in zip(codearr[0], codearr[1]):
             code_block_name = indd_tar_file.split('\\')[-1]+str(c)
             pseudo = False
@@ -48,9 +96,9 @@ def process_all(codestring,indd_tar_file,html_tar_file,xmlstr):
                 print code_block_name, "PSEUDO"
                 pseudo = True
             else: print code_block_name
-
             # split comments from code
             code_lines, comment_lines, tab_counts = split_comments(code,xmlstr,c)
+            #print code_lines
             clines = []
             for line, comment, tab in zip(code_lines, comment_lines, tab_counts):
                 cline = Codeline(line.strip(),comment,tab)
