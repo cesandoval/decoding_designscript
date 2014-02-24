@@ -3,7 +3,7 @@
   <title></title>
   <meta http-equiv="content-type" content="text/html; charset=None">
   <style type="text/css">
-  
+
 .narr_wrap {
     font-style: italic;
     text-align: center;
@@ -20,7 +20,7 @@
     height: 14px;
 }
 
-.py_para pre { 
+.py_para pre {
     margin: 0px;
     font-family: monospace;
     font-size: 11px;
@@ -28,7 +28,7 @@
 
 pre {
     /* background-color: #0fd; */
-} 
+}
 
 .cmt_para{
     float: left;
@@ -41,10 +41,10 @@ pre {
 }
 
 /* clearfix */
-.py_wrap:after { 
+.py_wrap:after {
    content: " ";
-   display: block; 
-   height: 0; 
+   display: block;
+   height: 0;
    clear: both;
 }
 
@@ -56,7 +56,7 @@ pre {
 }
 
 
-  
+
 td.linenos { background-color: #f0f0f0; padding-right: 10px; }
 span.lineno { background-color: #f0f0f0; padding: 0 5px 0 5px; }
 body .hll { background-color: #ffffcc }
@@ -121,105 +121,91 @@ body .il { color: #009999 } /* Literal.Number.Integer.Long */
   </style>
 </head>
 <body>4.04.L03b
-<div class='narr_wrap'></div><div class='svg_wrap' style='background-image: url(4_04_L03b1.svg), none; height: 812px;'></div>
+Given a 2 curve methods, generate a number of interpolated Curves to define a series of tower floor plates.
+
+requires: 
+func1 (func) Method to create a diamond Curve.
+func2 (func) Method to create an astroid Curve.
+numfloors (int) Number of floor plates for the tower.
+floorheight (float) Distance between floor plates. 
+
+return:
+floor_plate (Curve) Tweened curve.
+
+<div class='narr_wrap'>Methods to create ellipse and astroid curves. 
+<br><span class='codeblock_name'>4.04.L03b1</span></div><div class='svg_wrap' style='background-image: url(4_04_L03b1.svg), none; height: 420px;'></div>
 <div class='py_wrap'>
-<div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">/*//</span>
+<div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;Math.dll&quot;</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="mf">4.04</span><span class="o">.</span><span class="n">L03b</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;ProtoGeometry.dll&quot;</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">Given</span> <span class="n">a</span> <span class="mi">2</span> <span class="n">curve</span> <span class="n">methods</span><span class="p">,</span> <span class="n">generate</span> <span class="n">a</span> <span class="n">number</span> <span class="n">of</span> <span class="n">interpolated</span> <span class="n">Curves</span> <span class="n">to</span> <span class="n">define</span> <span class="n">a</span> <span class="n">series</span> <span class="n">of</span> <span class="n">tower</span> <span class="n">floor</span> <span class="n">plates</span><span class="o">.</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">def</span> <span class="nf">ellipse</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">requires</span><span class="p">:</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">{</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">func1</span> <span class="p">(</span><span class="n">func</span><span class="p">)</span> <span class="n">Method</span> <span class="n">to</span> <span class="n">create</span> <span class="n">a</span> <span class="n">diamond</span> <span class="nb-Decodes">Curve</span><span class="o">.</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">c</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="n">Cos</span><span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="n">PI</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="mf">57.2957795</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">func2</span> <span class="p">(</span><span class="n">func</span><span class="p">)</span> <span class="n">Method</span> <span class="n">to</span> <span class="n">create</span> <span class="n">an</span> <span class="n">astroid</span> <span class="nb-Decodes">Curve</span><span class="o">.</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">s</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="n">Sin</span><span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="n">PI</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="mf">57.2957795</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">numfloors</span> <span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="n">Number</span> <span class="n">of</span> <span class="n">floor</span> <span class="n">plates</span> <span class="k">for</span> <span class="n">the</span> <span class="n">tower</span><span class="o">.</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>create the Point</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">pt_out</span> <span class="o">=</span> <span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="n">len_x</span> <span class="o">*</span> <span class="n">c</span><span class="p">,</span> <span class="n">len_y</span> <span class="o">*</span> <span class="n">s</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">floorheight</span> <span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="n">Distance</span> <span class="n">between</span> <span class="n">floor</span> <span class="n">plates</span><span class="o">.</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="k">return</span> <span class="o">=</span> <span class="n">pt_out</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="k">return</span><span class="p">:</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">}</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">floor_plate</span> <span class="p">(</span><span class="nb-Decodes">Curve</span><span class="p">)</span> <span class="n">Tweened</span> <span class="n">curve</span><span class="o">.</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'>&nbsp;</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'>&nbsp;</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">def</span> <span class="nf">astroid</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>*/</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;Math.dll&quot;</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">{</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;ProtoGeometry.dll&quot;</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">c</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="n">Cos</span><span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="n">PI</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="mf">57.2957795</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">/*</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">s</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="n">Sin</span><span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="n">PI</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="mf">57.2957795</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">Methods</span> <span class="n">to</span> <span class="n">create</span> <span class="n">ellipse</span> <span class="ow">and</span> <span class="n">astroid</span> <span class="n">curves</span><span class="o">.</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>create the Point</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">pt_out</span> <span class="o">=</span> <span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="n">len_x</span> <span class="o">*</span> <span class="n">c</span> <span class="o">*</span> <span class="n">c</span> <span class="o">*</span> <span class="n">c</span><span class="p">,</span> <span class="n">len_y</span> <span class="o">*</span> <span class="n">s</span> <span class="o">*</span> <span class="n">s</span> <span class="o">*</span> <span class="n">s</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">*/</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="k">return</span> <span class="o">=</span> <span class="n">pt_out</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="k">def</span> <span class="nf">ellipse</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">}</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">{</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">t</span><span class="p">)</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">c</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="n">Cos</span><span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="n">PI</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="mf">57.2957795</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">{</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">s</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="n">Sin</span><span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="n">PI</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="mf">57.2957795</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>every floor has a different m value</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">m</span> <span class="o">=</span> <span class="n">n</span><span class="o">/</span><span class="n">num_floors</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>create the Point</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">pt_out</span> <span class="o">=</span> <span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="n">len_x</span> <span class="o">*</span> <span class="n">c</span><span class="p">,</span> <span class="n">len_y</span> <span class="o">*</span> <span class="n">s</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">t1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">m</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">return</span> <span class="o">=</span> <span class="n">pt_out</span><span class="p">;</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">ellipse</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">X</span> <span class="o">*</span> <span class="n">t1</span> <span class="o">+</span> <span class="n">astroid</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">X</span> <span class="o">*</span> <span class="n">m</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">}</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">y</span> <span class="o">=</span> <span class="n">ellipse</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">Y</span> <span class="o">*</span> <span class="n">t1</span> <span class="o">+</span> <span class="n">astroid</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">Y</span> <span class="o">*</span> <span class="n">m</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="k">def</span> <span class="nf">astroid</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>create a new CS for every floor plate</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">base_cs</span> <span class="o">=</span> <span class="nb-Decodes">CoordinateSystem</span><span class="o">.</span><span class="n">ByOriginVectors</span><span class="p">(</span><span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="o">*</span><span class="n">f_height</span><span class="p">),</span> <span class="nb-Decodes">Vector</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="nb-Decodes">Vector</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">{</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>create the Point</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="k">return</span> <span class="o">=</span> <span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">ByCartesianCoordinates</span><span class="p">(</span><span class="n">base_cs</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">c</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="n">Cos</span><span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="n">PI</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="mf">57.2957795</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">}</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">s</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="n">Sin</span><span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="n">PI</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="mf">57.2957795</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div>
+</div>
+
+<div class='narr_wrap'>Generate a number of tweened Curves to define a series of floor plates.
+<br><span class='codeblock_name'>4.04.L03b2</span></div><div class='svg_wrap' style='background-image: url(4_04_L03b2.svg), none; height: 126px;'></div>
+<div class='py_wrap'>
+<div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">len_x</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>create the Point</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">pt_out</span> <span class="o">=</span> <span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="n">len_x</span> <span class="o">*</span> <span class="n">c</span> <span class="o">*</span> <span class="n">c</span> <span class="o">*</span> <span class="n">c</span><span class="p">,</span> <span class="n">len_y</span> <span class="o">*</span> <span class="n">s</span> <span class="o">*</span> <span class="n">s</span> <span class="o">*</span> <span class="n">s</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">len_y</span> <span class="o">=</span> <span class="mf">6.0</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">return</span> <span class="o">=</span> <span class="n">pt_out</span><span class="p">;</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">num_floors</span> <span class="o">=</span> <span class="mi">15</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">}</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">f_height</span> <span class="o">=</span> <span class="mf">3.0</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">t</span><span class="p">)</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">floor_range</span> <span class="o">=</span> <span class="mf">0.</span><span class="o">.</span><span class="n">num_floors</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">{</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">tol</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>every floor has a different m value</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">m</span> <span class="o">=</span> <span class="n">n</span><span class="o">/</span><span class="n">num_floors</span><span class="p">;</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">crv_domain</span> <span class="o">=</span> <span class="mf">0.</span><span class="o">.</span><span class="mf">1.</span><span class="o">.</span><span class="n">tol</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">t1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">m</span><span class="p">);</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">ellipse</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">X</span> <span class="o">*</span> <span class="n">t1</span> <span class="o">+</span> <span class="n">astroid</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">X</span> <span class="o">*</span> <span class="n">m</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">y</span> <span class="o">=</span> <span class="n">ellipse</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">Y</span> <span class="o">*</span> <span class="n">t1</span> <span class="o">+</span> <span class="n">astroid</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">Y</span> <span class="o">*</span> <span class="n">m</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>create a new CS for every floor plate</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">base_cs</span> <span class="o">=</span> <span class="nb-Decodes">CoordinateSystem</span><span class="o">.</span><span class="n">ByOriginVectors</span><span class="p">(</span><span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="o">*</span><span class="n">f_height</span><span class="p">),</span> <span class="nb-Decodes">Vector</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="nb-Decodes">Vector</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>create the Point</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">return</span> <span class="o">=</span> <span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">ByCartesianCoordinates</span><span class="p">(</span><span class="n">base_cs</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">}</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">/*</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">Generate</span> <span class="n">a</span> <span class="n">number</span> <span class="n">of</span> <span class="n">tweened</span> <span class="n">Curves</span> <span class="n">to</span> <span class="n">define</span> <span class="n">a</span> <span class="n">series</span> <span class="n">of</span> <span class="n">floor</span> <span class="n">plates</span><span class="o">.</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">*/</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">len_x</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">len_y</span> <span class="o">=</span> <span class="mf">6.0</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">num_floors</span> <span class="o">=</span> <span class="mi">15</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">f_height</span> <span class="o">=</span> <span class="mf">3.0</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">floor_range</span> <span class="o">=</span> <span class="mf">0.</span><span class="o">.</span><span class="n">num_floors</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">tol</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">crv_domain</span> <span class="o">=</span> <span class="mf">0.</span><span class="o">.</span><span class="mf">1.</span><span class="o">.</span><span class="n">tol</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>create an interpolated Curve on every floor height</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">curves</span> <span class="o">=</span> <span class="n">BSplineCurve</span><span class="o">.</span><span class="n">ByPoints</span><span class="p">(</span><span class="n">func</span><span class="p">(</span><span class="n">floor_range</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">crv_domain</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">));</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>create an interpolated Curve on every floor height</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">curves</span> <span class="o">=</span> <span class="n">BSplineCurve</span><span class="o">.</span><span class="n">ByPoints</span><span class="p">(</span><span class="n">func</span><span class="p">(</span><span class="n">floor_range</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">crv_domain</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">));</span>
 </pre></div>
 </div>
 </div>

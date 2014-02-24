@@ -3,7 +3,7 @@
   <title></title>
   <meta http-equiv="content-type" content="text/html; charset=None">
   <style type="text/css">
-  
+
 .narr_wrap {
     font-style: italic;
     text-align: center;
@@ -20,7 +20,7 @@
     height: 14px;
 }
 
-.py_para pre { 
+.py_para pre {
     margin: 0px;
     font-family: monospace;
     font-size: 11px;
@@ -28,7 +28,7 @@
 
 pre {
     /* background-color: #0fd; */
-} 
+}
 
 .cmt_para{
     float: left;
@@ -41,10 +41,10 @@ pre {
 }
 
 /* clearfix */
-.py_wrap:after { 
+.py_wrap:after {
    content: " ";
-   display: block; 
-   height: 0; 
+   display: block;
+   height: 0;
    clear: both;
 }
 
@@ -56,7 +56,7 @@ pre {
 }
 
 
-  
+
 td.linenos { background-color: #f0f0f0; padding-right: 10px; }
 span.lineno { background-color: #f0f0f0; padding: 0 5px 0 5px; }
 body .hll { background-color: #ffffcc }
@@ -121,271 +121,256 @@ body .il { color: #009999 } /* Literal.Number.Integer.Long */
   </style>
 </head>
 <body>4.02.L05b
-<div class='narr_wrap'></div><div class='svg_wrap' style='background-image: url(4_02_L05b1.svg), none; height: 2044px;'></div>
+Move a flock of simple Birds toward a goal.
+
+required:
+Bird (class) A simple Bird class
+goal_pt (Point) The point that the flock will seek
+close_enough (float) The distance from the goal that will cause Bird to stop
+count (int) The number of steps 
+
+result:
+flock ([Bird]) A group of Birds with their history filled out
+
+<div class='narr_wrap'>A simple Bird class is defined with position, velocity, acceleration vectors, and history.
+<br><span class='codeblock_name'>4.02.L05b1</span></div><div class='svg_wrap' style='background-image: url(4_02_L05b1.svg), none; height: 378px;'></div>
 <div class='py_wrap'>
-<div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">/*//</span>
+<div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;ProtoGeometry.dll&quot;</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="mf">4.02</span><span class="o">.</span><span class="n">L05b</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;Math.dll&quot;</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">Move</span> <span class="n">a</span> <span class="n">flock</span> <span class="n">of</span> <span class="n">simple</span> <span class="n">Birds</span> <span class="n">toward</span> <span class="n">a</span> <span class="n">goal</span><span class="o">.</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;../../../library/decodes_functions.ds&quot;</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">required</span><span class="p">:</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">class</span> <span class="nc">Bird</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">Bird</span> <span class="p">(</span><span class="n">class</span><span class="p">)</span> <span class="n">A</span> <span class="n">simple</span> <span class="n">Bird</span> <span class="k">class</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">{</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">goal_pt</span> <span class="p">(</span><span class="nb-Decodes">Point</span><span class="p">)</span> <span class="n">The</span> <span class="n">point</span> <span class="n">that</span> <span class="n">the</span> <span class="n">flock</span> <span class="n">will</span> <span class="n">seek</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">Pos</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">close_enough</span> <span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="n">The</span> <span class="n">distance</span> <span class="kn">from</span> <span class="nn">the</span> <span class="nn">goal</span> <span class="nn">that</span> <span class="nn">will</span> <span class="nn">cause</span> <span class="nn">Bird</span> <span class="nn">to</span> <span class="nn">stop</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">Vel</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">count</span> <span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="n">The</span> <span class="n">number</span> <span class="n">of</span> <span class="n">steps</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">Max_vel</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">result</span><span class="p">:</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">Acl</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">flock</span> <span class="p">([</span><span class="n">Bird</span><span class="p">])</span> <span class="n">A</span> <span class="n">group</span> <span class="n">of</span> <span class="n">Birds</span> <span class="k">with</span> <span class="n">their</span> <span class="n">history</span> <span class="n">filled</span> <span class="n">out</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">Max_frc</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>*/</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;ProtoGeometry.dll&quot;</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">Hist_pos</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;Math.dll&quot;</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">Hist_vel</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;../../../library/decodes_functions.ds&quot;</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">Hist_acl</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">/*</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">Is_alive</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">A</span> <span class="n">simple</span> <span class="n">Bird</span> <span class="k">class</span> <span class="nc">is</span> <span class="n">defined</span> <span class="k">with</span> <span class="n">position</span><span class="p">,</span> <span class="n">velocity</span><span class="p">,</span> <span class="n">acceleration</span> <span class="n">vectors</span><span class="p">,</span> <span class="ow">and</span> <span class="n">history</span><span class="o">.</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'>&nbsp;</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">constructor</span> <span class="n">FromPosVel</span><span class="p">(</span><span class="n">pos_start</span><span class="p">,</span> <span class="n">vel_start</span><span class="p">)</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">*/</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="p">{</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="k">class</span> <span class="nc">Bird</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>set the Bird's position to the initial point</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">Pos</span> <span class="o">=</span> <span class="n">pos_start</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">{</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>set the Bird's velocity to the initial velocity</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">Vel</span> <span class="o">=</span> <span class="n">vel_start</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">Pos</span><span class="p">;</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>set a limit to the Bird's velocity</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">Max_vel</span> <span class="o">=</span> <span class="mf">2.00</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">Vel</span><span class="p">;</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>set the initial acceleration to zero</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">Acl</span> <span class="o">=</span> <span class="nb-Decodes">Vector</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">Max_vel</span><span class="p">;</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>set a limit to the Bird's acceleration</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">Max_frc</span> <span class="o">=</span> <span class="mf">0.35</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">Acl</span><span class="p">;</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>initalize history lists</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">clear_history</span><span class="p">();</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">Max_frc</span><span class="p">;</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>record this initial condition as a "step"</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">record</span><span class="p">();</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">Hist_pos</span><span class="p">;</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="p">}</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">Hist_vel</span><span class="p">;</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'>&nbsp;</div>
+</div>
+
+<div class='narr_wrap'>    Cause the Bird object to move, using its current velocity and acceleration.      
+<br><span class='codeblock_name'>4.02.L05b2</span></div><div class='svg_wrap' style='background-image: url(4_02_L05b2.svg), none; height: 126px;'></div>
+<div class='py_wrap'>
+<div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="k">def</span> <span class="nf">step</span><span class="p">()</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">Hist_acl</span><span class="p">;</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="p">{</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">Is_alive</span><span class="p">;</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>add the acceleration to the velocity</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">Vel</span> <span class="o">=</span> <span class="nb-Decodes">Vector</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">Vel</span><span class="o">.</span><span class="n">X</span> <span class="o">+</span> <span class="n">this</span><span class="o">.</span><span class="n">Acl</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">this</span><span class="o">.</span><span class="n">Vel</span><span class="o">.</span><span class="n">Y</span> <span class="o">+</span> <span class="n">this</span><span class="o">.</span><span class="n">Acl</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">this</span><span class="o">.</span><span class="n">Vel</span><span class="o">.</span><span class="n">Z</span> <span class="o">+</span> <span class="n">this</span><span class="o">.</span><span class="n">Acl</span><span class="o">.</span><span class="n">Z</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">constructor</span> <span class="n">FromPosVel</span><span class="p">(</span><span class="n">pos_start</span><span class="p">,</span> <span class="n">vel_start</span><span class="p">)</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>limit to the maximum velocity</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">Vel</span> <span class="o">=</span> <span class="n">this</span><span class="o">.</span><span class="n">Vel</span><span class="o">.</span><span class="n">Normalize</span><span class="p">()</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">Max_vel</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">{</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>record the step (note that we record before moving)</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">record</span><span class="p">();</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>set the Bird's position to the initial point</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">Pos</span> <span class="o">=</span> <span class="n">pos_start</span><span class="p">;</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>move bird</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">Pos</span> <span class="o">=</span> <span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">Pos</span><span class="o">.</span><span class="n">X</span> <span class="o">+</span> <span class="n">this</span><span class="o">.</span><span class="n">Vel</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">this</span><span class="o">.</span><span class="n">Pos</span><span class="o">.</span><span class="n">Y</span> <span class="o">+</span> <span class="n">this</span><span class="o">.</span><span class="n">Vel</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">this</span><span class="o">.</span><span class="n">Pos</span><span class="o">.</span><span class="n">Z</span> <span class="o">+</span> <span class="n">this</span><span class="o">.</span><span class="n">Vel</span><span class="o">.</span><span class="n">Z</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>set the Bird's velocity to the initial velocity</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">Vel</span> <span class="o">=</span> <span class="n">vel_start</span><span class="p">;</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>reset acceleration back to zero for next step</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">Acl</span> <span class="o">=</span> <span class="nb-Decodes">Vector</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>set a limit to the Bird's velocity</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">Max_vel</span> <span class="o">=</span> <span class="mf">2.00</span><span class="p">;</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="p">}</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>set the initial acceleration to zero</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">Acl</span> <span class="o">=</span> <span class="nb-Decodes">Vector</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:72px; width:408px;'>&nbsp;</div>
+</div>
+
+<div class='narr_wrap'>    Steer the Bird by adding the given vector to the acceleration  
+<br><span class='codeblock_name'>4.02.L05b3</span></div><div class='svg_wrap' style='background-image: url(4_02_L05b3.svg), none; height: 84px;'></div>
+<div class='py_wrap'>
+<div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="k">def</span> <span class="nf">steer</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>set a limit to the Bird's acceleration</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">Max_frc</span> <span class="o">=</span> <span class="mf">0.35</span><span class="p">;</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="p">{</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>initalize history lists</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">clear_history</span><span class="p">();</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>keep the acceleration to within the maximum</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">vec</span> <span class="o">=</span> <span class="n">vec</span><span class="o">.</span><span class="n">Normalize</span><span class="p">()</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">Max_frc</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>record this initial condition as a "step"</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">record</span><span class="p">();</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>add the accelation vector</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">Acl</span> <span class="o">=</span> <span class="nb-Decodes">Vector</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">Acl</span><span class="o">.</span><span class="n">X</span> <span class="o">+</span> <span class="n">vec</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">this</span><span class="o">.</span><span class="n">Acl</span><span class="o">.</span><span class="n">Y</span> <span class="o">+</span> <span class="n">vec</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">this</span><span class="o">.</span><span class="n">Acl</span><span class="o">.</span><span class="n">Z</span> <span class="o">+</span> <span class="n">vec</span><span class="o">.</span><span class="n">Z</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">}</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="p">}</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="o">/*</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div>
+</div>
+
+<div class='narr_wrap'>    Reset the Bird to its initial position and values 
+<br><span class='codeblock_name'>4.02.L05b4</span></div><div class='svg_wrap' style='background-image: url(4_02_L05b4.svg), none; height: 28px;'></div>
+<div class='py_wrap'>
+<div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="k">def</span> <span class="nf">reset</span><span class="p">()</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">Cause</span> <span class="n">the</span> <span class="n">Bird</span> <span class="nb">object</span> <span class="n">to</span> <span class="n">move</span><span class="p">,</span> <span class="n">using</span> <span class="n">its</span> <span class="n">current</span> <span class="n">velocity</span> <span class="ow">and</span> <span class="n">acceleration</span><span class="o">.</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="o">*/</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">def</span> <span class="nf">step</span><span class="p">()</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">{</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>add the acceleration to the velocity</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">Vel</span> <span class="o">=</span> <span class="nb-Decodes">Vector</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">Vel</span><span class="o">.</span><span class="n">X</span> <span class="o">+</span> <span class="n">this</span><span class="o">.</span><span class="n">Acl</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">this</span><span class="o">.</span><span class="n">Vel</span><span class="o">.</span><span class="n">Y</span> <span class="o">+</span> <span class="n">this</span><span class="o">.</span><span class="n">Acl</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">this</span><span class="o">.</span><span class="n">Vel</span><span class="o">.</span><span class="n">Z</span> <span class="o">+</span> <span class="n">this</span><span class="o">.</span><span class="n">Acl</span><span class="o">.</span><span class="n">Z</span><span class="p">);</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>limit to the maximum velocity</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">Vel</span> <span class="o">=</span> <span class="n">this</span><span class="o">.</span><span class="n">Vel</span><span class="o">.</span><span class="n">Normalize</span><span class="p">()</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">Max_vel</span><span class="p">);</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>record the step (note that we record before moving)</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">record</span><span class="p">();</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>move bird</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">Pos</span> <span class="o">=</span> <span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">Pos</span><span class="o">.</span><span class="n">X</span> <span class="o">+</span> <span class="n">this</span><span class="o">.</span><span class="n">Vel</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">this</span><span class="o">.</span><span class="n">Pos</span><span class="o">.</span><span class="n">Y</span> <span class="o">+</span> <span class="n">this</span><span class="o">.</span><span class="n">Vel</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">this</span><span class="o">.</span><span class="n">Pos</span><span class="o">.</span><span class="n">Z</span> <span class="o">+</span> <span class="n">this</span><span class="o">.</span><span class="n">Vel</span><span class="o">.</span><span class="n">Z</span><span class="p">);</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>reset acceleration back to zero for next step</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">Acl</span> <span class="o">=</span> <span class="nb-Decodes">Vector</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">}</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="o">/*</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">Steer</span> <span class="n">the</span> <span class="n">Bird</span> <span class="n">by</span> <span class="n">adding</span> <span class="n">the</span> <span class="n">given</span> <span class="n">vector</span> <span class="n">to</span> <span class="n">the</span> <span class="n">acceleration</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="o">*/</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">def</span> <span class="nf">steer</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">{</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>keep the acceleration to within the maximum</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">vec</span> <span class="o">=</span> <span class="n">vec</span><span class="o">.</span><span class="n">Normalize</span><span class="p">()</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">Max_frc</span><span class="p">);</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>add the accelation vector</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">Acl</span> <span class="o">=</span> <span class="nb-Decodes">Vector</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">Acl</span><span class="o">.</span><span class="n">X</span> <span class="o">+</span> <span class="n">vec</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">this</span><span class="o">.</span><span class="n">Acl</span><span class="o">.</span><span class="n">Y</span> <span class="o">+</span> <span class="n">vec</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">this</span><span class="o">.</span><span class="n">Acl</span><span class="o">.</span><span class="n">Z</span> <span class="o">+</span> <span class="n">vec</span><span class="o">.</span><span class="n">Z</span><span class="p">);</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">}</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="o">/*</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">Reset</span> <span class="n">the</span> <span class="n">Bird</span> <span class="n">to</span> <span class="n">its</span> <span class="n">initial</span> <span class="n">position</span> <span class="ow">and</span> <span class="n">values</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="o">*/</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">def</span> <span class="nf">reset</span><span class="p">()</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">{</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="o">/*</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">resets</span> <span class="n">this</span> <span class="n">bird</span> <span class="n">back</span> <span class="n">to</span> <span class="n">his</span> <span class="n">initialized</span> <span class="n">condition</span><span class="o">.</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">replaces</span> <span class="n">existing</span> <span class="n">history</span> <span class="n">lists</span> <span class="k">with</span> <span class="n">single</span> <span class="n">inital</span> <span class="n">values</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="o">*/</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">Is_alive</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">Pos</span> <span class="o">=</span> <span class="n">Count</span><span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">Hist_pos</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="err">?</span> <span class="n">this</span><span class="o">.</span><span class="n">Hist_pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">:</span> <span class="n">this</span><span class="o">.</span><span class="n">Pos</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">Vel</span> <span class="o">=</span> <span class="n">Count</span><span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">Hist_pos</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="err">?</span> <span class="n">this</span><span class="o">.</span><span class="n">Hist_vel</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">:</span> <span class="n">this</span><span class="o">.</span><span class="n">Vel</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">Acl</span> <span class="o">=</span> <span class="n">Count</span><span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">Hist_pos</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="err">?</span> <span class="n">this</span><span class="o">.</span><span class="n">Hist_acl</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">:</span> <span class="n">this</span><span class="o">.</span><span class="n">Acl</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">clear_history</span><span class="p">();</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">record</span><span class="p">();</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">}</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="o">/*</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">Functions</span> <span class="n">to</span> <span class="n">clear</span> <span class="n">the</span> <span class="n">history</span> <span class="ow">and</span> <span class="n">record</span> <span class="n">a</span> <span class="n">step</span> <span class="n">clear</span> <span class="n">the</span> <span class="n">position</span><span class="p">,</span> <span class="n">velocity</span> <span class="ow">and</span> <span class="n">acceleration</span> <span class="n">histories</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="o">*/</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:9px; width:261px;'>clear the position, velocity and acceleration histories</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">def</span> <span class="nf">clear_history</span><span class="p">()</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">{</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">Hist_pos</span> <span class="o">=</span> <span class="p">{</span> <span class="p">};</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">Hist_vel</span> <span class="o">=</span> <span class="p">{</span> <span class="p">};</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">Hist_acl</span> <span class="o">=</span> <span class="p">{</span> <span class="p">};</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">}</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'>&nbsp;</div><div class='cmt_para' style='padding-right:9px; width:261px;'>record this step</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">def</span> <span class="nf">record</span><span class="p">()</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">{</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>add its position, velocity and accelaration to the history</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">Hist_pos</span><span class="p">[</span><span class="n">Count</span><span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">Hist_pos</span><span class="p">)]</span> <span class="o">=</span> <span class="n">this</span><span class="o">.</span><span class="n">Pos</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">Hist_vel</span><span class="p">[</span><span class="n">Count</span><span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">Hist_vel</span><span class="p">)]</span> <span class="o">=</span> <span class="n">this</span><span class="o">.</span><span class="n">Vel</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">Hist_acl</span><span class="p">[</span><span class="n">Count</span><span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">Hist_acl</span><span class="p">)]</span> <span class="o">=</span> <span class="n">this</span><span class="o">.</span><span class="n">Acl</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">}</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">}</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">count</span> <span class="o">=</span> <span class="mi">15</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">max_frc</span> <span class="o">=</span> <span class="mf">0.11</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">max_vel</span> <span class="o">=</span> <span class="mf">0.76</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">goal_pt</span> <span class="o">=</span> <span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">close_enough</span> <span class="o">=</span> <span class="mf">1.25</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">step_count</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">/*</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">Create</span> <span class="n">a</span> <span class="n">flock</span> <span class="n">of</span> <span class="n">simple</span> <span class="n">Bird</span> <span class="n">objects</span><span class="o">.</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">*/</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">flock</span> <span class="o">=</span> <span class="p">{</span> <span class="p">};</span> <span class="o">//</span><span class="n">initialize</span> <span class="n">an</span> <span class="n">empty</span> <span class="n">flock</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">[</span><span class="n">Imperative</span><span class="p">]</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">{</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>for each Bird in the flock:</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">for</span><span class="p">(</span><span class="n">n</span> <span class="ow">in</span> <span class="mf">0.</span><span class="o">.</span><span class="n">count</span><span class="p">)</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">{</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>append a random Bird</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">flock</span><span class="p">[</span><span class="n">Count</span><span class="p">(</span><span class="n">flock</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Bird</span><span class="o">.</span><span class="n">FromPosVel</span><span class="p">(</span><span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">vec_random</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">true</span><span class="p">));</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">}</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">}</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">flock</span><span class="o">.</span><span class="n">reset</span><span class="p">();</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">flock</span><span class="o">.</span><span class="n">Max_frc</span> <span class="o">=</span> <span class="n">max_frc</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">flock</span><span class="o">.</span><span class="n">Max_vel</span> <span class="o">=</span> <span class="n">max_vel</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">/*</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">Move</span> <span class="n">a</span> <span class="n">flock</span> <span class="n">of</span> <span class="n">simple</span> <span class="n">Birds</span> <span class="n">toward</span> <span class="n">a</span> <span class="n">goal</span> <span class="n">point</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">*/</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">[</span><span class="n">Imperative</span><span class="p">]</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">{</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>for each time step:</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">for</span><span class="p">(</span><span class="n">step</span> <span class="ow">in</span> <span class="mf">0.</span><span class="o">.</span><span class="n">step_count</span><span class="p">)</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">{</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>for each Bird in the flock:</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="k">for</span><span class="p">(</span><span class="n">bird</span> <span class="ow">in</span> <span class="n">flock</span><span class="p">)</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="p">{</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>if this is the first step</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="k">if</span> <span class="p">(</span><span class="n">step</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="p">{</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>reset the Bird's history</div><div class='py_para' style='padding-left:72px; width:408px;'><div class="source"><pre><span class="n">bird</span><span class="o">.</span><span class="n">reset</span><span class="p">();</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="p">}</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>create a steering vector</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">vec</span> <span class="o">=</span> <span class="n">vec_two_points</span><span class="p">(</span><span class="n">bird</span><span class="o">.</span><span class="n">Pos</span><span class="p">,</span> <span class="n">goal_pt</span><span class="p">);</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>if Bird is not close to goal point:</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="k">if</span> <span class="p">(</span><span class="n">vec</span><span class="o">.</span><span class="n">Length</span> <span class="o">&gt;</span> <span class="n">close_enough</span><span class="p">)</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="p">{</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>steer bird toward goal and update</div><div class='py_para' style='padding-left:72px; width:408px;'><div class="source"><pre><span class="n">bird</span><span class="o">.</span><span class="n">steer</span><span class="p">(</span><span class="n">vec_two_points</span><span class="p">(</span><span class="n">bird</span><span class="o">.</span><span class="n">Vel</span><span class="p">,</span> <span class="n">vec</span><span class="p">));</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:72px; width:408px;'><div class="source"><pre><span class="n">bird</span><span class="o">.</span><span class="n">step</span><span class="p">();</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="p">}</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="p">}</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">}</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">}</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">pts</span> <span class="o">=</span> <span class="n">flock</span><span class="o">.</span><span class="n">Hist_pos</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">path</span> <span class="o">=</span> <span class="n">pts_to_lines</span><span class="p">(</span><span class="n">pts</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="p">{</span>
 </pre></div>
 </div>
+</div>
+
+<div class='narr_wrap'>        resets this bird back to his initialized condition.
+        replaces existing history lists with single inital values
+<br><span class='codeblock_name'>4.02.L05b5</span></div><div class='svg_wrap' style='background-image: url(4_02_L05b5.svg), none; height: 112px;'></div>
+<div class='py_wrap'>
+<div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">Is_alive</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">Pos</span> <span class="o">=</span> <span class="n">Count</span><span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">Hist_pos</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="err">?</span> <span class="n">this</span><span class="o">.</span><span class="n">Hist_pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">:</span> <span class="n">this</span><span class="o">.</span><span class="n">Pos</span><span class="p">;</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">Vel</span> <span class="o">=</span> <span class="n">Count</span><span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">Hist_pos</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="err">?</span> <span class="n">this</span><span class="o">.</span><span class="n">Hist_vel</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">:</span> <span class="n">this</span><span class="o">.</span><span class="n">Vel</span><span class="p">;</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">Acl</span> <span class="o">=</span> <span class="n">Count</span><span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">Hist_pos</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="err">?</span> <span class="n">this</span><span class="o">.</span><span class="n">Hist_acl</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">:</span> <span class="n">this</span><span class="o">.</span><span class="n">Acl</span><span class="p">;</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">clear_history</span><span class="p">();</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">record</span><span class="p">();</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="p">}</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'>&nbsp;</div>
+</div>
+
+<div class='narr_wrap'>    Functions to clear the history and record a step clear the position, velocity and acceleration histories
+<br><span class='codeblock_name'>4.02.L05b6</span></div><div class='svg_wrap' style='background-image: url(4_02_L05b6.svg), none; height: 210px;'></div>
+<div class='py_wrap'>
+<div class='cmt_para' style='padding-right:9px; width:261px;'>clear the position, velocity and acceleration histories</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="k">def</span> <span class="nf">clear_history</span><span class="p">()</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="p">{</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">Hist_pos</span> <span class="o">=</span> <span class="p">{</span> <span class="p">};</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">Hist_vel</span> <span class="o">=</span> <span class="p">{</span> <span class="p">};</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">Hist_acl</span> <span class="o">=</span> <span class="p">{</span> <span class="p">};</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="p">}</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'>&nbsp;</div><div class='cmt_para' style='padding-right:9px; width:261px;'>record this step</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="k">def</span> <span class="nf">record</span><span class="p">()</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="p">{</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>add its position, velocity and accelaration to the history</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">Hist_pos</span><span class="p">[</span><span class="n">Count</span><span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">Hist_pos</span><span class="p">)]</span> <span class="o">=</span> <span class="n">this</span><span class="o">.</span><span class="n">Pos</span><span class="p">;</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">Hist_vel</span><span class="p">[</span><span class="n">Count</span><span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">Hist_vel</span><span class="p">)]</span> <span class="o">=</span> <span class="n">this</span><span class="o">.</span><span class="n">Vel</span><span class="p">;</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">Hist_acl</span><span class="p">[</span><span class="n">Count</span><span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">Hist_acl</span><span class="p">)]</span> <span class="o">=</span> <span class="n">this</span><span class="o">.</span><span class="n">Acl</span><span class="p">;</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="p">}</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">}</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div>
+</div>
+
+<div class='narr_wrap'>Create a flock of simple Bird objects.
+<br><span class='codeblock_name'>4.02.L05b7</span></div><div class='svg_wrap' style='background-image: url(4_02_L05b7.svg), none; height: 280px;'></div>
+<div class='py_wrap'>
+<div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">count</span> <span class="o">=</span> <span class="mi">15</span><span class="p">;</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">max_frc</span> <span class="o">=</span> <span class="mf">0.11</span><span class="p">;</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">max_vel</span> <span class="o">=</span> <span class="mf">0.76</span><span class="p">;</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">goal_pt</span> <span class="o">=</span> <span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">close_enough</span> <span class="o">=</span> <span class="mf">1.25</span><span class="p">;</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">step_count</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">flock</span> <span class="o">=</span> <span class="p">{</span> <span class="p">};</span> <span class="o">//</span><span class="n">initialize</span> <span class="n">an</span> <span class="n">empty</span> <span class="n">flock</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">[</span><span class="n">Imperative</span><span class="p">]</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">{</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>for each Bird in the flock:</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="k">for</span><span class="p">(</span><span class="n">n</span> <span class="ow">in</span> <span class="mf">0.</span><span class="o">.</span><span class="n">count</span><span class="p">)</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="p">{</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>append a random Bird</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">flock</span><span class="p">[</span><span class="n">Count</span><span class="p">(</span><span class="n">flock</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Bird</span><span class="o">.</span><span class="n">FromPosVel</span><span class="p">(</span><span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">vec_random</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">true</span><span class="p">));</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="p">}</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">}</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">flock</span><span class="o">.</span><span class="n">reset</span><span class="p">();</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">flock</span><span class="o">.</span><span class="n">Max_frc</span> <span class="o">=</span> <span class="n">max_frc</span><span class="p">;</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">flock</span><span class="o">.</span><span class="n">Max_vel</span> <span class="o">=</span> <span class="n">max_vel</span><span class="p">;</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div>
+</div>
+
+<div class='narr_wrap'>Move a flock of simple Birds toward a goal point
+<br><span class='codeblock_name'>4.02.L05b8</span></div><div class='svg_wrap' style='background-image: url(4_02_L05b8.svg), none; height: 308px;'></div>
+<div class='py_wrap'>
+<div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">[</span><span class="n">Imperative</span><span class="p">]</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">{</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>for each time step:</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="k">for</span><span class="p">(</span><span class="n">step</span> <span class="ow">in</span> <span class="mf">0.</span><span class="o">.</span><span class="n">step_count</span><span class="p">)</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="p">{</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>for each Bird in the flock:</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="k">for</span><span class="p">(</span><span class="n">bird</span> <span class="ow">in</span> <span class="n">flock</span><span class="p">)</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="p">{</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>if this is the first step</div><div class='py_para' style='padding-left:72px; width:408px;'><div class="source"><pre><span class="k">if</span> <span class="p">(</span><span class="n">step</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:72px; width:408px;'><div class="source"><pre><span class="p">{</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>reset the Bird's history</div><div class='py_para' style='padding-left:90px; width:390px;'><div class="source"><pre><span class="n">bird</span><span class="o">.</span><span class="n">reset</span><span class="p">();</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:72px; width:408px;'><div class="source"><pre><span class="p">}</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>create a steering vector</div><div class='py_para' style='padding-left:72px; width:408px;'><div class="source"><pre><span class="n">vec</span> <span class="o">=</span> <span class="n">vec_two_points</span><span class="p">(</span><span class="n">bird</span><span class="o">.</span><span class="n">Pos</span><span class="p">,</span> <span class="n">goal_pt</span><span class="p">);</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>if Bird is not close to goal point:</div><div class='py_para' style='padding-left:72px; width:408px;'><div class="source"><pre><span class="k">if</span> <span class="p">(</span><span class="n">vec</span><span class="o">.</span><span class="n">Length</span> <span class="o">&gt;</span> <span class="n">close_enough</span><span class="p">)</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:72px; width:408px;'><div class="source"><pre><span class="p">{</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>steer bird toward goal and update</div><div class='py_para' style='padding-left:90px; width:390px;'><div class="source"><pre><span class="n">bird</span><span class="o">.</span><span class="n">steer</span><span class="p">(</span><span class="n">vec_two_points</span><span class="p">(</span><span class="n">bird</span><span class="o">.</span><span class="n">Vel</span><span class="p">,</span> <span class="n">vec</span><span class="p">));</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:90px; width:390px;'><div class="source"><pre><span class="n">bird</span><span class="o">.</span><span class="n">step</span><span class="p">();</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:72px; width:408px;'><div class="source"><pre><span class="p">}</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="p">}</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="p">}</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">}</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">pts</span> <span class="o">=</span> <span class="n">flock</span><span class="o">.</span><span class="n">Hist_pos</span><span class="p">;</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">path</span> <span class="o">=</span> <span class="n">pts_to_lines</span><span class="p">(</span><span class="n">pts</span><span class="p">);</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div>
 </div>

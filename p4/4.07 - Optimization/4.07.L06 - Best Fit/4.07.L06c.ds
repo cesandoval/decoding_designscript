@@ -1,4 +1,4 @@
-/*//
+/*
 4.07.L06c
 Method that returns a best fit Arc using the modified least squares method.
 
@@ -7,15 +7,15 @@ pts_in ([Point]) A list of Points.
 
 result: 
 (Arc) An arc 
-//*/
+*/
+/*
+Returns a best fit arc using the modified least squares method.
+*/
 
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
 
-/*
-Returns a best fit arc using the modified least squares method.
-*/
 def lstSquaresArc(pts_in : Point[])
 {
     cnt = Count(pts_in);

@@ -1,4 +1,4 @@
-/*//
+/*
 4.03.L01b
 Evaluate a PGon over a given height, and create a tower with a controlled mesh.
 
@@ -7,8 +7,10 @@ height (float) The height of the tower.
 
 result:
 ret (Mesh) A tower.
-//*/
-
+*/
+/*
+Functions to create a tower.
+*/
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
@@ -74,7 +76,9 @@ def func2(u, v)
         return pt_out */
 }
     
-
+/*
+Create a tower.
+*/
 
 // this number maintains the form of the mesh throughout its height by creating "floors"
 section_count = 15;

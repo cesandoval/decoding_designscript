@@ -3,7 +3,7 @@
   <title></title>
   <meta http-equiv="content-type" content="text/html; charset=None">
   <style type="text/css">
-  
+
 .narr_wrap {
     font-style: italic;
     text-align: center;
@@ -20,7 +20,7 @@
     height: 14px;
 }
 
-.py_para pre { 
+.py_para pre {
     margin: 0px;
     font-family: monospace;
     font-size: 11px;
@@ -28,7 +28,7 @@
 
 pre {
     /* background-color: #0fd; */
-} 
+}
 
 .cmt_para{
     float: left;
@@ -41,10 +41,10 @@ pre {
 }
 
 /* clearfix */
-.py_wrap:after { 
+.py_wrap:after {
    content: " ";
-   display: block; 
-   height: 0; 
+   display: block;
+   height: 0;
    clear: both;
 }
 
@@ -56,7 +56,7 @@ pre {
 }
 
 
-  
+
 td.linenos { background-color: #f0f0f0; padding-right: 10px; }
 span.lineno { background-color: #f0f0f0; padding: 0 5px 0 5px; }
 body .hll { background-color: #ffffcc }
@@ -121,71 +121,61 @@ body .il { color: #009999 } /* Literal.Number.Integer.Long */
   </style>
 </head>
 <body>4.04.L05b
-<div class='narr_wrap'></div><div class='svg_wrap' style='background-image: url(4_04_L05b1.svg), none; height: 560px;'></div>
+
+Create a solution space matrix of blobby curves.  
+
+required: 
+rad (float) Radius of blob.
+alpha ([float]) Decimal value to create the blob.
+
+ 
+result: 
+crv_out (Curve) A close curve with different shape and size. A portion of the curves will be self-intersecting.   
+
+<div class='narr_wrap'>Method to create a blobby curve based on a radius and an alpha value in design space.
+<br><span class='codeblock_name'>4.04.L05b1</span></div><div class='svg_wrap' style='background-image: url(4_04_L05b1.svg), none; height: 168px;'></div>
 <div class='py_wrap'>
-<div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">/*//</span>
+<div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;ProtoGeometry.dll&quot;</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="mf">4.04</span><span class="o">.</span><span class="n">L05b</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;Math.dll&quot;</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">Create</span> <span class="n">a</span> <span class="n">solution</span> <span class="n">space</span> <span class="n">matrix</span> <span class="n">of</span> <span class="n">blobby</span> <span class="n">curves</span><span class="o">.</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">def</span> <span class="nf">blob</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">alpha</span><span class="p">)</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">required</span><span class="p">:</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">{</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">rad</span> <span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="n">Radius</span> <span class="n">of</span> <span class="n">blob</span><span class="o">.</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>define a number of values with mathematical functions</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">c</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="n">Cos</span><span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="n">PI</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="mf">57.2957795</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">alpha</span> <span class="p">([</span><span class="nb">float</span><span class="p">])</span> <span class="n">Decimal</span> <span class="n">value</span> <span class="n">to</span> <span class="n">create</span> <span class="n">the</span> <span class="n">blob</span><span class="o">.</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">s</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="n">Sin</span><span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="n">PI</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="mf">57.2957795</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">result</span><span class="p">:</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">r</span> <span class="o">=</span> <span class="mi">50</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">rad</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="n">Cos</span><span class="p">((</span><span class="mi">4</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="n">PI</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="mf">57.2957795</span><span class="p">)</span> <span class="o">+</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="n">Cos</span><span class="p">((</span><span class="mi">6</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="n">PI</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="mf">57.2957795</span><span class="p">));</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">crv_out</span> <span class="p">(</span><span class="nb-Decodes">Curve</span><span class="p">)</span> <span class="n">A</span> <span class="n">close</span> <span class="n">curve</span> <span class="k">with</span> <span class="n">different</span> <span class="n">shape</span> <span class="ow">and</span> <span class="n">size</span><span class="o">.</span> <span class="n">A</span> <span class="n">portion</span> <span class="n">of</span> <span class="n">the</span> <span class="n">curves</span> <span class="n">will</span> <span class="n">be</span> <span class="bp">self</span><span class="o">-</span><span class="n">intersecting</span><span class="o">.</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>create a Point based on the mathematical values</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">pt_out</span> <span class="o">=</span> <span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="n">r</span> <span class="o">*</span> <span class="n">c</span><span class="p">,</span> <span class="n">r</span> <span class="o">*</span> <span class="n">s</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>*/</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;ProtoGeometry.dll&quot;</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="k">return</span> <span class="o">=</span> <span class="n">pt_out</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;Math.dll&quot;</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">}</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">/*</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div>
+</div>
+
+<div class='narr_wrap'>Generate a number of blobs with Associative replication
+<br><span class='codeblock_name'>4.04.L05b2</span></div><div class='svg_wrap' style='background-image: url(4_04_L05b2.svg), none; height: 126px;'></div>
+<div class='py_wrap'>
+<div class='cmt_para' style='padding-right:36px; width:234px;'>set some initial values</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">num</span> <span class="o">=</span> <span class="mi">11</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">Method</span> <span class="n">to</span> <span class="n">create</span> <span class="n">a</span> <span class="n">blobby</span> <span class="n">curve</span> <span class="n">based</span> <span class="n">on</span> <span class="n">a</span> <span class="n">radius</span> <span class="ow">and</span> <span class="n">an</span> <span class="n">alpha</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">design</span> <span class="n">space</span><span class="o">.</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">rad</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">*/</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.</span><span class="o">.</span><span class="mf">1.</span><span class="o">.</span><span class="c">#num;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="k">def</span> <span class="nf">blob</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">alpha</span><span class="p">)</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">dist</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">{</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div><div class='cmt_para' style='padding-right:36px; width:234px;'>set curve domain</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">tol</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>define a number of values with mathematical functions</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">c</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="n">Cos</span><span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="n">PI</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="mf">57.2957795</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">crv_domain</span> <span class="o">=</span> <span class="mf">0.</span><span class="o">.</span><span class="mf">1.</span><span class="o">.</span><span class="n">tol</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">s</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="n">Sin</span><span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="n">PI</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="mf">57.2957795</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>create Points for the blobs</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">pts</span> <span class="o">=</span> <span class="n">blob</span><span class="p">(</span><span class="n">crv_domain</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">r</span> <span class="o">=</span> <span class="mi">50</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">rad</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="n">Cos</span><span class="p">((</span><span class="mi">4</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="n">PI</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="mf">57.2957795</span><span class="p">)</span> <span class="o">+</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="n">Cos</span><span class="p">((</span><span class="mi">6</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="n">PI</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="mf">57.2957795</span><span class="p">));</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>create a Point based on the mathematical values</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">pt_out</span> <span class="o">=</span> <span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="n">r</span> <span class="o">*</span> <span class="n">c</span><span class="p">,</span> <span class="n">r</span> <span class="o">*</span> <span class="n">s</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">return</span> <span class="o">=</span> <span class="n">pt_out</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">}</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">/*</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">Generate</span> <span class="n">a</span> <span class="n">number</span> <span class="n">of</span> <span class="n">blobs</span> <span class="k">with</span> <span class="n">Associative</span> <span class="n">replication</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">*/</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>set some initial values</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">num</span> <span class="o">=</span> <span class="mi">11</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">rad</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.</span><span class="o">.</span><span class="mf">1.</span><span class="o">.</span><span class="c">#num;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">dist</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>set curve domain</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">tol</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">crv_domain</span> <span class="o">=</span> <span class="mf">0.</span><span class="o">.</span><span class="mf">1.</span><span class="o">.</span><span class="n">tol</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>create Points for the blobs</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">pts</span> <span class="o">=</span> <span class="n">blob</span><span class="p">(</span><span class="n">crv_domain</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">);</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>create curves with the Points and translate them</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">curves</span> <span class="o">=</span> <span class="n">BSplineCurve</span><span class="o">.</span><span class="n">ByPoints</span><span class="p">(</span><span class="n">pts</span><span class="p">)</span><span class="o">.</span><span class="n">Translate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.</span><span class="o">.</span><span class="mf">1.</span><span class="o">.</span><span class="c">#num)*dist, 0);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>create curves with the Points and translate them</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">curves</span> <span class="o">=</span> <span class="n">BSplineCurve</span><span class="o">.</span><span class="n">ByPoints</span><span class="p">(</span><span class="n">pts</span><span class="p">)</span><span class="o">.</span><span class="n">Translate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.</span><span class="o">.</span><span class="mf">1.</span><span class="o">.</span><span class="c">#num)*dist, 0);</span>
 </pre></div>
 </div>
 </div>

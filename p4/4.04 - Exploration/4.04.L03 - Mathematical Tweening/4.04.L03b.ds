@@ -1,4 +1,4 @@
-/*//
+/*
 4.04.L03b
 Given a 2 curve methods, generate a number of interpolated Curves to define a series of tower floor plates.
 
@@ -10,14 +10,14 @@ floorheight (float) Distance between floor plates.
 
 return:
 floor_plate (Curve) Tweened curve.
-//*/
+*/
+/*
+Methods to create ellipse and astroid curves. 
+*/
 
 import("Math.dll");
 import("ProtoGeometry.dll");
 
-/*
-Methods to create ellipse and astroid curves. 
-*/
 def ellipse(t)
 {
     c = Math.Cos((2 * Math.PI * t)*57.2957795);

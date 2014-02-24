@@ -1,7 +1,7 @@
-"""import pysvg
+import pysvg
 for subpackage in ['core', 'filter', 'gradient', 'linking', 'script','shape','structure','style','text', 'builders']:
     exec 'import pysvg.' + subpackage
-    exec 'from pysvg.' + subpackage + ' import *'"""
+    exec 'from pysvg.' + subpackage + ' import *'
 
 '''
 ppmm = 2.83464567 # points per mm
@@ -19,28 +19,32 @@ rad_dotdef = -1
 do_multiline = False
 
 
+def dimension_dict(mode):
+    #global row_height
+    #global tab_width
+    #global x_spine
+    #global rad_dot
+    #global rad_dotdef
+    ret = {}
+    if mode == "indd" : 
+        ppmm = 2.83464567
+        ret['row_height'] = 2.20 * ppmm
+        ret['rad_dot'] = 0.4*ppmm
+        ret['rad_dotdef'] = 0.75*ppmm
+        ret['x_spine'] = (64+1.5) * ppmm - 8
+        ret['tab_width'] = 3 * ppmm
+        
+    if mode == "html" : 
+        ppmm = 6.36
+        ret['row_height'] = 2.20 * ppmm
+        ret['rad_dot'] = 0.4*ppmm
+        ret['rad_dotdef'] = 0.75*ppmm
+        ret['x_spine'] = 290-(18*1.25) # if html column widths adjusted, change here
+        ret['tab_width'] = 18
+    
+    return ret
+    
 
-def redimension(mode):
-    if mode == "indd" : ppmm = 2.83464567
-    if mode == "html" : ppmm = 6.36
-    
-    global row_height
-    row_height = 2.20 * ppmm
-    
-    global tab_width
-    tab_width = 3 * ppmm
-    if mode == "html" : tab_width = 18
-    
-    global x_spine
-    x_spine = (64+1.5) * ppmm - 8
-    if mode == "html" : x_spine = 270-(18*1.25)
-    
-    global rad_dot
-    rad_dot = 0.4*ppmm
-    
-    global rad_dotdef
-    rad_dotdef = 0.75*ppmm
-"""
 sty_dot = StyleBuilder()
 sty_dot.setStrokeWidth(0)
 sty_dot.setFilling('black')
@@ -59,7 +63,8 @@ normal_line_half_weight = 0.5
 sty_normal_line_half.setStrokeWidth(normal_line_weight)
 sty_normal_line_half.setStroke('black')
 
-double_line_offset = rad_dot*0.5
+#double_line_offset = rad_dot*0.5
+double_line_offset = 2.83464567 * 0.4 * 0.5 # match rad_dot
 dobule_line_weight = 0.5
 sty_double_line = StyleBuilder()
 sty_double_line.setStrokeWidth(dobule_line_weight)
@@ -90,7 +95,29 @@ textstyle=StyleBuilder()
 textstyle.setFontFamily(fontfamily="Verdana")
 textstyle.setFontSize(str(9.25)) #no need for the keywords all the time
 
+def redimension(mode):
+    if mode == "indd" : ppmm = 2.83464567
+    if mode == "html" : ppmm = 6.36
+    
+    global row_height
+    row_height = 2.20 * ppmm
+    
+    global tab_width
+    tab_width = 3 * ppmm
+    if mode == "html" : tab_width = 18
+    
+    global x_spine
+    x_spine = (64+1.5) * ppmm - 8
+    if mode == "html" : x_spine = 270-(18*1.25)
+    
+    global rad_dot
+    rad_dot = 0.4*ppmm
+    
+    global rad_dotdef
+    rad_dotdef = 0.75*ppmm
 
+
+"""
 def draw_to_svg(clines,s,xmlstr,mode):
     #print 'svg ',id
     redimension(mode)
@@ -319,10 +346,11 @@ def prev_codeline(n,clines):
     return False
 
 """    
+
 def starts_indent(n,clines):
     #returns true if line n comes just before an indented code block
     for m in range(n+1,len(clines)):
-        if not clines[m].is_blank : break
+        if not clines[m].code_is_blank : break
         
     try:
         if clines[n].tab < clines[m].tab : return True
@@ -371,17 +399,17 @@ def count_loops(clines):
     #print loops
     return clines
 """
-              
-def split_funcs(clines,xmlstr=False):
+
+def split_funcs(clines,xmlstr=False,verbose=False):
     # splits given code lines into blocks defined by functions
     # used only at the top level for each codeblock
     funcs = []
     for n in range(len(clines)):
-        if clines[n].is_def:# and starts_indent(n,clines):
+        if clines[n].is_def and starts_indent(n,clines):
             #print 'starting at',clines[n].str
             found_end = False
             for m in range(n+1,len(clines)):
-                if clines[m].tab == clines[n].tab and not clines[m].is_blank:
+                if clines[m].tab == clines[n].tab and not clines[m].code_is_blank:
                     found_end = True
                     funcs.append((n,m-1))
                     n = m
@@ -390,18 +418,30 @@ def split_funcs(clines,xmlstr=False):
                 #print "noend"
                 funcs.append((n,len(clines)-1))
                 break
+    
      # ensure that no funcs end in blank lines
     for n in range(len(funcs)):
-        while clines[funcs[n][1]].is_blank:
+        while clines[funcs[n][1]].code_is_blank:
             funcs[n] = (funcs[n][0],funcs[n][1]-1)
         
     # if no funcs were found,
     if len(funcs)==0 : 
         return[clines], False
 
-    #print funcs[0][0], funcs[-1][1], len(clines)-1
-    #if funcs[0][0]!=0 or  funcs[-1][1] != len(clines)-1:
-        #TODO, collect loose blocks and return for clines
+    
+    code_before = funcs[0][0]!=0
+    code_after = funcs[-1][1] != len(clines)-1
+    # catches code blocks before all def statements
+    if code_before and any(not line.code_is_blank for line in clines[:funcs[0][0]-1]):
+        funcs.insert(0,(0,funcs[0][0]-1))
+        if verbose: print funcs
+        
+    # catches code blocks after all def statements
+    if code_after and any(not line.code_is_blank for line in clines[funcs[-1][1]+1:]):
+        funcs.append((funcs[-1][1]+1,len(clines)-1))
+        if verbose: print funcs   
+            
+    #TODO, collect loose blocks between defs
     
     '''
         raise_error = False
@@ -421,12 +461,12 @@ def split_funcs(clines,xmlstr=False):
         
     #print funcs, clines[funcs[0][0]].row_num, clines[funcs[0][1]].row_num
     return [[clines[n] for n in range(func[0],func[1]+1)] for func in funcs], True
-    
-def assign_positions(clines):
+   
+def assign_positions(clines,dd):
     for n,cline in enumerate(clines):
         #print n, tab
-        x = x_spine + cline.tab * tab_width
-        y = (row_height/2)+row_height*n
+        x = dd['x_spine'] + cline.tab * dd['tab_width']
+        y = (dd['row_height']/2)+dd['row_height']*n
         
         if cline.is_def : x += tab_width/2
         
@@ -557,26 +597,42 @@ def draw_diamond(pos, s,style='normal'):
     
     #draw_dot(p0,s,style="if")"""
     
-    
 class Codeline():
     def __init__(self,codestring,comment,tab,rownum=-1):
         self.str = codestring
         self.row_num = rownum
         self.tab = tab
         self.comment = comment
-        self._force_blank = False
+        self._continuing = False
         self._pseudo = False
-        self.connect_to_me = True
+        self._connect_to_me = True
     
     def __repr__(self): return self.str
     
     @property
-    def is_blank(self):
-         return self._force_blank or self.str == "" or self.str.isspace() or len(self.str.strip())==0
+    def is_continuing_line_above(self):
+         return self._continuing
+    
+    @property
+    def connect_to_me(self):
+         return self._connect_to_me
+         
+    @property
+    def dont_dot_me(self):
+        if self.is_class: return True
+        if self.is_decorator: return True
+        if self.is_ifish: return True
+        if self.is_continuing_line_above: return True
+        if self.code_is_blank: return True
+        return False
+    
+    @property
+    def code_is_blank(self):
+         return self.str == "" or self.str.isspace() or len(self.str.strip())==0
     
     @property
     def comment_is_blank(self):
-         return self._force_blank or self.comment == "" or self.comment.isspace()
+         return self.comment == "" or self.comment.isspace()
     
     @property
     def is_decorator(self):
@@ -587,6 +643,10 @@ class Codeline():
         return self.str.startswith('def')
         
     @property
+    def is_class(self):
+        return self.str.startswith('class')
+        
+    @property
     def is_loop(self):
         return self.str.startswith(('for','while'))
         
@@ -595,11 +655,21 @@ class Codeline():
         return self.str.startswith(('if','else','elif'))
         
     @property
+    def maintain_for_pseudo(self):
+        # returns true if this line should never be replaced by a comment or eliminated during a pseudo
+        return  self.is_def or self.is_loop or self.is_ifish or self.is_decorator or self.is_class
+        
+    @property
     def is_pseudo(self):
         return self._pseudo
- 
+        
+    @property
+    def continues_to_next(self):
+        return self.str.strip().endswith('\\')
  
 def append_error(xmlstr,msg):
     xmlstr.append('                <error msg="'+msg+'"></error>')
+    
+    
 
 

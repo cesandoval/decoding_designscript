@@ -1,4 +1,4 @@
-/*//
+/*
 4.04.L03c
 Given an Interval, a count, and a skew factor, generate a series of numbers whose distribution mirror a mathematical curve.
 
@@ -9,13 +9,13 @@ skew (float) Skew factor.
 
 return: 
 vals ([float]) List of numbers.
-//*/
-
-import("Math.dll");
-
+*/
 /*
 Method to modify a value with mathematical functions.
 */
+
+import("Math.dll");
+
 def f(x)
 {
     return = [Imperative]

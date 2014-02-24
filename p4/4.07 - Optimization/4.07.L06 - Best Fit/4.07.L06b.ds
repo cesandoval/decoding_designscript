@@ -1,4 +1,4 @@
-/*//
+/*
 4.07.L06b
 Method that returns a best fit Segment defined by total least squares.
 
@@ -7,15 +7,15 @@ pts_in ([Point]) A list of Points.
 
 result: 
 (Segment) A best fit Segment.
-//*/
+*/
+/*
+Returns a best fit line defined by total least squares.
+*/
 
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
 
-/*
-Returns a best fit line defined by total least squares.
-*/
 def leastSquaresLineTotal(pts_in : Point[])
 {
     x_m = Sum(pts_in.X / Count(pts_in));

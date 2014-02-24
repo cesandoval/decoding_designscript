@@ -120,8 +120,8 @@ body .vi { color: #aa0000 } /* Name.Variable.Instance */
 body .il { color: #009999 } /* Literal.Number.Integer.Long */
   </style>
 </head>
-<body>4.02.L04a
-Create a simple Guy class
+<body>4.02.L04c
+Create a new Guy class that can be steered
 
 members:
 pos (Point) The location of the Guy object
@@ -129,13 +129,16 @@ vel (Vec) The velocity vector of the Guy object
 
 methods:
 step (None) Update Guys position and choose a new direction velocity vector
+steer (Vec) Modify Guy's velocity by a given vector
 
 <div class='narr_wrap'>A guy class is defined with a position, direction and a method for updating.
-<br><span class='codeblock_name'>4.02.L04a1</span></div><div class='svg_wrap' style='background-image: url(4_02_L04a1.svg), none; height: 196px;'></div>
+<br><span class='codeblock_name'>4.02.L04c1</span></div><div class='svg_wrap' style='background-image: url(4_02_L04c1.svg), none; height: 210px;'></div>
 <div class='py_wrap'>
 <div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;ProtoGeometry.dll&quot;</span><span class="p">);</span>
 </pre></div>
 </div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;Math.dll&quot;</span><span class="p">);</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;../../../library/decodes_functions.ds&quot;</span><span class="p">);</span>
 </pre></div>
 </div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">class</span> <span class="nc">Guy</span>
 </pre></div>
@@ -159,7 +162,7 @@ step (None) Update Guys position and choose a new direction velocity vector
 </div>
 
 <div class='narr_wrap'>    Cause the Guy object to move, using its current velocity, then randomly pick a new velocity
-<br><span class='codeblock_name'>4.02.L04a2</span></div><div class='svg_wrap' style='background-image: url(4_02_L04a2.svg), none; height: 98px;'></div>
+<br><span class='codeblock_name'>4.02.L04c2</span></div><div class='svg_wrap' style='background-image: url(4_02_L04c2.svg), none; height: 84px;'></div>
 <div class='py_wrap'>
 <div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="k">def</span> <span class="nf">Step</span> <span class="p">:</span> <span class="n">Guy</span><span class="p">()</span>
 </pre></div>
@@ -167,11 +170,59 @@ step (None) Update Guys position and choose a new direction velocity vector
 </pre></div>
 </div><div class='cmt_para' style='padding-right:36px; width:234px;'>update the position of the Guy</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">Pos</span> <span class="o">=</span> <span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="n">Pos</span><span class="o">.</span><span class="n">X</span> <span class="o">+</span> <span class="n">Vel</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">Pos</span><span class="o">.</span><span class="n">Y</span> <span class="o">+</span> <span class="n">Vel</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">Pos</span><span class="o">.</span><span class="n">Z</span> <span class="o">+</span> <span class="n">Vel</span><span class="o">.</span><span class="n">Z</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:36px; width:234px;'>pick a new 2d velocity vector</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">Vel</span> <span class="o">=</span> <span class="nb-Decodes">Vector</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="n">Math</span><span class="o">.</span><span class="n">Rand</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">Math</span><span class="o">.</span><span class="n">Rand</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">Normalize</span><span class="p">;</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>pick a new 2d velocity vector</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">Vel</span> <span class="o">=</span> <span class="nb-Decodes">Vector</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="n">Math</span><span class="o">.</span><span class="n">Rand</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">Math</span><span class="o">.</span><span class="n">Rand</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">Normalize</span><span class="p">();</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="p">}</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'>&nbsp;</div>
+</div>
+
+<div class='narr_wrap'>    Steer the Guy by adding a given vector to its current velocity
+<br><span class='codeblock_name'>4.02.L04c3</span></div><div class='svg_wrap' style='background-image: url(4_02_L04c3.svg), none; height: 98px;'></div>
+<div class='py_wrap'>
+<div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="k">def</span> <span class="nf">Steer</span> <span class="p">:</span> <span class="n">Guy</span><span class="p">(</span><span class="n">vec</span><span class="p">:</span><span class="nb-Decodes">Vector</span><span class="p">)</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="p">{</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>limit to the force of the vector</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">vec</span> <span class="o">=</span> <span class="n">limited</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">);</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>update the velocity of the Guy</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">this</span><span class="o">.</span><span class="n">Vel</span> <span class="o">=</span> <span class="nb-Decodes">Vector</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">Vel</span><span class="o">.</span><span class="n">X</span> <span class="o">+</span> <span class="n">vec</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">this</span><span class="o">.</span><span class="n">Vel</span><span class="o">.</span><span class="n">Y</span> <span class="o">+</span> <span class="n">vec</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">this</span><span class="o">.</span><span class="n">Vel</span><span class="o">.</span><span class="n">Z</span> <span class="o">+</span> <span class="n">vec</span><span class="o">.</span><span class="n">Z</span><span class="p">);</span>
 </pre></div>
 </div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="p">}</span>
 </pre></div>
 </div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">}</span>
 </pre></div>
 </div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div>
+</div>
+
+<div class='narr_wrap'>Steps a number of times with a collection in an Associative code
+<br><span class='codeblock_name'>4.02.L04c4</span></div><div class='svg_wrap' style='background-image: url(4_02_L04c4.svg), none; height: 84px;'></div>
+<div class='py_wrap'>
+<div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">def</span> <span class="nf">stepper</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">guy</span><span class="p">)</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">{</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">guy</span><span class="o">.</span><span class="n">Step</span><span class="p">();</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="k">return</span> <span class="o">=</span> <span class="n">guy</span><span class="o">.</span><span class="n">Pos</span><span class="p">;</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">}</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div>
+</div>
+
+<div class='narr_wrap'>Create a random walker, and steer it.
+<br><span class='codeblock_name'>4.02.L04c5</span></div><div class='svg_wrap' style='background-image: url(4_02_L04c5.svg), none; height: 84px;'></div>
+<div class='py_wrap'>
+<div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">start_pt</span> <span class="o">=</span> <span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="o">-</span><span class="mf">1.19</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.89</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">start_vel</span> <span class="o">=</span> <span class="nb-Decodes">Vector</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="mf">0.59</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div><div class='cmt_para' style='padding-right:36px; width:234px;'>initialize an instance of the Guy class</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">debord</span> <span class="o">=</span> <span class="n">Guy</span><span class="o">.</span><span class="n">FromPosVel</span><span class="p">(</span><span class="n">start_pt</span><span class="p">,</span> <span class="n">start_vel</span><span class="p">);</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">steps</span> <span class="o">=</span> <span class="mi">30</span><span class="p">;</span>
+</pre></div>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>steps multiple times</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">pts</span> <span class="o">=</span> <span class="n">stepper</span><span class="p">(</span><span class="mf">0.</span><span class="o">.</span><span class="n">steps</span><span class="p">,</span> <span class="n">debord</span><span class="p">);</span>
+</pre></div>
+</div>
 </div>

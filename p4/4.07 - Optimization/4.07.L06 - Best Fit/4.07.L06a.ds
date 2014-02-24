@@ -1,4 +1,4 @@
-/*//
+/*
 4.07.L06a
 Methods that returns a best fit Segment defined by ordinary least squares.
 
@@ -7,15 +7,15 @@ pts_in ([Point]) A list of Points.
 
 result: 
 (seg) A segment.
-//*/
+*/
+/*
+Returns a best fit line defined by ordinary least squares.
+*/
 
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
 
-/*
-Returns a best fit line defined by ordinary least squares.
-*/
 def leastSquaresLine(pts_in : Point[])
 {
     // create and set variables to 0

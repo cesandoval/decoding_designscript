@@ -1,4 +1,4 @@
-/*//
+/*
 4.07.L01c
 Given a fitness function, perform a directed search. Step size by checking neighboring Colors and moving in the direction of best fit. Create a path representing search history.
 
@@ -10,14 +10,14 @@ sample (Color) Sample Color.
 
 result: 
 sample (Color) Sample Color to compare. 
-//*/
+*/
+/*
+Method that checks the closeness of a sample Color to the goal Color (0 to 1).
+*/
 
 import("ProtoGeometry.dll");
 import("Math.dll");
 
-/*
-Method that checks the closeness of a sample Color to the goal Color (0 to 1).
-*/
 def fitness(sample)
 {
     // get the difference between sample and goal Color

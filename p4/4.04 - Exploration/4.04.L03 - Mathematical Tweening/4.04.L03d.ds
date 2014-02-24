@@ -1,4 +1,4 @@
-/*//
+/*
 4.04.L03d
 Given a list of numbers, 2 curve functions and a floor height, generate a number of tweened Curves to define a series of tower floor plates.
 
@@ -10,11 +10,11 @@ skew ([float]) List of values to interpolate the Curves.
 
 result:
 floor_plates ([Curve])
-//*/
-
+*/
 /*
 Methods to create ellipse and astroid curves. 
 */
+
 import("ProtoGeometry.dll");
 import("Math.dll");
 

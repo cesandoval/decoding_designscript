@@ -1,4 +1,4 @@
-/*//
+/*
 4.03.L01a
 Given a base curve evaluate a helix and construct a Gherkin shaped surface.
 
@@ -9,15 +9,15 @@ sine (float) A number that affects the helix sine Curve offset.
 
 result:
 ret (Mesh) A gherkin shaped Mesh.
-//*/
+*/
+/*
+A method for creating surfaces based on constructing and evaluating helices.  
+*/
 
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
 
-/*
-A method for creating surfaces based on constructing and evaluating helices.  
-*/
 def func2(u, v)
 {
     // define the smoothness of the rotated curve

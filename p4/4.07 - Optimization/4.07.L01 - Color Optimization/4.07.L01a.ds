@@ -1,4 +1,4 @@
-/*//
+/*
 4.07.L01a
 Given a sample Color and a goal Color to test against (either in HSV or RGB), check their closeness.
 
@@ -8,14 +8,14 @@ goal (Color) A goal Color.
 
 result:
 fitness (func)  Function to check closeness of a sample color to the goal color (0 to 1).
-//*/
+*/
+/*
+Method that checks the closeness of a sample Color to the goal Color (0 to 1).
+*/
 
 import("ProtoGeometry.dll");
 import("Math.dll");
 
-/*
-Method that checks the closeness of a sample Color to the goal Color (0 to 1).
-*/
 def fitness(sample)
 {
     // get the difference between sample and goal Color

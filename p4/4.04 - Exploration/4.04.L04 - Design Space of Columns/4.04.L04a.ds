@@ -1,4 +1,4 @@
-/*//
+/*
 4.04.L04a
 Given a base PGon, create a mesh by displacing it twice on the Z axis. Given a rotation and scaling values, transform the mesh. The transformations will be polar. 
 
@@ -12,16 +12,16 @@ pts_top ([Point]) Vertices of the geometries.
 pts_mid ([Point]) Vertices of the geometries.
 pts_btm ([Point]) Vertices of the geometries.
 column (Mesh) Resulting Mesh 
-//*/
+*/
+/* 
+Method to create a Mesh given 3 lists of Points.
+*/
 
 import("ProtoGeometry.dll");
 import("Math.dll");
 // TODO: figure out how to make a function by passing lists
 // figure out how to scale geometry
 
-/* 
-Method to create a Mesh given 3 lists of Points.
-*/
 def mesh_pgons(verts)// pts_top, pts_mid, pts_btm)
 {
     [Imperative]

@@ -1,4 +1,4 @@
-/*//
+/*
 4.04.L02a
 Creates a Prong class with methods for the creation of a Prong object for the flatware design space.
 
@@ -14,15 +14,15 @@ set_fork(Point, Point) Sets the final chin and tip Points for the fork location 
 set_spoon(Point, Point) Sets the final chin and tip Points for the spoon location of this Prong
 make_cutlery(float, float, float) Modifies the chin, cheek and head Point locations based on knifiness, forkiness, spooniness
 to_curve() Returns the modified Plines representation of this Prong
-//*/
+*/
+/*
+A class that creates a Prong object
+*/
 
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
 
-/*
-A class that creates a Prong object
-*/
 class Prong
 {
     Chin : Point;

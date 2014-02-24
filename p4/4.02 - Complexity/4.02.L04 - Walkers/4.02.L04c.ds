@@ -1,17 +1,23 @@
+/*
+4.02.L04c
+Create a new Guy class that can be steered
+
+members:
+pos (Point) The location of the Guy object
+vel (Vec) The velocity vector of the Guy object
+
+methods:
+step (None) Update Guys position and choose a new direction velocity vector
+steer (Vec) Modify Guy's velocity by a given vector
+*/
+/*
+A guy class is defined with a position, direction and a method for updating.
+*/
+
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
 
-// Returns a new vector limited to a given length.
-def limited(vector, n)
-{
-    new_vec = vector.Length < n ? vector : vector.Scale(n);
-    return = new_vec;
-}
-
-/*
-A guy class is defined with a position, direction and a method for updating.
-*/
 class Guy
 {
     Pos : Point;
@@ -56,6 +62,10 @@ def stepper(x, guy)
     guy.Step();
     return = guy.Pos;
 }
+
+/*
+Create a random walker, and steer it.
+*/
 
 start_pt = Point.ByCoordinates(-1.19, -0.89, 0);
 start_vel = Vector.ByCoordinates(0.59, 1.0, 0);

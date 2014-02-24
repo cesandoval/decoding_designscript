@@ -1,4 +1,4 @@
-/*//
+/*
 4.05.L03c
 Given a Surface and a center Point, create tool paths which spiral out from the central Point on a surface. Points which are unnecessarily close to one another will be removed from the sequence.
 
@@ -8,15 +8,15 @@ cp (Point) Spiral center
 
 results:
 lns([PLine]) PLines representing the cutpaths.
-//*/
+*/
+/*
+Method to generate a surface.
+*/
 
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
 
-/*
-Method to generate a surface.
-*/
 def func(u, v)
 {
     length = 4.0;

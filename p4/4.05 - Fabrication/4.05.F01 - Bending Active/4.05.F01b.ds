@@ -1,4 +1,4 @@
-/*//
+/*
 4.05.F01b
 Given a number of Curves, subidivide them, create an Arc with a given radius and get the tangent Points of the current Circle with the previous Point to create straight Segments.
 
@@ -10,15 +10,15 @@ divs (int) Number of divisions for the curves
 result:
 pts ([Point]) List of starting Points for the new Curves.
 new_crvs ([Arc and Segment]) Arcs and Segments created from the bezier Curves.
-//*/
+*/
+/*
+Methods to get the first perpendicular vector on a Curve, and divide a Curve with the given Points into Segments and Arcs
+*/
 
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
 
-/*
-Methods to get the first perpendicular vector on a Curve, and divide a Curve with the given Points into Segments and Arcs
-*/
 def perp_vec(vec1, vec2, pt)
 {
     // get the bisector of vec1 and vec2

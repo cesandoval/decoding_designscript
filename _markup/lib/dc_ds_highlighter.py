@@ -12,7 +12,7 @@ from dc_pygments_extensions import *
 
 from dc_svg_writer import *
 
-        
+
 '''
 INDD
 '''
@@ -31,129 +31,86 @@ tab_width = 3 * ppmm #CHANGE IN SVG WRITER FILE TOO
 max_code_chars = 80
 max_comment_chars = 56
 
-def record_tbs(lns):
-    cnt = []
-    for ln in lns:
-        #if len(ln) > max_code_chars : append_error(xmlstr, "FOUND A LINE OF CODE THAT IS TOO LONG in codeblock "+str(codeblock_num)+" max is "+str(max_code_chars)+" chars")
-        
-        #if "\t" in ln : append_error(xmlstr, "FOUND A LINE OF CODE THAT CONTAINS A TAB - INDENTATION LIKELY INCORRECT in codeblock "+str(codeblock_num))
-        leading_spaces = len(ln) - len(ln.lstrip())
-        tab_cnt = leading_spaces//4
-        cnt.append(tab_cnt)
-        
-        #tabs.append(tab_cnt)
-        """
-        if line.strip() == "" : 
-            code.append("")
-        else:
-            code.append(ln)"""
-    return cnt
-
 def process_all(codestring,indd_tar_file,html_tar_file,xmlstr,lines):
-    # TODO
-    #headdict, codestring = split_header(codestring)
-    ##############################################
     codes = []
     comments = []
     in_code = True
     for n,line in enumerate(lines):
-        if "/*" in line: 
+        if "/*" in line:
             in_code = False
             comments.append([])
             continue
-        if "*/" in line: 
+        if "*/" in line:
             in_code = True
             codes.append([])
             continue
-        
+
         if in_code: codes[-1].append(line)
         else: comments[-1].append(line)
-        
-    test = zip(comments, codes)
-    for section in test:
-        for t, codex in enumerate(section):
-            if t%2==0:
-                line_cmt = codex
-                #print codex
-            else:
-                line_code = codex
-                tbs_cntx =  record_tbs(line_code)
-                print line_code
-                print tbs_cntx
-    #print test[0][1], len(test[0][0])
+    if len(codes[0]) == 0: codes.pop(0)
+    narrative = comments[1:]
+    headdict = ''.join(comments[0])
     
-    #print len(comments), len(codes)
-    ################################################
-    headdict = indd_tar_file.split('\\')[-1]
-    codearr = split_sections(codestring)
-    if codearr: 
-        c=1 #code block num
-        htmlstr = open_html(headdict)
-        for code, narrative in zip(codearr[0], codearr[1]):
-            code_block_name = indd_tar_file.split('\\')[-1]+str(c)
-            pseudo = False
-            if "[pseudo]" in narrative:
-                print code_block_name, "PSEUDO"
-                pseudo = True
-            else: print code_block_name
-            # split comments from code
-            code_lines, comment_lines, tab_counts = split_comments(code,xmlstr,c)
-            #print code_lines
-            clines = []
-            for line, comment, tab in zip(code_lines, comment_lines, tab_counts):
-                cline = Codeline(line.strip(),comment,tab)
-                clines.append(cline)  
-            
-            # pseudo
-            if pseudo : clines = handle_pseudo(clines)
-                
-            # now that pseudo has removed lines, we can assign pos
-            assign_positions(clines)
-            
-            # TODO
-            # break up long def codelines and handle def comments
-            #clines = handle_split_defs(clines)
+    c = 1 # code block num
+    htmlstr = open_html(headdict)
+    for n, code in enumerate(codes):
+        code_block_name = indd_tar_file.split('\\')[-1]+str(c)
+        pseudo = False
+        if "[pseudo]" in narrative[c-1]:
+            print code_block_name, "PSEUDO"
+            pseudo = True
+        else: print code_block_name
+        
+        dd = dimension_dict("html")
+        clines = []
+        # split comments from code
+        code_lines, comment_lines, tab_counts = split_comments(''.join(code),xmlstr,c)
+        for line, comment, tab in zip(code_lines, comment_lines, tab_counts):
+            cline = Codeline(line.strip(),comment,tab)
+            clines.append(cline)
+        # pseudo
+        if pseudo : clines = handle_pseudo(clines)
 
-            funcs, has_funcs = split_funcs(clines)
-            
-            if not has_funcs:
-                indented = False
-                for n in range(len(clines)): 
-                    if starts_indent(n,clines): 
-                        indented = True
-                        break
-                
-                if not indented:
-                    print "no functions found, and no indentations found.. adding tab"
-                    for cline in clines: 
-                        #cline.tab += 1
-                        cline.pos = (cline.pos[0]+tab_width,cline.pos[1])
-            
-            # write to the HTML string
-            htmlstr, blockheight = process_html(narrative,clines,code_block_name,c,htmlstr,has_funcs=has_funcs)
+        # now that pseudo has removed lines, we can assign pos
+        assign_positions(clines,dd)
 
-            # make the SVG for HTML
-            #svgblock = process_svg(clines,html_tar_file,c,False,"html",blockheight)
-            
-            c+=1
-            
+        # TODO
+        # break up long def codelines and handle def comments
+        clines = handle_split_defs(clines)
+
+        funcs, has_funcs = split_funcs(clines,verbose=False)
+        if not has_funcs:
+            indented = False
+            for n in range(len(clines)):
+                if starts_indent(n,clines):
+                    indented = True
+                    break
+            for cline in clines: 
+                cline.tab += 1
+                cline.pos = (cline.pos[0]+tab_width,cline.pos[1])
+
+
+        # write to the HTML string
+        htmlstr, blockheight = process_html(''.join(narrative[c-1]),clines,code_block_name,c,htmlstr,has_funcs,pseudo)
+        c+=1
+        
         # close up the HTML and write file
         close_html(htmlstr)
         f = open (html_tar_file+".html", 'w')
         f.write(htmlstr)
         f.close()
 
-        
+
 '''
 HTML
-'''        
+'''
 
 def open_html(headstring):
     str = '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html>'
     str += html_head
     str += "<body>"+headstring
     return str
-    
+
 def close_html(htmlstr):
     htmlstr += "</body></html>"
     return htmlstr
@@ -162,9 +119,10 @@ html_line_height = 14 # change in SVG writer too
 html_cmmt_col_width = 270 # change in SVG writer too (this minus html_tab_width)
 html_code_col_width = 480 # change in SVG writer too
 html_tab_width = 18 # change in SVG writer too
+
     
-def process_html(narrative,clines,code_block_name,c,htmlstr,has_funcs):
-    htmlstr += "\n<div class='narr_wrap'>"+narrative+"</div>"
+def process_html(narrative,clines,code_block_name,c,htmlstr,has_funcs,pseudo=False):
+    htmlstr += "\n<div class='narr_wrap'>"+narrative+"<br><span class='codeblock_name'>"+code_block_name+"</span></div>"
     #htmlstr += "<div style=''"+svg+"</div>"
     svghght = len(clines) * html_line_height
     svgfile = code_block_name.replace('.', '_')
@@ -173,8 +131,13 @@ def process_html(narrative,clines,code_block_name,c,htmlstr,has_funcs):
     for cline in clines:
         code = highlight_html(cline.str)
         cmmt = cline.comment
-        if cline.is_blank : code = "&nbsp;"
+        if cline.code_is_blank : code = "&nbsp;"
         if cline.comment_is_blank: cmmt = "&nbsp;"
+        
+        # pseudo
+        if pseudo and cline.is_pseudo:
+            code = "<div class='source'><pre class='pseudo'>"+cmmt+"</pre></div>"
+            cmmt = "&nbsp;"
         
         # comment
         pad = 0
@@ -191,7 +154,7 @@ def process_html(narrative,clines,code_block_name,c,htmlstr,has_funcs):
         #lineno += len(code.splitlines())
     htmlstr += "\n</div>\n"
     return htmlstr, svghght
-        
+
 def process_html_XXXXXXXX(codestring, tar_file):
     headstring, codestring = split_header(codestring)
     codearr = split_sections(codestring)
@@ -205,16 +168,16 @@ def process_html_XXXXXXXX(codestring, tar_file):
             str += "<td>"+highlight_html(code,lineno)+"</td></tr>"
             lineno += len(code.splitlines())
         str += "</tr>"+html_close
-    
-    f = open (tar_file+".html", 'w') ## a will append, w will over-write 
+
+    f = open (tar_file+".html", 'w') ## a will append, w will over-write
     f.write(str)
     f.close()
 
 def highlight_html(codestring,line_to_start=1):
     return highlight(codestring, DecodesLexer(), HtmlFormatter(style='autumn', full=False, cssclass="source", linenos=False, linenostart=line_to_start))
-    
-    
-    
+
+
+
 '''
 UTIL
 '''
@@ -223,9 +186,9 @@ def append_error(xmlstr,msg):
 
 
 
-    
+
 def split_comments(codestring,xmlstr,codeblock_num):
-    
+
     global cmt
     lines = codestring.splitlines()
     code, comments, tabs = [], [], []
@@ -236,21 +199,21 @@ def split_comments(codestring,xmlstr,codeblock_num):
         if ln == "" : comments.append(" ")
         else : comments.append(ln)
         cmt = ""
-    
+
     def record_code(ln):
         if len(ln) > max_code_chars : append_error(xmlstr, "FOUND A LINE OF CODE THAT IS TOO LONG in codeblock "+str(codeblock_num)+" max is "+str(max_code_chars)+" chars")
-        
+
         if "\t" in ln : append_error(xmlstr, "FOUND A LINE OF CODE THAT CONTAINS A TAB - INDENTATION LIKELY INCORRECT in codeblock "+str(codeblock_num))
-        
+
         leading_spaces = len(ln) - len(ln.lstrip())
         tab_cnt = leading_spaces//4
         tabs.append(tab_cnt)
-        
-        if line.strip() == "" : 
+
+        if line.strip() == "" :
             code.append("")
         else:
             code.append(ln)
-    
+
     for line in lines:
         if len(line.strip())>0 and line.strip()[0:2] == "//":
             #suffix = "\b|"*(leading_spaces//4)
@@ -260,7 +223,7 @@ def split_comments(codestring,xmlstr,codeblock_num):
         else:
             record_cmt(cmt)
             record_code(line)
-            
+
     try:
         while (len(code[0])==0 or code[0].isspace()) and (len(comments[0])==0 or comments[0].isspace()) :
             code = code[1:]
@@ -268,9 +231,9 @@ def split_comments(codestring,xmlstr,codeblock_num):
             tabs = tabs[1:]
     except:
         raise SyntaxError("unexpected empty codeblock found in codeblock "+str(codeblock_num))
-                   
+
     return code, comments, tabs
-    
+
 def split_sections(codestring):
     arr = re.compile('"""(?s)(.*?)"""').split(codestring)
     if len(arr)==1:
@@ -282,50 +245,50 @@ def split_sections(codestring):
     else:
         codearr = arr[0::2]
         narrativearr = [""]+arr[1::2] # we expect to see code first, not narrative first... even out the lists with an empty narrative, delete later if needed
-        if codearr[0].strip() == "" : 
+        if codearr[0].strip() == "" :
             # blank row found
             codearr, narrativearr = codearr[1:], narrativearr[1:]
-    
+
     return [s.lstrip('\n').rstrip() for s in codearr], [re.sub(' +',' ',s.strip()) for s in narrativearr]
-        
+
 def split_header(codestring):
     arr = re.compile("/*\n(?s)(.*?)\n*/").split(codestring)
     return arr[1],arr[2]
-        
+
 def handle_split_defs(clines):
     retlines = []
-    
+
     for n,cline in enumerate(clines):
         if cline.is_def:
             if not cline.comment_is_blank:
                 pass
                 #cline.comment = cline.comment+"     "
-            if cline.str.strip()[-1] != ":":
+            if cline.str.strip()[-1] != ")":
                 m = n+1
                 while m<len(clines):
                     clines[m]._force_blank = True
                     clines[m].pos = (cline.pos[0],clines[m].pos[1])
-                    if len(clines[m].str.strip())>0 and clines[m].str.strip()[-1]==":" : break
+                    if len(clines[m].str.strip())>0 and clines[m].str.strip()[-1]==")" : break
                     m += 1
         retlines.append(cline)
     return retlines
-      
+
 def handle_pseudo(clines):
     retlines = []
-    
+
     for cline in clines:
         if cline.is_blank: retlines.append(cline)
-        
+
         # eliminate uncommented and unimportant lines
         if not cline.is_def and not cline.is_loop and not cline.is_ifish and cline.comment_is_blank: continue
         retlines.append(cline)
-    
+
     for cline in retlines:
         # switch to comment as code for any line that has a comment (and is not a 'special case')
         if cline.is_def: continue
         if cline.comment_is_blank: continue
         cline._pseudo = True
-    
+
     return retlines
     '''
     nlines = []
@@ -333,15 +296,15 @@ def handle_pseudo(clines):
         # add blank lines before defs and capitalize comments
         if cline.is_def:
             nlines.append(Codeline("","",cline.tab))
-        
+
         # capatalize comments??
         #if len(cline.comment)>1 : cline.comment = cline.comment[0].capitalize() + cline.comment[1:]
         nlines.append(cline)
-        
-    
+
+
     return nlines
     '''
-      
+
 '''
 <tstyle:py_table><tStart:><coStart:<tcaw:170>><coStart:<tcaw:283.5>><rStart:>
 <clStart:><pstyle:py_para>one<clEnd:>
@@ -364,7 +327,7 @@ html_head = """
   <title></title>
   <meta http-equiv="content-type" content="text/html; charset=None">
   <style type="text/css">
-  
+
 .narr_wrap {
     font-style: italic;
     text-align: center;
@@ -381,7 +344,7 @@ html_head = """
     height: """+str(html_line_height)+"""px;
 }
 
-.py_para pre { 
+.py_para pre {
     margin: 0px;
     font-family: monospace;
     font-size: 11px;
@@ -389,7 +352,7 @@ html_head = """
 
 pre {
     /* background-color: #0fd; */
-} 
+}
 
 .cmt_para{
     float: left;
@@ -402,10 +365,10 @@ pre {
 }
 
 /* clearfix */
-.py_wrap:after { 
+.py_wrap:after {
    content: " ";
-   display: block; 
-   height: 0; 
+   display: block;
+   height: 0;
    clear: both;
 }
 
@@ -417,7 +380,7 @@ pre {
 }
 
 
-  
+
 td.linenos { background-color: #f0f0f0; padding-right: 10px; }
 span.lineno { background-color: #f0f0f0; padding: 0 5px 0 5px; }
 body .hll { background-color: #ffffcc }

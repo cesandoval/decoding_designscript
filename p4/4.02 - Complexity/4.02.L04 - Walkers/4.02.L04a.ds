@@ -1,4 +1,4 @@
-/*//
+/*
 4.02.L04a
 Create a simple Guy class
 
@@ -8,14 +8,13 @@ vel (Vec) The velocity vector of the Guy object
 
 methods:
 step (None) Update Guys position and choose a new direction velocity vector
-//*/ 
-
-import("ProtoGeometry.dll");
-import("Math.dll");
-
+*/ 
 /*
 A guy class is defined with a position, direction and a method for updating.
 */
+
+import("ProtoGeometry.dll");
+import("Math.dll");
 
 class Guy
 {

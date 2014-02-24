@@ -1,4 +1,4 @@
-/*//
+/*
 4.03.F01d
 Given three Circles and a tangent Vec, create three Circles and create a Circle that is tangent to every pair of Circles. Create Arcs with the intersection Points and the centroids of the Circles. 
 
@@ -10,15 +10,15 @@ tan_off (float) Tangent offset value for the circles.
 
 out: 
 ret ([Arc]) List of Arcs. 
-//*/
+*/
+/*
+Given 3 Circles, create 2 mutually tangent Circles, and Arcs based on their tangent Points. Create a RotationalSurface with the Arcs.
+*/
 
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
 
-/*
-Given 3 Circles, create 2 mutually tangent Circles, and Arcs based on their tangent Points. Create a RotationalSurface with the Arcs.
-*/
 cir_a = Circle.ByCenterPointRadius(Point.ByCoordinates(0, 5.1, 0), 1.50);
 cir_b = Circle.ByCenterPointRadius(Point.ByCoordinates(4.95, 4.70, 0), 2.88);
 cir_c = Circle.ByCenterPointRadius(Point.ByCoordinates(10, 4.88, 0), 1.86);

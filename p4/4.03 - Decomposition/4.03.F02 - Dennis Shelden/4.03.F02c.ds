@@ -1,4 +1,4 @@
-/*//
+/*
 4.03.F02c
 Given a subdivision method, a material width, and an initial edge, subdivide a panel based on Herringbone, weave, spiral, and length based rules.
 
@@ -10,15 +10,15 @@ panel_cut (func) Function to subdivide panels.
 
 result:
 ret [PGons] Sub panels.
-//*/
+*/
+/*
+Method to sort edged based on length.
+*/
 
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
 
-/*
-Method to sort edged based on length.
-*/
 def sort_edges(pgon, reverse)
 {
     // get the edges of a Polygon

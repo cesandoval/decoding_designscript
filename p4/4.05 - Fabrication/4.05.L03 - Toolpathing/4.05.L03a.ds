@@ -1,4 +1,4 @@
-/*//
+/*
 4.05.L03a
 Given a Surface and a swap bool, divide the Surface evenly along its isoparms to develop toolpaths for a CNC mill.
 
@@ -8,15 +8,15 @@ swap (bool) Whether or not to swap the direction of the toolpaths.
 
 results:
 lns([PLine]) PLines representing the cutpaths.
-//*/
+*/
+/*
+Method to generate a surface.
+*/
 
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
 
-/*
-Method to generate a surface.
-*/
 def func(u, v)
 {
     length = 4.0;

@@ -1,4 +1,4 @@
-/*//
+/*
 4.03.F02b
 Methods to recursively subdivide a panel based on material width.
 
@@ -9,15 +9,15 @@ edg_num (int) Initial edge of the PGon.
 
 result:
 ret [PGons] Sub panels.
-//*/
+*/
+/*
+Method to sort edged based on length.
+*/
 
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
 
-/*
-Method to sort edged based on length.
-*/
 def sort_edges(pgon, reverse)
 {
     // get the edges of a Polygon

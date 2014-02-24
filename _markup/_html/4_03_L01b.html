@@ -3,7 +3,7 @@
   <title></title>
   <meta http-equiv="content-type" content="text/html; charset=None">
   <style type="text/css">
-  
+
 .narr_wrap {
     font-style: italic;
     text-align: center;
@@ -20,7 +20,7 @@
     height: 14px;
 }
 
-.py_para pre { 
+.py_para pre {
     margin: 0px;
     font-family: monospace;
     font-size: 11px;
@@ -28,7 +28,7 @@
 
 pre {
     /* background-color: #0fd; */
-} 
+}
 
 .cmt_para{
     float: left;
@@ -41,10 +41,10 @@ pre {
 }
 
 /* clearfix */
-.py_wrap:after { 
+.py_wrap:after {
    content: " ";
-   display: block; 
-   height: 0; 
+   display: block;
+   height: 0;
    clear: both;
 }
 
@@ -56,7 +56,7 @@ pre {
 }
 
 
-  
+
 td.linenos { background-color: #f0f0f0; padding-right: 10px; }
 span.lineno { background-color: #f0f0f0; padding: 0 5px 0 5px; }
 body .hll { background-color: #ffffcc }
@@ -121,125 +121,107 @@ body .il { color: #009999 } /* Literal.Number.Integer.Long */
   </style>
 </head>
 <body>4.03.L01b
-<div class='narr_wrap'></div><div class='svg_wrap' style='background-image: url(4_03_L01b1.svg), none; height: 980px;'></div>
+Evaluate a PGon over a given height, and create a tower with a controlled mesh.
+
+required:
+height (float) The height of the tower.
+
+result:
+ret (Mesh) A tower.
+
+<div class='narr_wrap'>Functions to create a tower.
+<br><span class='codeblock_name'>4.03.L01b1</span></div><div class='svg_wrap' style='background-image: url(4_03_L01b1.svg), none; height: 56px;'></div>
 <div class='py_wrap'>
-<div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">/*//</span>
+<div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;ProtoGeometry.dll&quot;</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="mf">4.03</span><span class="o">.</span><span class="n">L01b</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;Math.dll&quot;</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">Evaluate</span> <span class="n">a</span> <span class="n">PGon</span> <span class="n">over</span> <span class="n">a</span> <span class="n">given</span> <span class="n">height</span><span class="p">,</span> <span class="ow">and</span> <span class="n">create</span> <span class="n">a</span> <span class="n">tower</span> <span class="k">with</span> <span class="n">a</span> <span class="n">controlled</span> <span class="n">mesh</span><span class="o">.</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;../../../library/decodes_functions.ds&quot;</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">required</span><span class="p">:</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div>
+</div>
+
+<div class='narr_wrap'>def func2(u, v)
+{
+    steps = 20; // the smoothnes of the rotated curve
+    height = 20;
+    interv = 0..1..#steps+1;
+    // assign a height, rotation angle and radius to a point as factors of u
+    z = interv * height;
+    theta = 2 * Math.PI * (u + interv);
+    rad = Math.Sin(Math.RadiansToDegrees(Math.PI * interv + sine)) + radius;
+    // Get points from cylindrical coordinates
+    pt = Point.ByCylindricalCoordinates(CoordinateSystem.Identity(), rad, Math.RadiansToDegrees(theta), z);
+    // Evaluate the curve on v
+    crv = BSplineCurve.ByPoints(pt);
+    return = Point.AtParameter(crv,v);
+<br><span class='codeblock_name'>4.03.L01b2</span></div><div class='svg_wrap' style='background-image: url(4_03_L01b2.svg), none; height: 168px;'></div>
+<div class='py_wrap'>
+<div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">def</span> <span class="nf">func2</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">height</span> <span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="n">The</span> <span class="n">height</span> <span class="n">of</span> <span class="n">the</span> <span class="n">tower</span><span class="o">.</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">{</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">result</span><span class="p">:</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>create a regular 5 sided polygon of radius 1</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">rg</span> <span class="o">=</span> <span class="n">RGon</span><span class="o">.</span><span class="n">FromSidesRadius</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">PGon</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">ret</span> <span class="p">(</span><span class="nb-Decodes">Mesh</span><span class="p">)</span> <span class="n">A</span> <span class="n">tower</span><span class="o">.</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>ival_u = u..u + v;  Interval(u, u + v)</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">int_divs</span> <span class="o">=</span> <span class="mf">0.</span><span class="o">.</span><span class="mf">1.</span><span class="o">.</span><span class="c">#section_count;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>*/</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;ProtoGeometry.dll&quot;</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">old_cs</span> <span class="o">=</span> <span class="nb-Decodes">CoordinateSystem</span><span class="o">.</span><span class="n">Identity</span><span class="p">();</span><span class="o">//</span> <span class="nb-Decodes">CoordinateSystem</span><span class="o">.</span><span class="n">ByOriginVectors</span><span class="p">(</span><span class="n">rg</span><span class="o">.</span><span class="n">PGon</span><span class="o">.</span><span class="n">Plane</span><span class="o">.</span><span class="n">Origin</span><span class="p">,</span> <span class="nb-Decodes">Vector</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="nb-Decodes">Vector</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;Math.dll&quot;</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">scale_val</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="n">Sin</span><span class="p">(</span><span class="n">Math</span><span class="o">.</span><span class="n">DegreesToRadians</span><span class="p">(</span><span class="n">v</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="n">PI</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="mf">0.05</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;../../../library/decodes_functions.ds&quot;</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">new_cs</span> <span class="o">=</span> <span class="nb-Decodes">CoordinateSystem</span><span class="o">.</span><span class="n">Identity</span><span class="p">()</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="n">scale_val</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">/*</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>rg_h = rg.Transform(old_cs, new_cs);</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">rg_h</span> <span class="o">=</span> <span class="n">rg</span><span class="o">.</span><span class="n">Translate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">height</span> <span class="o">*</span> <span class="n">int_divs</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="k">def</span> <span class="nf">func2</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>Print(MapTo(0, 1, int_divs, u, u + v));</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">pts</span> <span class="o">=</span> <span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">AtParameter</span><span class="p">(</span><span class="n">rg_h</span><span class="p">,</span> <span class="n">MapTo</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="n">int_divs</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">));</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">{</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">u_line</span> <span class="o">=</span> <span class="n">BSplineCurve</span><span class="o">.</span><span class="n">ByPoints</span><span class="p">(</span><span class="n">pts</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">steps</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span> <span class="o">//</span> <span class="n">the</span> <span class="n">smoothnes</span> <span class="n">of</span> <span class="n">the</span> <span class="n">rotated</span> <span class="n">curve</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">pt_out</span> <span class="o">=</span> <span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">AtParameter</span><span class="p">(</span><span class="n">u_line</span><span class="p">,</span> <span class="n">v</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">height</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>return = Point.AtParameter(u_line,0..1..tol);</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="k">return</span> <span class="o">=</span> <span class="n">u_line</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">interv</span> <span class="o">=</span> <span class="mf">0.</span><span class="o">.</span><span class="mf">1.</span><span class="o">.</span><span class="c">#steps+1;</span>
+</div>
+</div>
+
+<div class='narr_wrap'>    pts = []
+    for h in Interval().divide(section_count,True):
+        # for each section in the section count
+        # move the polygon to the appropriate height
+        rg.basis = CS(0,0,height*h)
+        # apply transformations
+        xfs = Xform.scale(math.sin(v*math.pi+1)*0.05+1)
+        rg_h = rg * xfs
+        # evaluate the polygon at the given u,v interval
+        pts.append(rg_h.eval(ival_u.eval(h)))
+    # and create a line with all of the evaluated points
+    u_line = PLine(pts)
+    
+    # evaluate that line at v
+    pt_out = u_line.eval( v )
+<br><span class='codeblock_name'>4.03.L01b3</span></div><div class='svg_wrap' style='background-image: url(4_03_L01b3.svg), none; height: 28px;'></div>
+<div class='py_wrap'>
+<div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">}</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>assign a height, rotation angle and radius to a point as factors of u</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">z</span> <span class="o">=</span> <span class="n">interv</span> <span class="o">*</span> <span class="n">height</span><span class="p">;</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'>&nbsp;</div>
+</div>
+
+<div class='narr_wrap'>Create a tower.
+<br><span class='codeblock_name'>4.03.L01b4</span></div><div class='svg_wrap' style='background-image: url(4_03_L01b4.svg), none; height: 112px;'></div>
+<div class='py_wrap'>
+<div class='cmt_para' style='padding-right:36px; width:234px;'>this number maintains the form of the mesh throughout its height by creating "floors"</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">section_count</span> <span class="o">=</span> <span class="mi">15</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">theta</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="n">PI</span> <span class="o">*</span> <span class="p">(</span><span class="n">u</span> <span class="o">+</span> <span class="n">interv</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">height</span> <span class="o">=</span> <span class="mf">20.0</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">rad</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="n">Sin</span><span class="p">(</span><span class="n">Math</span><span class="o">.</span><span class="n">RadiansToDegrees</span><span class="p">(</span><span class="n">Math</span><span class="o">.</span><span class="n">PI</span> <span class="o">*</span> <span class="n">interv</span> <span class="o">+</span> <span class="n">sine</span><span class="p">))</span> <span class="o">+</span> <span class="n">radius</span><span class="p">;</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">tol</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>Get points from cylindrical coordinates</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">pt</span> <span class="o">=</span> <span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">ByCylindricalCoordinates</span><span class="p">(</span><span class="nb-Decodes">CoordinateSystem</span><span class="o">.</span><span class="n">Identity</span><span class="p">(),</span> <span class="n">rad</span><span class="p">,</span> <span class="n">Math</span><span class="o">.</span><span class="n">RadiansToDegrees</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">z</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">srf_domain</span> <span class="o">=</span> <span class="mf">0.</span><span class="o">.</span><span class="mf">1.</span><span class="o">.</span><span class="n">tol</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>Evaluate the curve on v</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">crv</span> <span class="o">=</span> <span class="n">BSplineCurve</span><span class="o">.</span><span class="n">ByPoints</span><span class="p">(</span><span class="n">pt</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'>&nbsp;</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">test</span> <span class="o">=</span> <span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">AtParameter</span><span class="p">(</span><span class="n">RGon</span><span class="o">.</span><span class="n">FromSidesRadius</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)</span><span class="o">.</span><span class="n">PGon</span><span class="p">,</span><span class="mf">0.5</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">return</span> <span class="o">=</span> <span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">AtParameter</span><span class="p">(</span><span class="n">crv</span><span class="p">,</span><span class="n">v</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>srf = BSplineSurface.ByPoints(func2(srf_domain<2>, srf_domain<1>));</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">test2</span> <span class="o">=</span> <span class="n">func2</span><span class="p">(</span><span class="n">srf_domain</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">srf_domain</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">}</span><span class="o">*/</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="k">def</span> <span class="nf">func2</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">{</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>create a regular 5 sided polygon of radius 1</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">rg</span> <span class="o">=</span> <span class="n">RGon</span><span class="o">.</span><span class="n">FromSidesRadius</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">PGon</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>ival_u = u..u + v;  Interval(u, u + v)</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">int_divs</span> <span class="o">=</span> <span class="mf">0.</span><span class="o">.</span><span class="mf">1.</span><span class="o">.</span><span class="c">#section_count;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">old_cs</span> <span class="o">=</span> <span class="nb-Decodes">CoordinateSystem</span><span class="o">.</span><span class="n">Identity</span><span class="p">();</span><span class="o">//</span> <span class="nb-Decodes">CoordinateSystem</span><span class="o">.</span><span class="n">ByOriginVectors</span><span class="p">(</span><span class="n">rg</span><span class="o">.</span><span class="n">PGon</span><span class="o">.</span><span class="n">Plane</span><span class="o">.</span><span class="n">Origin</span><span class="p">,</span> <span class="nb-Decodes">Vector</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="nb-Decodes">Vector</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">scale_val</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="n">Sin</span><span class="p">(</span><span class="n">Math</span><span class="o">.</span><span class="n">DegreesToRadians</span><span class="p">(</span><span class="n">v</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="n">PI</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="mf">0.05</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">new_cs</span> <span class="o">=</span> <span class="nb-Decodes">CoordinateSystem</span><span class="o">.</span><span class="n">Identity</span><span class="p">()</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="n">scale_val</span><span class="p">);</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>rg_h = rg.Transform(old_cs, new_cs);</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">rg_h</span> <span class="o">=</span> <span class="n">rg</span><span class="o">.</span><span class="n">Translate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">height</span> <span class="o">*</span> <span class="n">int_divs</span><span class="p">);</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>Print(MapTo(0, 1, int_divs, u, u + v));</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">pts</span> <span class="o">=</span> <span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">AtParameter</span><span class="p">(</span><span class="n">rg_h</span><span class="p">,</span> <span class="n">MapTo</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="n">int_divs</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">));</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">u_line</span> <span class="o">=</span> <span class="n">BSplineCurve</span><span class="o">.</span><span class="n">ByPoints</span><span class="p">(</span><span class="n">pts</span><span class="p">);</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">pt_out</span> <span class="o">=</span> <span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">AtParameter</span><span class="p">(</span><span class="n">u_line</span><span class="p">,</span> <span class="n">v</span><span class="p">);</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>return = Point.AtParameter(u_line,0..1..tol);</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">return</span> <span class="o">=</span> <span class="n">u_line</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>return = rg_h;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="o">/*</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">pts</span> <span class="o">=</span> <span class="p">[]</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="nb-Decodes">Interval</span><span class="p">()</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">section_count</span><span class="p">,</span><span class="bp">True</span><span class="p">):</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="c"># for each section in the section count</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="c"># move the polygon to the appropriate height</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">rg</span><span class="o">.</span><span class="n">basis</span> <span class="o">=</span> <span class="n">CS</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">height</span><span class="o">*</span><span class="n">h</span><span class="p">)</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="c"># apply transformations</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">xfs</span> <span class="o">=</span> <span class="nb-Decodes">Xform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">v</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mf">0.05</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">rg_h</span> <span class="o">=</span> <span class="n">rg</span> <span class="o">*</span> <span class="n">xfs</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="c"># evaluate the polygon at the given u,v interval</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">pts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rg_h</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">ival_u</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">h</span><span class="p">)))</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="c"># and create a line with all of the evaluated points</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">u_line</span> <span class="o">=</span> <span class="nb-Decodes">PLine</span><span class="p">(</span><span class="n">pts</span><span class="p">)</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="c"># evaluate that line at v</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">pt_out</span> <span class="o">=</span> <span class="n">u_line</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span> <span class="n">v</span> <span class="p">)</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="k">return</span> <span class="n">pt_out</span> <span class="o">*/</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">}</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>this number maintains the form of the mesh throughout its height by creating "floors"</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">section_count</span> <span class="o">=</span> <span class="mi">15</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">height</span> <span class="o">=</span> <span class="mf">20.0</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">tol</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">srf_domain</span> <span class="o">=</span> <span class="mf">0.</span><span class="o">.</span><span class="mf">1.</span><span class="o">.</span><span class="n">tol</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">test</span> <span class="o">=</span> <span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">AtParameter</span><span class="p">(</span><span class="n">RGon</span><span class="o">.</span><span class="n">FromSidesRadius</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)</span><span class="o">.</span><span class="n">PGon</span><span class="p">,</span><span class="mf">0.5</span><span class="p">);</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>srf = BSplineSurface.ByPoints(func2(srf_domain<2>, srf_domain<1>));</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">test2</span> <span class="o">=</span> <span class="n">func2</span><span class="p">(</span><span class="n">srf_domain</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">srf_domain</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">);</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">Print</span><span class="p">(</span><span class="n">test2</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">Print</span><span class="p">(</span><span class="n">test2</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>

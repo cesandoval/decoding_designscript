@@ -1,4 +1,4 @@
-/*//
+/*
 4.03.L01c
 Methods to create a series of explicitly designed surfaces based on pasta shapes. Based on the work of George L. Legendre
 
@@ -10,16 +10,16 @@ dom_v (Interval) Surface domain in V direction.
 result:
 wavy (Mesh) A Pasta Surface.
 curly (Mesh) A Pasta Surface.
-//*/
+*/
+/*
+Methods for creating Farfalle and Gnocci Surfaces with given U and V values.
+Based on the work of George L. Legendre
+*/
 
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
 
-/*
-Methods for creating Farfalle and Gnocci Surfaces with given U and V values.
-Based on the work of George L. Legendre
-*/
 /*
 //Digati
 def digati_func(u, v)

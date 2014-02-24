@@ -12,14 +12,13 @@ result:
 path_pts (List of Points) Position of the wandering Guy at each time step
 path_line (Pline) Path of the wandering Guy
 //*/
+/*
+A guy class is defined with a position, direction and a method for updating.
+*/
 
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
-
-/*
-A guy class is defined with a position, direction and a method for updating.
-*/
 
 class Guy
 {
@@ -54,6 +53,10 @@ def stepper(x, guy)
     guy.Step();
     return = guy.Pos;
 }
+
+/*
+Create a random walker
+*/
 
 start_pt = Point.ByCoordinates(-1.19, -0.89, 0);
 start_vel = Vector.ByCoordinates(0.59, 1.0, 0);

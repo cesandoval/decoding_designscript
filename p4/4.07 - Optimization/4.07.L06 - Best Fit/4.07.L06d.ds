@@ -11,14 +11,13 @@ max_a (float) Maximum angle of rotation.
 result: 
 trial (PGon) Polygon rotated to minimum bounds.
 */
+/*
+Method that creates a copy of a PGon rotated to its best-fit bounding box.
+*/
 
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
-
-/*
-Method that creates a copy of a PGon rotated to its best-fit bounding box.
-*/
 
 def rotated_to_min_bounds(pgon, divs, min_a, max_a)
 {

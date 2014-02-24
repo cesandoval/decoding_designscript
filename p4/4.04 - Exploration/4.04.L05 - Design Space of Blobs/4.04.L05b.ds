@@ -1,4 +1,4 @@
-/*//
+/*
 4.04.L05b
 
 Create a solution space matrix of blobby curves.  
@@ -10,14 +10,14 @@ alpha ([float]) Decimal value to create the blob.
  
 result: 
 crv_out (Curve) A close curve with different shape and size. A portion of the curves will be self-intersecting.   
-//*/
-
-import("ProtoGeometry.dll");
-import("Math.dll");
-     
+*/  
 /*
 Method to create a blobby curve based on a radius and an alpha value in design space.
 */
+
+import("ProtoGeometry.dll");
+import("Math.dll");
+   
 def blob(t,alpha)
 {
     // define a number of values with mathematical functions

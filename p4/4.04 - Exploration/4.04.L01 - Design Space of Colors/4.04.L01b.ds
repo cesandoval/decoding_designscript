@@ -1,4 +1,4 @@
-/*//
+/*
 4.04.L01b
 Create a number of Points with a given Interval. Color the Points with a RGB Color corresponding to their XYZ position.
 
@@ -8,13 +8,12 @@ n (int) Number of divisions for the Interval.
 
 result: 
 pts ([Point]) List of colored Points.
-//*/
-
-import("ProtoGeometry.dll");
-
+*/
 /*
 Given an RGB value, create a Point and assign the RGB color to the Point.
 */
+
+import("ProtoGeometry.dll");
 
 def color_point(r_val,g_val,b_val)
 {

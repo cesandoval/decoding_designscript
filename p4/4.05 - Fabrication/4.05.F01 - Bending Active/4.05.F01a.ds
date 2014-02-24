@@ -1,4 +1,4 @@
-/*//
+/*
 4.05.F01a
 Given 2 Circle radii, create 2 Circles and subdivide them in a given number of Points. Translate the Points of the larger Circle in Z direction with a sine function. Create bezier Curves with the Points of both Circles and a mid Point.
 
@@ -12,14 +12,13 @@ strength (float) Displacement strength for the Points affected by the sine funct
 
 result:
 curve (Curve) Bezier Curves.
-//*/
-
-import("ProtoGeometry.dll");
-import("Math.dll");
-
+*/
 /*
 Create 2 Circles, subdvide the Circles into a number of Points. With the given Points construct segments, and displace the mid Point of the Segment in Z. 
 */
+
+import("ProtoGeometry.dll");
+import("Math.dll");
 
 // define some initial values
 rad_small = 5.06;

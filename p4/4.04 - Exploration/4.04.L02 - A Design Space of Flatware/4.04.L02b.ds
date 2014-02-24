@@ -1,4 +1,4 @@
-/*//
+/*
 4.04.L02b
 Creates a Web class with methods for the creation of a Web object between Prongs for the flatware design space.
 
@@ -19,15 +19,15 @@ make_cutlery(float, float, float) Modifies the mid Point location based on knifi
 get_sbcrv() Trims the Web at intersections with it's Prongs
 is_mountain() Tests the concavity of this Web.
 to_curve() Returns the modified PLine representation of this Web
-//*/
+*/
+/*
+A class that creates a Prong object
+*/
 
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
 
-/*
-A class that creates a Prong object
-*/
 class Prong
 {
     Chin : Point;

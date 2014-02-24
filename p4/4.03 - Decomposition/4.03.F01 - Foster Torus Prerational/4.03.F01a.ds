@@ -1,4 +1,4 @@
-/*//
+/*
 4.03.F01b
 Define a torus class that provides methods for creating a Torus with two different types of parameterization.
 
@@ -14,15 +14,15 @@ cos_alpha (float) A mathematical function of the Torus
 sin_alpha (float) A mathematical function of the Torus
 func_v1 (Point) A method for creating a Torus with a Villarceau #1 parameterization.
 func_v2 (Point) A method for creating a Torus with a Villarceau #2 parameterization.
-//*/
+*/
+/*
+Creates a Torus class with methods to create different types of Surface parameterizations. The Torus class is a subclass of the ClassicalSurface class
+*/
 
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
 
-/*
-Creates a Torus class with methods to create different types of Surface parameterizations. The Torus class is a subclass of the ClassicalSurface class
-*/
 class Torus
 {
     Cs;
@@ -133,6 +133,9 @@ class Torus
     }
 }
 
+/*
+Create a Torus.
+*/
 offset_radius = 5.06;
 param_type = 2;
 divs = 30;

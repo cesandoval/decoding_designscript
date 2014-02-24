@@ -3,7 +3,7 @@
   <title></title>
   <meta http-equiv="content-type" content="text/html; charset=None">
   <style type="text/css">
-  
+
 .narr_wrap {
     font-style: italic;
     text-align: center;
@@ -20,7 +20,7 @@
     height: 14px;
 }
 
-.py_para pre { 
+.py_para pre {
     margin: 0px;
     font-family: monospace;
     font-size: 11px;
@@ -28,7 +28,7 @@
 
 pre {
     /* background-color: #0fd; */
-} 
+}
 
 .cmt_para{
     float: left;
@@ -41,10 +41,10 @@ pre {
 }
 
 /* clearfix */
-.py_wrap:after { 
+.py_wrap:after {
    content: " ";
-   display: block; 
-   height: 0; 
+   display: block;
+   height: 0;
    clear: both;
 }
 
@@ -56,7 +56,7 @@ pre {
 }
 
 
-  
+
 td.linenos { background-color: #f0f0f0; padding-right: 10px; }
 span.lineno { background-color: #f0f0f0; padding: 0 5px 0 5px; }
 body .hll { background-color: #ffffcc }
@@ -121,89 +121,77 @@ body .il { color: #009999 } /* Literal.Number.Integer.Long */
   </style>
 </head>
 <body>4.05.L03a
-<div class='narr_wrap'></div><div class='svg_wrap' style='background-image: url(4_05_L03a1.svg), none; height: 686px;'></div>
+Given a Surface and a swap bool, divide the Surface evenly along its isoparms to develop toolpaths for a CNC mill.
+
+required:
+surf (Surface) A Surface to create toolpaths from.
+swap (bool) Whether or not to swap the direction of the toolpaths. 
+
+results:
+lns([PLine]) PLines representing the cutpaths.
+
+<div class='narr_wrap'>Method to generate a surface.
+<br><span class='codeblock_name'>4.05.L03a1</span></div><div class='svg_wrap' style='background-image: url(4_05_L03a1.svg), none; height: 224px;'></div>
 <div class='py_wrap'>
-<div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">/*//</span>
+<div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;ProtoGeometry.dll&quot;</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="mf">4.05</span><span class="o">.</span><span class="n">L03a</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;Math.dll&quot;</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">Given</span> <span class="n">a</span> <span class="n">Surface</span> <span class="ow">and</span> <span class="n">a</span> <span class="n">swap</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">divide</span> <span class="n">the</span> <span class="n">Surface</span> <span class="n">evenly</span> <span class="n">along</span> <span class="n">its</span> <span class="n">isoparms</span> <span class="n">to</span> <span class="n">develop</span> <span class="n">toolpaths</span> <span class="k">for</span> <span class="n">a</span> <span class="n">CNC</span> <span class="n">mill</span><span class="o">.</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;../../../library/decodes_functions.ds&quot;</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">required</span><span class="p">:</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">surf</span> <span class="p">(</span><span class="n">Surface</span><span class="p">)</span> <span class="n">A</span> <span class="n">Surface</span> <span class="n">to</span> <span class="n">create</span> <span class="n">toolpaths</span> <span class="n">from</span><span class="o">.</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">{</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">swap</span> <span class="p">(</span><span class="nb">bool</span><span class="p">)</span> <span class="n">Whether</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">to</span> <span class="n">swap</span> <span class="n">the</span> <span class="n">direction</span> <span class="n">of</span> <span class="n">the</span> <span class="n">toolpaths</span><span class="o">.</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">length</span> <span class="o">=</span> <span class="mf">4.0</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">results</span><span class="p">:</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">rad</span> <span class="o">=</span> <span class="p">(</span><span class="n">Math</span><span class="o">.</span><span class="n">Cos</span><span class="p">(</span><span class="n">Math</span><span class="o">.</span><span class="n">RadiansToDegrees</span><span class="p">(</span><span class="n">MapTo</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Math</span><span class="o">.</span><span class="n">PI</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">1.5</span><span class="p">)))</span> <span class="o">+</span> <span class="mf">1.75</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">lns</span><span class="p">([</span><span class="nb-Decodes">PLine</span><span class="p">])</span> <span class="n">PLines</span> <span class="n">representing</span> <span class="n">the</span> <span class="n">cutpaths</span><span class="o">.</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">u</span> <span class="o">=</span> <span class="n">MapTo</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>*/</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;ProtoGeometry.dll&quot;</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'>&nbsp;</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">rad</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="n">Cos</span><span class="p">(</span><span class="n">Math</span><span class="o">.</span><span class="n">RadiansToDegrees</span><span class="p">(</span><span class="n">u</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="n">PI</span><span class="p">));</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;Math.dll&quot;</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">y</span> <span class="o">=</span> <span class="n">MapTo</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">length</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;../../../library/decodes_functions.ds&quot;</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">z</span> <span class="o">=</span> <span class="n">rad</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="n">Sin</span><span class="p">(</span><span class="n">Math</span><span class="o">.</span><span class="n">RadiansToDegrees</span><span class="p">(</span><span class="n">u</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="n">PI</span><span class="p">));</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">/*</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="k">return</span> <span class="o">=</span> <span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">Method</span> <span class="n">to</span> <span class="n">generate</span> <span class="n">a</span> <span class="n">surface</span><span class="o">.</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">}</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">*/</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div>
+</div>
+
+<div class='narr_wrap'>Method to divide a Surface evenly along its isoparms to develop toolpaths for a CNC mill.
+<br><span class='codeblock_name'>4.05.L03a2</span></div><div class='svg_wrap' style='background-image: url(4_05_L03a2.svg), none; height: 98px;'></div>
+<div class='py_wrap'>
+<div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">def</span> <span class="nf">cutter</span><span class="p">(</span><span class="n">srf</span><span class="p">,</span> <span class="n">tool_spacing</span><span class="p">)</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">{</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">{</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>get the number of u and v divisions of the Surface</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">u_divs</span> <span class="o">=</span> <span class="mf">0.</span><span class="o">.</span><span class="mf">1.</span><span class="o">.</span><span class="c">#Math.Round(1 / tool_spacing);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">length</span> <span class="o">=</span> <span class="mf">4.0</span><span class="p">;</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">v_divs</span> <span class="o">=</span> <span class="mf">0.</span><span class="o">.</span><span class="mf">1.</span><span class="o">.</span><span class="c">#Math.Round(1 / tool_spacing);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">rad</span> <span class="o">=</span> <span class="p">(</span><span class="n">Math</span><span class="o">.</span><span class="n">Cos</span><span class="p">(</span><span class="n">Math</span><span class="o">.</span><span class="n">RadiansToDegrees</span><span class="p">(</span><span class="n">MapTo</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Math</span><span class="o">.</span><span class="n">PI</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">1.5</span><span class="p">)))</span> <span class="o">+</span> <span class="mf">1.75</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>return Iso Curves with different orientation by Associative replication</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="k">return</span> <span class="o">=</span> <span class="n">swap</span> <span class="o">==</span> <span class="n">true</span> <span class="err">?</span> <span class="n">BSplineCurve</span><span class="o">.</span><span class="n">ByPoints</span><span class="p">(</span><span class="n">srf</span><span class="o">.</span><span class="n">PointAtParameter</span><span class="p">(</span><span class="n">u_divs</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">v_divs</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">))</span> <span class="p">:</span> <span class="n">BSplineCurve</span><span class="o">.</span><span class="n">ByPoints</span><span class="p">(</span><span class="n">srf</span><span class="o">.</span><span class="n">PointAtParameter</span><span class="p">(</span><span class="n">u_divs</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">v_divs</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">));</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">u</span> <span class="o">=</span> <span class="n">MapTo</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">}</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">rad</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="n">Cos</span><span class="p">(</span><span class="n">Math</span><span class="o">.</span><span class="n">RadiansToDegrees</span><span class="p">(</span><span class="n">u</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="n">PI</span><span class="p">));</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div>
+</div>
+
+<div class='narr_wrap'>Generate a surface, and create toolpaths based on a tool width
+<br><span class='codeblock_name'>4.05.L03a3</span></div><div class='svg_wrap' style='background-image: url(4_05_L03a3.svg), none; height: 84px;'></div>
+<div class='py_wrap'>
+<div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">tol</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">y</span> <span class="o">=</span> <span class="n">MapTo</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">length</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>generate the initial surface</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">srf_domain</span> <span class="o">=</span> <span class="mf">0.</span><span class="o">.</span><span class="mf">1.</span><span class="o">.</span><span class="n">tol</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">z</span> <span class="o">=</span> <span class="n">rad</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="n">Sin</span><span class="p">(</span><span class="n">Math</span><span class="o">.</span><span class="n">RadiansToDegrees</span><span class="p">(</span><span class="n">u</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="n">PI</span><span class="p">));</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">srf</span> <span class="o">=</span> <span class="n">BSplineSurface</span><span class="o">.</span><span class="n">ByPoints</span><span class="p">(</span><span class="n">func</span><span class="p">(</span><span class="n">srf_domain</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">srf_domain</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">))</span><span class="o">.</span><span class="n">SetVisibility</span><span class="p">(</span><span class="n">false</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">return</span> <span class="o">=</span> <span class="nb-Decodes">Point</span><span class="o">.</span><span class="n">ByCoordinates</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div><div class='cmt_para' style='padding-right:36px; width:234px;'>create the iso Curves</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">swap</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">}</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">/*</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">Method</span> <span class="n">to</span> <span class="n">divide</span> <span class="n">a</span> <span class="n">Surface</span> <span class="n">evenly</span> <span class="n">along</span> <span class="n">its</span> <span class="n">isoparms</span> <span class="n">to</span> <span class="n">develop</span> <span class="n">toolpaths</span> <span class="k">for</span> <span class="n">a</span> <span class="n">CNC</span> <span class="n">mill</span><span class="o">.</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">*/</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="k">def</span> <span class="nf">cutter</span><span class="p">(</span><span class="n">srf</span><span class="p">,</span> <span class="n">tool_spacing</span><span class="p">)</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">{</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>get the number of u and v divisions of the Surface</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">u_divs</span> <span class="o">=</span> <span class="mf">0.</span><span class="o">.</span><span class="mf">1.</span><span class="o">.</span><span class="c">#Math.Round(1 / tool_spacing);</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">v_divs</span> <span class="o">=</span> <span class="mf">0.</span><span class="o">.</span><span class="mf">1.</span><span class="o">.</span><span class="c">#Math.Round(1 / tool_spacing);</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>return Iso Curves with different orientation by Associative replication</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">return</span> <span class="o">=</span> <span class="n">swap</span> <span class="o">==</span> <span class="n">true</span> <span class="err">?</span> <span class="n">BSplineCurve</span><span class="o">.</span><span class="n">ByPoints</span><span class="p">(</span><span class="n">srf</span><span class="o">.</span><span class="n">PointAtParameter</span><span class="p">(</span><span class="n">u_divs</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">v_divs</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">))</span> <span class="p">:</span> <span class="n">BSplineCurve</span><span class="o">.</span><span class="n">ByPoints</span><span class="p">(</span><span class="n">srf</span><span class="o">.</span><span class="n">PointAtParameter</span><span class="p">(</span><span class="n">u_divs</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">v_divs</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">));</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">}</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">/*</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">Generate</span> <span class="n">a</span> <span class="n">surface</span><span class="p">,</span> <span class="ow">and</span> <span class="n">create</span> <span class="n">toolpaths</span> <span class="n">based</span> <span class="n">on</span> <span class="n">a</span> <span class="n">tool</span> <span class="n">width</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">*/</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">tol</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>generate the initial surface</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">srf_domain</span> <span class="o">=</span> <span class="mf">0.</span><span class="o">.</span><span class="mf">1.</span><span class="o">.</span><span class="n">tol</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">srf</span> <span class="o">=</span> <span class="n">BSplineSurface</span><span class="o">.</span><span class="n">ByPoints</span><span class="p">(</span><span class="n">func</span><span class="p">(</span><span class="n">srf_domain</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">srf_domain</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">))</span><span class="o">.</span><span class="n">SetVisibility</span><span class="p">(</span><span class="n">false</span><span class="p">);</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>create the iso Curves</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">swap</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">iso_crvs</span> <span class="o">=</span> <span class="n">cutter</span><span class="p">(</span><span class="n">srf</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">iso_crvs</span> <span class="o">=</span> <span class="n">cutter</span><span class="p">(</span><span class="n">srf</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>

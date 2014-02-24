@@ -1,4 +1,4 @@
-/*//
+/*
 4.04.L03a
 Given a a length in X ans Y, create a Diamond and and Astroid, create an interpolated Curve based on an m value.
 
@@ -9,14 +9,13 @@ m (float) Interpolation value.
 
 result:
 crv_out (Curve) Interpolated Curve. 
-//*/
-
-import("Math.dll");
-import("ProtoGeometry.dll");
-
+*/
 /*
 Methods to create diamond and astroid curves. 
 */
+
+import("Math.dll");
+import("ProtoGeometry.dll");
 
 def diamond(t)
 {

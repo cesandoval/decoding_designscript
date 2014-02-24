@@ -3,7 +3,7 @@
   <title></title>
   <meta http-equiv="content-type" content="text/html; charset=None">
   <style type="text/css">
-  
+
 .narr_wrap {
     font-style: italic;
     text-align: center;
@@ -20,7 +20,7 @@
     height: 14px;
 }
 
-.py_para pre { 
+.py_para pre {
     margin: 0px;
     font-family: monospace;
     font-size: 11px;
@@ -28,7 +28,7 @@
 
 pre {
     /* background-color: #0fd; */
-} 
+}
 
 .cmt_para{
     float: left;
@@ -41,10 +41,10 @@ pre {
 }
 
 /* clearfix */
-.py_wrap:after { 
+.py_wrap:after {
    content: " ";
-   display: block; 
-   height: 0; 
+   display: block;
+   height: 0;
    clear: both;
 }
 
@@ -56,7 +56,7 @@ pre {
 }
 
 
-  
+
 td.linenos { background-color: #f0f0f0; padding-right: 10px; }
 span.lineno { background-color: #f0f0f0; padding: 0 5px 0 5px; }
 body .hll { background-color: #ffffcc }
@@ -121,159 +121,119 @@ body .il { color: #009999 } /* Literal.Number.Integer.Long */
   </style>
 </head>
 <body>4.07.L01c
-<div class='narr_wrap'></div><div class='svg_wrap' style='background-image: url(4_07_L01c1.svg), none; height: 1190px;'></div>
+Given a fitness function, perform a directed search. Step size by checking neighboring Colors and moving in the direction of best fit. Create a path representing search history.
+
+required: 
+fitness (func) Fitness function.
+step (float) Step size for search.
+threshold (float) Threshold for fitness. 
+sample (Color) Sample Color.
+
+result: 
+sample (Color) Sample Color to compare. 
+
+<div class='narr_wrap'>Method that checks the closeness of a sample Color to the goal Color (0 to 1).
+<br><span class='codeblock_name'>4.07.L01c1</span></div><div class='svg_wrap' style='background-image: url(4_07_L01c1.svg), none; height: 168px;'></div>
 <div class='py_wrap'>
-<div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">/*//</span>
+<div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;ProtoGeometry.dll&quot;</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="mf">4.07</span><span class="o">.</span><span class="n">L01c</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;Math.dll&quot;</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">Given</span> <span class="n">a</span> <span class="n">fitness</span> <span class="n">function</span><span class="p">,</span> <span class="n">perform</span> <span class="n">a</span> <span class="n">directed</span> <span class="n">search</span><span class="o">.</span> <span class="n">Step</span> <span class="n">size</span> <span class="n">by</span> <span class="n">checking</span> <span class="n">neighboring</span> <span class="n">Colors</span> <span class="ow">and</span> <span class="n">moving</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">direction</span> <span class="n">of</span> <span class="n">best</span> <span class="n">fit</span><span class="o">.</span> <span class="n">Create</span> <span class="n">a</span> <span class="n">path</span> <span class="n">representing</span> <span class="n">search</span> <span class="n">history</span><span class="o">.</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">def</span> <span class="nf">fitness</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">required</span><span class="p">:</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">{</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">fitness</span> <span class="p">(</span><span class="n">func</span><span class="p">)</span> <span class="n">Fitness</span> <span class="n">function</span><span class="o">.</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>get the difference between sample and goal Color</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">dhue</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">Math</span><span class="o">.</span><span class="n">Abs</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">RedValue</span> <span class="o">-</span> <span class="n">goal</span><span class="o">.</span><span class="n">RedValue</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">step</span> <span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="n">Step</span> <span class="n">size</span> <span class="k">for</span> <span class="n">search</span><span class="o">.</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">dsat</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">Math</span><span class="o">.</span><span class="n">Abs</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">GreenValue</span> <span class="o">-</span> <span class="n">goal</span><span class="o">.</span><span class="n">GreenValue</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">threshold</span> <span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="n">Threshold</span> <span class="k">for</span> <span class="n">fitness</span><span class="o">.</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">dval</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">Math</span><span class="o">.</span><span class="n">Abs</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">BlueValue</span> <span class="o">-</span> <span class="n">goal</span><span class="o">.</span><span class="n">BlueValue</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">sample</span> <span class="p">(</span><span class="nb-Decodes">Color</span><span class="p">)</span> <span class="n">Sample</span> <span class="nb-Decodes">Color</span><span class="o">.</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>get the sum of the differences</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="nb">sum</span> <span class="o">=</span> <span class="p">(</span><span class="n">dhue</span> <span class="o">*</span> <span class="n">red_weight</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">dsat</span> <span class="o">*</span> <span class="n">green_weight</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">dval</span> <span class="o">*</span> <span class="n">blue_weight</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">result</span><span class="p">:</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>get the average</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="k">return</span> <span class="o">=</span> <span class="nb">sum</span> <span class="o">/</span> <span class="p">(</span><span class="n">red_weight</span> <span class="o">+</span> <span class="n">green_weight</span> <span class="o">+</span> <span class="n">blue_weight</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">sample</span> <span class="p">(</span><span class="nb-Decodes">Color</span><span class="p">)</span> <span class="n">Sample</span> <span class="nb-Decodes">Color</span> <span class="n">to</span> <span class="n">compare</span><span class="o">.</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">}</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>*/</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;ProtoGeometry.dll&quot;</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div>
+</div>
+
+<div class='narr_wrap'>Function to return a list of colors in the neighborhood to evaluate.
+<br><span class='codeblock_name'>4.07.L01c2</span></div><div class='svg_wrap' style='background-image: url(4_07_L01c2.svg), none; height: 168px;'></div>
+<div class='py_wrap'>
+<div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">def</span> <span class="nf">nearby_clrs</span><span class="p">(</span><span class="n">clr</span><span class="p">,</span> <span class="n">r_delta</span><span class="p">,</span><span class="n">g_delta</span><span class="p">,</span><span class="n">b_delta</span><span class="p">)</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">import</span><span class="p">(</span><span class="s">&quot;Math.dll&quot;</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">{</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">/*</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="k">return</span> <span class="o">=</span> <span class="p">[</span><span class="n">Imperative</span><span class="p">]</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">Method</span> <span class="n">that</span> <span class="n">checks</span> <span class="n">the</span> <span class="n">closeness</span> <span class="n">of</span> <span class="n">a</span> <span class="n">sample</span> <span class="nb-Decodes">Color</span> <span class="n">to</span> <span class="n">the</span> <span class="n">goal</span> <span class="nb-Decodes">Color</span> <span class="p">(</span><span class="mi">0</span> <span class="n">to</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="p">{</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">*/</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>if the sum of the abs values is not 0</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="k">if</span> <span class="p">((</span><span class="n">Math</span><span class="o">.</span><span class="n">Abs</span><span class="p">(</span><span class="n">Math</span><span class="o">.</span><span class="n">Floor</span><span class="p">(</span><span class="n">r_delta</span><span class="p">))</span> <span class="o">+</span> <span class="n">Math</span><span class="o">.</span><span class="n">Abs</span><span class="p">(</span><span class="n">Math</span><span class="o">.</span><span class="n">Floor</span><span class="p">(</span><span class="n">g_delta</span><span class="p">))</span> <span class="o">+</span> <span class="n">Math</span><span class="o">.</span><span class="n">Abs</span><span class="p">(</span><span class="n">Math</span><span class="o">.</span><span class="n">Floor</span><span class="p">(</span><span class="n">b_delta</span><span class="p">)))</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="k">def</span> <span class="nf">fitness</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="p">{</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">{</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>create a new Color</div><div class='py_para' style='padding-left:72px; width:408px;'><div class="source"><pre><span class="n">clr</span> <span class="o">=</span> <span class="nb-Decodes">Color</span><span class="o">.</span><span class="n">ByARGB</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="n">samp</span><span class="o">.</span><span class="n">RedValue</span> <span class="o">+</span> <span class="n">r_delta</span><span class="p">,</span> <span class="n">samp</span><span class="o">.</span><span class="n">GreenValue</span> <span class="o">+</span> <span class="n">g_delta</span><span class="p">,</span> <span class="n">samp</span><span class="o">.</span><span class="n">BlueValue</span> <span class="o">+</span> <span class="n">b_delta</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>get the difference between sample and goal Color</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">dhue</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">Math</span><span class="o">.</span><span class="n">Abs</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">RedValue</span> <span class="o">-</span> <span class="n">goal</span><span class="o">.</span><span class="n">RedValue</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>add the Color</div><div class='py_para' style='padding-left:72px; width:408px;'><div class="source"><pre><span class="k">return</span> <span class="o">=</span> <span class="n">clr</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">dsat</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">Math</span><span class="o">.</span><span class="n">Abs</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">GreenValue</span> <span class="o">-</span> <span class="n">goal</span><span class="o">.</span><span class="n">GreenValue</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="p">}</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">dval</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">Math</span><span class="o">.</span><span class="n">Abs</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">BlueValue</span> <span class="o">-</span> <span class="n">goal</span><span class="o">.</span><span class="n">BlueValue</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="p">}</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>get the sum of the differences</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="nb">sum</span> <span class="o">=</span> <span class="p">(</span><span class="n">dhue</span> <span class="o">*</span> <span class="n">red_weight</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">dsat</span> <span class="o">*</span> <span class="n">green_weight</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">dval</span> <span class="o">*</span> <span class="n">blue_weight</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">}</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>get the average</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">return</span> <span class="o">=</span> <span class="nb">sum</span> <span class="o">/</span> <span class="p">(</span><span class="n">red_weight</span> <span class="o">+</span> <span class="n">green_weight</span> <span class="o">+</span> <span class="n">blue_weight</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div>
+</div>
+
+<div class='narr_wrap'>Check each sample Point against nearby Points.
+<br><span class='codeblock_name'>4.07.L01c3</span></div><div class='svg_wrap' style='background-image: url(4_07_L01c3.svg), none; height: 350px;'></div>
+<div class='py_wrap'>
+<div class='cmt_para' style='padding-right:36px; width:234px;'>define goal values</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">red_weight</span> <span class="o">=</span> <span class="mi">255</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">}</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">green_weight</span> <span class="o">=</span> <span class="mi">255</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">/*</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">blue_weight</span> <span class="o">=</span> <span class="mi">255</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">Function</span> <span class="n">to</span> <span class="k">return</span> <span class="n">a</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">colors</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">neighborhood</span> <span class="n">to</span> <span class="n">evaluate</span><span class="o">.</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">goal</span> <span class="o">=</span> <span class="nb-Decodes">Color</span><span class="o">.</span><span class="n">ByARGB</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">90</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">*/</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">samp</span> <span class="o">=</span> <span class="nb-Decodes">Color</span><span class="o">.</span><span class="n">ByARGB</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="k">def</span> <span class="nf">nearby_clrs</span><span class="p">(</span><span class="n">clr</span><span class="p">,</span> <span class="n">r_delta</span><span class="p">,</span><span class="n">g_delta</span><span class="p">,</span><span class="n">b_delta</span><span class="p">)</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">thresh</span> <span class="o">=</span> <span class="mi">255</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">{</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">step</span> <span class="o">=</span> <span class="p">{</span> <span class="o">-</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span> <span class="p">};</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">return</span> <span class="o">=</span> <span class="p">[</span><span class="n">Imperative</span><span class="p">]</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'>&nbsp;</div><div class='cmt_para' style='padding-right:36px; width:234px;'>set maximum number of iterations</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="n">max_count</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">{</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">[</span><span class="n">Imperative</span><span class="p">]</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>if the sum of the abs values is not 0</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="k">if</span> <span class="p">((</span><span class="n">Math</span><span class="o">.</span><span class="n">Abs</span><span class="p">(</span><span class="n">Math</span><span class="o">.</span><span class="n">Floor</span><span class="p">(</span><span class="n">r_delta</span><span class="p">))</span> <span class="o">+</span> <span class="n">Math</span><span class="o">.</span><span class="n">Abs</span><span class="p">(</span><span class="n">Math</span><span class="o">.</span><span class="n">Floor</span><span class="p">(</span><span class="n">g_delta</span><span class="p">))</span> <span class="o">+</span> <span class="n">Math</span><span class="o">.</span><span class="n">Abs</span><span class="p">(</span><span class="n">Math</span><span class="o">.</span><span class="n">Floor</span><span class="p">(</span><span class="n">b_delta</span><span class="p">)))</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">{</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="p">{</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="k">for</span> <span class="p">(</span><span class="n">count</span> <span class="ow">in</span> <span class="mf">0.</span><span class="o">.</span><span class="n">max_count</span><span class="p">)</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>create a new Color</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="n">clr</span> <span class="o">=</span> <span class="nb-Decodes">Color</span><span class="o">.</span><span class="n">ByARGB</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="n">samp</span><span class="o">.</span><span class="n">RedValue</span> <span class="o">+</span> <span class="n">r_delta</span><span class="p">,</span> <span class="n">samp</span><span class="o">.</span><span class="n">GreenValue</span> <span class="o">+</span> <span class="n">g_delta</span><span class="p">,</span> <span class="n">samp</span><span class="o">.</span><span class="n">BlueValue</span> <span class="o">+</span> <span class="n">b_delta</span><span class="p">);</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="p">{</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>add the Color</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="k">return</span> <span class="o">=</span> <span class="n">clr</span><span class="p">;</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="k">if</span> <span class="p">(</span><span class="n">fitness</span><span class="p">(</span><span class="n">samp</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">thresh</span><span class="p">)</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="p">}</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="p">{</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">}</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:72px; width:408px;'><div class="source"><pre><span class="p">[</span><span class="n">Associative</span><span class="p">]</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">}</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:72px; width:408px;'><div class="source"><pre><span class="p">{</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">/*</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:90px; width:390px;'><div class="source"><pre><span class="n">step_samples</span> <span class="o">=</span> <span class="n">nearby_clrs</span><span class="p">(</span><span class="n">samp</span><span class="p">,</span> <span class="n">step</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">step</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">step</span><span class="o">&lt;</span><span class="mi">3</span><span class="o">&gt;</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">Check</span> <span class="n">each</span> <span class="n">sample</span> <span class="nb-Decodes">Point</span> <span class="n">against</span> <span class="n">nearby</span> <span class="n">Points</span><span class="o">.</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:90px; width:390px;'><div class="source"><pre><span class="n">Print</span><span class="p">(</span><span class="n">step_samples</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">*/</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:90px; width:390px;'><div class="source"><pre><span class="n">test</span> <span class="o">=</span> <span class="n">fitness</span><span class="p">(</span><span class="n">step_samples</span><span class="p">);</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>define goal values</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">red_weight</span> <span class="o">=</span> <span class="mi">255</span><span class="p">;</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>}</div><div class='py_para' style='padding-left:72px; width:408px;'><div class="source"><pre><span class="p">}</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">green_weight</span> <span class="o">=</span> <span class="mi">255</span><span class="p">;</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="p">}</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">blue_weight</span> <span class="o">=</span> <span class="mi">255</span><span class="p">;</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="p">}</span>
 </pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">goal</span> <span class="o">=</span> <span class="nb-Decodes">Color</span><span class="o">.</span><span class="n">ByARGB</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">90</span><span class="p">);</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">samp</span> <span class="o">=</span> <span class="nb-Decodes">Color</span><span class="o">.</span><span class="n">ByARGB</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">thresh</span> <span class="o">=</span> <span class="mi">255</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">step</span> <span class="o">=</span> <span class="p">{</span> <span class="o">-</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span> <span class="p">};</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'>&nbsp;</div><div class='cmt_para' style='padding-right:0px; width:270px;'>set maximum number of iterations</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="n">max_count</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">[</span><span class="n">Imperative</span><span class="p">]</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">{</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">for</span> <span class="p">(</span><span class="n">count</span> <span class="ow">in</span> <span class="mf">0.</span><span class="o">.</span><span class="n">max_count</span><span class="p">)</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">{</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="k">if</span> <span class="p">(</span><span class="n">fitness</span><span class="p">(</span><span class="n">samp</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">thresh</span><span class="p">)</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="p">{</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="p">[</span><span class="n">Associative</span><span class="p">]</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="p">{</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:72px; width:408px;'><div class="source"><pre><span class="n">step_samples</span> <span class="o">=</span> <span class="n">nearby_clrs</span><span class="p">(</span><span class="n">samp</span><span class="p">,</span> <span class="n">step</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">step</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">step</span><span class="o">&lt;</span><span class="mi">3</span><span class="o">&gt;</span><span class="p">);</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:72px; width:408px;'><div class="source"><pre><span class="n">Print</span><span class="p">(</span><span class="n">step_samples</span><span class="p">);</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:72px; width:408px;'><div class="source"><pre><span class="n">test</span> <span class="o">=</span> <span class="n">fitness</span><span class="p">(</span><span class="n">step_samples</span><span class="p">);</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>}</div><div class='py_para' style='padding-left:54px; width:426px;'><div class="source"><pre><span class="p">}</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="p">}</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">}</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="p">}</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="o">/*</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="c"># check each sample point against nearby points</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="c"># continue in the direction of max fiteness</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:0px; width:480px;'><div class="source"><pre><span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_count</span><span class="p">):</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="c"># if the current sample does not meet the fitness threshhold</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">if</span> <span class="n">fitness</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">thresh</span><span class="p">:</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="c"># get all the nearby samples</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">step_samples</span> <span class="o">=</span> <span class="n">nearby_clrs</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span><span class="n">step</span><span class="p">)</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="c"># sort them by their fitness to the goal color</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">step_samples</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">fitness</span><span class="p">)</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="c"># make the sample with the highest fitness the current sample</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:36px; width:444px;'><div class="source"><pre><span class="n">sample</span> <span class="o">=</span> <span class="n">step_samples</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-</pre></div>
-</div><div class='cmt_para' style='padding-right:0px; width:270px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="k">else</span><span class="p">:</span> <span class="k">break</span><span class="o">*/</span>
+</div><div class='cmt_para' style='padding-right:36px; width:234px;'>&nbsp;</div><div class='py_para' style='padding-left:18px; width:462px;'><div class="source"><pre><span class="p">}</span>
 </pre></div>
 </div>
 </div>

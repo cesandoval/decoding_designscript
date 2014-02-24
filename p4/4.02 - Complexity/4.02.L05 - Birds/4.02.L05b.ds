@@ -1,4 +1,4 @@
-/*//
+/*
 4.02.L05b
 Move a flock of simple Birds toward a goal.
 
@@ -10,15 +10,15 @@ count (int) The number of steps
 
 result:
 flock ([Bird]) A group of Birds with their history filled out
-//*/
+*/
+/*
+A simple Bird class is defined with position, velocity, acceleration vectors, and history.
+*/
 
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
 
-/*
-A simple Bird class is defined with position, velocity, acceleration vectors, and history.
-*/
 class Bird
 {
     Pos;
@@ -115,6 +115,10 @@ class Bird
     }
 }
 
+/*
+Create a flock of simple Bird objects.
+*/
+
 count = 15;
 max_frc = 0.11;
 max_vel = 0.76;
@@ -122,9 +126,6 @@ goal_pt = Point.ByCoordinates(30, 23, 0);
 close_enough = 1.25;
 step_count = 100;
 
-/*
-Create a flock of simple Bird objects.
-*/
 flock = { }; //initialize an empty flock
 [Imperative]
 {

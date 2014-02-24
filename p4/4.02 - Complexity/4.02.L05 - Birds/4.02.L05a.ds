@@ -1,4 +1,4 @@
-/*//
+/*
 4.02.L05a
 Create a simple Bird class with goal-seeking behavior
 
@@ -17,15 +17,15 @@ step (None) Update Bird's position, velocity and acceleration and record history
 steer (Vec) Steer the Bird by changing its accelaration vectors
 clear_history (None) Initialize the Bird's history
 record (None) Add the Bird's current status to the Bird's history
-//*/
+*/
+/*
+A simple Bird class is defined with position, velocity, acceleration vectors, and history.
+*/
 
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
 
-/*
-A simple Bird class is defined with position, velocity, acceleration vectors, and history.
-*/
 class Bird
 {
     Pos;

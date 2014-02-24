@@ -1,4 +1,4 @@
-/*//
+/*
 4.07.L01b
 Given a fitness function and a number of samples, perform a brute force search of the solution space (n X n X n samples). Output only values that pass a certain threshold.
 
@@ -10,14 +10,14 @@ results:
 pts ([Point]) Points with colors.
 best_clr (Color) Best fit Color.
 best_fit (float) Value of best fit.
-//*/
+*/
+/*
+Method that checks the closeness of a sample Color to the goal Color (0 to 1).
+*/
 
 import("ProtoGeometry.dll");
 import("Math.dll");
 
-/*
-Method that checks the closeness of a sample Color to the goal Color (0 to 1).
-*/
 def fitness(sample)
 {
     // get the difference between sample and goal Color

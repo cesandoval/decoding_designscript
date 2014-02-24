@@ -5,6 +5,8 @@ import shutil
 html_path = "_html"
 subfolder_name = "_markup"
 
+fieldguide_part = "..\..\\fieldguide\p4"
+
 do_ghx = False
 
 def empty_directory(folder):
@@ -47,6 +49,7 @@ def munge_part(part_path,part_title,part_id,xml):
                         else : os.makedirs(subfolder)
                         for file in os.listdir(dcfolder):
                             if file.endswith('.ds'):
+                                print os.listdir(fieldguide_part)
                                 script_id = file.split('.')[2][3:]
                                 script_src = file[:-3].replace('.','_')
                                 xml.append("            <script id='"+script_id+"' src='"+script_src+".html'>")

@@ -1,4 +1,4 @@
-/*//
+/*
 4.04.L02c
 Given three parameters - knifiness, spooniness, and forkiness - produce a two-dimensional outline of a piece of flatware that is an appropriate "hybrid" of each of these three archetypes.
 
@@ -12,15 +12,15 @@ spooniness (float) An index of the current flateware's spooniness
 
 results:
 ([Pline]) A list of Plines representing a "hybrid" piece of flatware
-//*/
+*/
+/*
+A class that creates a Prong object
+*/
 
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
 
-/*
-A class that creates a Prong object
-*/
 class Prong
 {
     Chin : Point;

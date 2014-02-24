@@ -1,4 +1,4 @@
-/*//
+/*
 4.03.F01c
 Create a Torus and a Plane to split it. Return a list with the split portions of the Torus.
 
@@ -8,15 +8,15 @@ param (int) Type of torus parameterization.
 
 result: 
 ret ([Pline]) a list of PLines.
-//*/
+*/
+/*
+Creates a Torus class with methods to create different types of Surface parameterizations. The Torus class is a subclass of the ClassicalSurface class
+*/
 
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
 
-/*
-Creates a Torus class with methods to create different types of Surface parameterizations. The Torus class is a subclass of the ClassicalSurface class
-*/
 class Torus
 {
     Cs;

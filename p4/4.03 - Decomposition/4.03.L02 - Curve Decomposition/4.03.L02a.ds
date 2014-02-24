@@ -1,4 +1,4 @@
-/*//
+/*
 4.03.L02a
 Decomposes a Curve into a PLine. Given a curve, return a set of lines that approximates the curve within a given tolerance.
 
@@ -9,15 +9,14 @@ step_size (float) t step size of the Curve.
 
 result: 
 ret (Arc) Best fit Arc.
-//*/
+*/
+/*
+Given a curve, return a set of lines that approximates the curve within a given tolerance.
+*/
 
 import("ProtoGeometry.dll");
 import("Math.dll");
 import("../../../library/decodes_functions.ds");
-
-/*
-Given a curve, return a set of lines that approximates the curve within a given tolerance.
-*/
     
 // create a range of values for Points
 range = 0..Math.PI * 2..#4;
