@@ -20,7 +20,7 @@ def empty_directory(folder):
 def munge_part(part_path,part_title,part_id,xml):
     xml.append("<part title='"+part_title+"' id='"+str(part_id)+"'>")
 
-    for chapter in os.listdir(part_path):
+    for t, chapter in enumerate(os.listdir(part_path)):
         if os.path.isdir(os.path.join(part_path,chapter)):
             try:
                 chapter_id = chapter.split('.')[1][:2]
@@ -33,7 +33,9 @@ def munge_part(part_path,part_title,part_id,xml):
             print "+++++++++++++++++++++++++++++++++++++++++++++"
             for folder in os.listdir(os.path.join(part_path,chapter)):
                 if re.match(r'\d.\d\d.\D\d\d - ',folder) :
-                    files = os.listdir(os.path.join(part_path,chapter,folder))    
+                    files = os.listdir(os.path.join(part_path,chapter,folder)) 
+                    ds_files = os.listdir(os.path.join(fieldguide_part,chapter,folder))
+                    fieldguide_folder_py = os.path.join(fieldguide_part,chapter,folder)
                     if any([file.endswith('.ds') for file in files]):
                         example_id = folder.split('.')[2][:3]
                         example_title = folder.split(' - ')[1]
@@ -49,7 +51,6 @@ def munge_part(part_path,part_title,part_id,xml):
                         else : os.makedirs(subfolder)
                         for file in os.listdir(dcfolder):
                             if file.endswith('.ds'):
-                                print os.listdir(fieldguide_part)
                                 script_id = file.split('.')[2][3:]
                                 script_src = file[:-3].replace('.','_')
                                 xml.append("            <script id='"+script_id+"' src='"+script_src+".html'>")
@@ -57,6 +58,10 @@ def munge_part(part_path,part_title,part_id,xml):
                                 try:
                                     with open(os.path.join(dcfolder, file), "r") as f: 
                                         codestring = f.read()
+                                    # Copy the ds files to the fieldguide folder
+                                    with open(os.path.join(fieldguide_folder_py, file),"w") as f:
+                                        copy_ds = f.write(codestring)
+                                        f.close()
                                     with open(os.path.join(dcfolder, file), "r") as f: lines = f.readlines()
                                     process_all(codestring, os.path.join(subfolder, file[:-3]), os.path.join(html_path, script_src),xml,lines)
                                 except Exception,e:
@@ -67,7 +72,6 @@ def munge_part(part_path,part_title,part_id,xml):
                                     print traceback.format_exc()
                                 xml.append("            </script>")
                         xml.append("        </example>")
-                        
                         
                     else:
                         print "no ds files found here: ", dcfolder
