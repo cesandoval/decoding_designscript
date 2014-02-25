@@ -61,5 +61,35 @@ arc_bc = Arc.ByCenterPointStartPointSweepPoint(cir_bc.CenterPoint, pt_bc, pt_cb)
 arc_c = Arc.ByCenterPointStartPointSweepPoint(cir_c.CenterPoint, pt_c, pt_cb);
 
 rot_w = 0.30 * Math.PI;
-// create a RotationalSurface with the array of arcs
-srf = Surface.Revolve({ arc_a, arc_ab, arc_b, arc_bc, arc_c }, Point.ByCoordinates(0,0,0),Vector.ByCoordinates(1, 0, 0), Math.RadiansToDegrees((Math.PI / 2) - rot_w), Math.RadiansToDegrees((Math.PI / 2) + rot_w));
+arcs = { arc_a, arc_ab, arc_b, arc_bc, arc_c };
+
+cir_1 = Circle.ByCenterPointRadius(Point.ByCoordinates(0, -15, -7.76), 2.00);// , Vector.ByCoordinates(1, 0, 0));
+cir_2 = Circle.ByCenterPointRadius(Point.ByCoordinates(0, -7.93, -7.72), 5.00);// , Vector.ByCoordinates(1, 0, 0));
+tan_off_rail = Math.PI * - 1;// 0.70;
+    
+
+// Get the mutually tangent circle to two given circles, and the tangent points on the circles
+circ12_extras = circle_mutually_tangent(cir_1, cir_2, tan_off_rail, true).SetVisibility(false);
+cir_12 = circ12_extras[0].SetVisibility(false);
+// get a point on the perimeter of the Circle
+pt_12 = circ12_extras[1];
+pt_21 = circ12_extras[2];
+
+// Get the starting point of the first arc by getting a point diagonal to the circle origin
+vec_1 = Vector.ByCoordinates(0, -1, 0).Normalize().Scale(cir_1.Radius);
+pt_1 = Point.ByCoordinates(cir_1.CenterPoint.X + vec_1.X, cir_1.CenterPoint.Y + vec_1.Y, cir_1.CenterPoint.Z + vec_1.Z);
+
+// Get the starting point of the first arc by getting a point diagonal to the circle origin
+vec_2 = Vector.ByCoordinates(0, 1, 0).Normalize().Scale(cir_2.Radius);
+pt_2 = Point.ByCoordinates(cir_2.CenterPoint.X + vec_2.X, cir_2.CenterPoint.Y + vec_2.Y, cir_2.CenterPoint.Z + vec_2.Z);
+
+
+// Make an arc with the centroid of circle A, the given point in the circle and the tangent point on the circle
+//arc_1 = Arc.ByCenterPointStartPointSweepPoint(cir_1.CenterPoint, pt_12, pt_1);
+/*
+# Make an arc with the centroid of circle A, the given point in the circle and the tangent point on the circle
+arc_a = Arc.from_pts(cir_a.plane.origin,pt_a,pt_ab)
+# Make an arc from the centroid of the circle tangent to circles and the tangen points in circles a and b.
+arc_ab = Arc.from_pts(cir_ab.plane.origin,pt_ab,pt_ba)
+# Make an arc with the centroid of circle B, the given point in the circle and the tangent point on the circle
+arc_b = Arc.from_pts(cir_b.plane.origin,pt_ba,pt_b)*/

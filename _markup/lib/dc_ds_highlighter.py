@@ -74,7 +74,6 @@ def process_all(codestring,indd_tar_file,html_tar_file,xmlstr,lines):
         # now that pseudo has removed lines, we can assign pos
         assign_positions(clines,dd)
 
-        # TODO
         # break up long def codelines and handle def comments
         clines = handle_split_defs(clines)
 
