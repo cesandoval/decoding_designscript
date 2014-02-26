@@ -51,4 +51,4 @@ srf = BSplineSurface.ByPoints(func(srf_domain<1>, srf_domain<2>)).SetVisibility(
 
 // create the iso Curves
 swap = true;
-iso_crvs = cutter(srf, 0.05);
+iso_crvs = cutter(srf, 0.01);

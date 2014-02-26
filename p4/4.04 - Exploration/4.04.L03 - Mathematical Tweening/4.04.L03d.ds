@@ -69,7 +69,7 @@ def f(x)
 /*
 Generate a series of numbers, and modify them with a method based on mathematical functions.
 */
-skew = 0.6;
+skew = 1;
 count = 18;
 interval = 0..1..#count;
 skew_val = MapTo(f(0), f(1), f(interval), 0, 1);

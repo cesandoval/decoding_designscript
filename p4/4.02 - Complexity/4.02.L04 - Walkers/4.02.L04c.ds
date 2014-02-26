@@ -76,3 +76,4 @@ steps = 30;
 // steps multiple times
 pts = stepper(0..steps, debord);
 // make a path from the points
+lines = pts_to_lines(pts);

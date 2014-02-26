@@ -34,3 +34,5 @@ b = 0.3;
 color_range = 0..1..#10;
 // create Points with replications of the array of numbers
 pt = color_point(color_range<1>, color_range<2>, color_range<3>);
+
+Print(0..4);
