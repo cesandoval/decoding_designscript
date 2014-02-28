@@ -1,0 +1,94 @@
+/*
+4.07.L05b
+Given a mesh on the Plane, produce a description of the neighborhood of each vertex on that mesh.
+
+required:
+m (Mesh) The mesh to calculate neighborhoods for
+
+out: 
+nbrhd ([[Point]]) A list of lists of neighboring points 
+*/
+/*
+A function that creates a list of neighboring points to each point in a given mesh
+*/
+
+import("ProtoGeometry.dll");
+import("Math.dll");
+import("../../../library/decodes_functions.ds");
+
+def mesh_neighborhood(m)
+{
+    // minimum valence for each point for square (4) and triangular (6) meshes
+    in_valence = 6;
+    // create an empty list to contain neighborhoods
+    //nbrhd = []
+    pis = 0..Count(m.Vertices)-1;
+    Print(pis);
+    /*
+    // for each point index in our mesh:
+    for pi in range(len(m.pts)):
+        # append an empty list of neighbors to hold neighbor information for this point.    
+        nbrhd.append([])
+        # for each face in the mesh:
+        for face in m.faces:
+            # if this point index is listed in the face:       
+            if pi in face : 
+                # if the face is a triangle:
+                if len(face)==3:
+                    # add the two other points found in this face to our list of neighbors for this point
+                    if face[0] != pi and face[0] not in nbrhd[-1]: nbrhd[-1].append(face[0])
+                    if face[1] != pi and face[1] not in nbrhd[-1]: nbrhd[-1].append(face[1])
+                    if face[2] != pi and face[2] not in nbrhd[-1]: nbrhd[-1].append(face[2])
+        # check boundary condition
+        if len(nbrhd[-1]) < in_valence : nbrhd[-1] = False
+    return nbrhd
+    
+    a.put(mesh_neighborhood)*/
+}
+    
+/*
+4.07.L05a
+Relaxes a two-dimensional mesh.  Given a mesh and a the index of a point to modify, produces a mesh whose vertex at the given index has been moved to an optimal relaxed location.
+
+required: 
+msh (Mesh) The mesh to relax
+index (int) The index of the point to move
+
+result: 
+new_msh (Mesh) The relaxed mesh
+
+*/
+/*
+Add all points not being relaxed to a list, and then finds the centroid of that list
+*/
+
+p1 = Point.ByCoordinates(1.0221, 3.3941, 0.0);
+p2 = Point.ByCoordinates(-0.0497, 3.4856, 0.0);
+p3 = Point.ByCoordinates(2.0546, 3.4464, 0.0);
+p4 = Point.ByCoordinates(-0.0084, -0.0004, 0.0);
+p5 = Point.ByCoordinates(-0.0169, 1.8605, 0.0);
+p6 = Point.ByCoordinates(1.0121, -0.0004, 0.0);
+p7 = Point.ByCoordinates(2.0154, -0.009, 0.0);
+p8 = Point.ByCoordinates(2.024, 1.8176, 0.0);
+p9 = Point.ByCoordinates(1.4066, 1.0458, 0.0);
+
+// create the original mesh
+verts = { p1, p2, p3, p4, p5, p6, p7, p8, p9 };
+faces = { { 4, 8, 0, 1 }, { 8, 7, 2, 0 }, { 3, 5, 8, 4 }, { 5, 6, 7, 8 } };
+msh = Mesh.ByVerticesFaceIndices(verts, faces).SetVisibility(false);
+
+// if the point's index is not the intended point index, add the point to the list of neighbors
+index = 8;
+indeces = Remove(0..Count(verts) - 1, index);
+neighbors = verts[indeces];
+
+/*
+Rebuild a new mesh using the centroid instead of the indexed point
+*/
+  
+// insert the the centroid of the neighbors at the given index
+neighbors[index] = point_centroid(neighbors);
+// create a new mesh 
+new_msh = Mesh.ByVerticesFaceIndices(neighbors, faces);
+
+mesh_neighborhood(msh);

@@ -81,7 +81,42 @@ def vec_from_line(line)
     return = vec_two_points(line.StartPoint, line.EndPoint);
 }
 
+//Returns the average of a list of vectors.
+def vec_average(vecs: Vector[])
+{
+    return = Vector.ByCoordinates(Sum(vecs.X) / Count(vecs), Sum(vecs.Y) / Count(vecs), Sum(vecs.Z) / Count(vecs));
+}
 
+
+
+/*
+Point Functions
+*/
+
+// Returns a new point that results from adding this point's world coordinates to the other point's (or vector's) world coordinates.
+def point_addition(p1, p2)
+{
+    return = Point.ByCoordinates(p1.X + p2.X, p1.Y + p2.Y, p1.Z + p2.Z);
+}
+
+// Returns a new point that results from dividing each of this point's world coordinates by the value provided.
+def point_division(pt, factor)
+{
+    return = Point.ByCoordinates(pt.X / factor, pt.Y / factor, pt.Z / factor);
+}
+
+// Returns the centroid of a point cloud.
+def point_centroid(points : Point[])
+{
+    avg = point_average(points); /// need to create avg func... for vecs!!!
+    return = Point.ByCoordinates(avg.X, avg.Y, avg.Z);
+}
+
+//Returns the average of a list of points.
+def point_average(points: Geometry[])
+{
+    return = Point.ByCoordinates(Sum(points.X) / Count(points), Sum(points.Y) / Count(points), Sum(points.Z) / Count(points));
+}
 
 /*
 Coordinate System Functions
@@ -250,22 +285,6 @@ def rec_area(rec)
 {
     lengths = rec.Edges.Length[SortIndexByValue(rec.Edges.Length)];
     return = lengths[0] * lengths[-1];
-}
-
-/*
-Point Functions
-*/
-
-// Returns a new point that results from adding this point's world coordinates to the other point's (or vector's) world coordinates.
-def point_addition(p1, p2)
-{
-    return = Point.ByCoordinates(p1.X + p2.X, p1.Y + p2.Y, p1.Z + p2.Z);
-}
-
-// Returns a new point that results from dividing each of this point's world coordinates by the value provided.
-def point_division(pt, factor)
-{
-    return = Point.ByCoordinates(pt.X / factor, pt.Y / factor, pt.Z / factor);
 }
 
 
