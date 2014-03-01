@@ -1,0 +1,36 @@
+<Workspace Version="0.7.0.24809" X="-147.10743234668" Y="75.2847148808129" zoom="1.17239060588063" Description="" Category="" Name="Home">
+  <Elements>
+    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="43088e89-1134-448e-9b49-ad4ff92f35e3" nickname="Python Script" x="296.544276457883" y="271.037796976242" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="1">
+      <Script># Default imports
+#import r'C:\Program Files (x86)\IronPython 2.7\Lib\site-packages\ksteinfe'
+import sys
+import ksteinfe
+import clr
+
+clr.AddReference('ProtoGeometry')
+# copy decodes here########################
+# C:\Users\cesandoval\Documents\Github\Dynamo\bin\AnyCPU\Debug\Lib\
+#from Autodesk.DesignScript.Geometry import *
+import Autodesk.DesignScript.Geometry as ds
+#The inputs to this node will be stored as a list in the IN variable.
+#print 
+pt = ds.Point.ByCoordinates(0,0,0)
+pt2 = ds.Point.ByCoordinates(10,10,10)
+pt3 = ds.Point.ByCoordinates(15,5,25)
+vec = ds.Vector.ByCoordinates(0,0,1)
+line = ds.Line.ByStartPointEndPoint(pt, pt2)
+circle = ds.Circle.ByCenterPointRadiusNormal(pt,3.0,vec)
+pline = ds.PolyCurve.ByPoints((pt,pt2,pt3),False)
+pgon = ds.PolyCurve.ByPoints((pt,pt2,pt3),True)
+#Assign your output to the OUT variable
+OUT = pgon</Script>
+    </DSIronPythonNode.PythonNode>
+    <Dynamo.Nodes.Watch type="Dynamo.Nodes.Watch" guid="8c6db7f3-2a5a-48ea-8974-02ac00af04c0" nickname="Watch" x="511.129589632829" y="260.316414686825" isVisible="true" isUpstreamVisible="true" lacing="Disabled" />
+    <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="91181ade-5005-49a9-b28f-823cb2296bf8" nickname="Code Block" x="153" y="271" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="7;" ShouldFocus="false" />
+  </Elements>
+  <Connectors>
+    <Dynamo.Models.ConnectorModel start="43088e89-1134-448e-9b49-ad4ff92f35e3" start_index="0" end="8c6db7f3-2a5a-48ea-8974-02ac00af04c0" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="91181ade-5005-49a9-b28f-823cb2296bf8" start_index="0" end="43088e89-1134-448e-9b49-ad4ff92f35e3" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+</Workspace>

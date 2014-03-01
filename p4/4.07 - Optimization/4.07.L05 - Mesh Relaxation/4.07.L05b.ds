@@ -14,81 +14,77 @@ A function that creates a list of neighboring points to each point in a given me
 
 import("ProtoGeometry.dll");
 import("Math.dll");
-import("../../../library/decodes_functions.ds");
+import("../../../library/decodes_functions.ds"); 
 
 def mesh_neighborhood(m)
 {
     // minimum valence for each point for square (4) and triangular (6) meshes
     in_valence = 6;
     // create an empty list to contain neighborhoods
-    //nbrhd = []
-    pis = 0..Count(m.Vertices)-1;
-    Print(pis);
-    /*
-    // for each point index in our mesh:
-    for pi in range(len(m.pts)):
-        # append an empty list of neighbors to hold neighbor information for this point.    
-        nbrhd.append([])
-        # for each face in the mesh:
-        for face in m.faces:
-            # if this point index is listed in the face:       
-            if pi in face : 
-                # if the face is a triangle:
-                if len(face)==3:
-                    # add the two other points found in this face to our list of neighbors for this point
-                    if face[0] != pi and face[0] not in nbrhd[-1]: nbrhd[-1].append(face[0])
-                    if face[1] != pi and face[1] not in nbrhd[-1]: nbrhd[-1].append(face[1])
-                    if face[2] != pi and face[2] not in nbrhd[-1]: nbrhd[-1].append(face[2])
-        # check boundary condition
-        if len(nbrhd[-1]) < in_valence : nbrhd[-1] = False
-    return nbrhd
-    
-    a.put(mesh_neighborhood)*/
+    nbrhd = { };
+    [Imperative]
+    {
+        for(pi in 0..Count(m.Vertices) - 1)
+        {
+            nbrhd[pi] = { };
+            // for each face in the mesh:
+            for(face in m.FaceIndices)
+            {
+                // if this point index is listed in the face: 
+                if (Contains(face, pi))
+                {
+                    // if the face is a triangle:
+                    if (Count(face) == 3)
+                    {
+                        // add the two other points found in this face to our list of neighbors for this point
+                        if (face[0]!= pi || Contains(nbrhd[-1], face[0]) == false) { nbrhd[-1][Count(nbrhd[-1])] = face[0]; }
+                        if (face[1]!= pi || Contains(nbrhd[-1], face[1]) == false) { nbrhd[-1][Count(nbrhd[-1])] = face[1];}
+                        if (face[2]!= pi || Contains(nbrhd[-1], face[2]) == false) {nbrhd[-1][Count(nbrhd[-1])] = face[2];}
+                    }
+                }
+            }
+            // check boundary condition
+            if (Count(nbrhd[-1]) < in_valence) { nbrhd[-1] = false; }
+        }
+    }
+    return = nbrhd;
 }
-    
-/*
-4.07.L05a
-Relaxes a two-dimensional mesh.  Given a mesh and a the index of a point to modify, produces a mesh whose vertex at the given index has been moved to an optimal relaxed location.
 
-required: 
-msh (Mesh) The mesh to relax
-index (int) The index of the point to move
+verts = { Point.ByCoordinates(9.0, 0.5, 0.0), Point.ByCoordinates(9.1, 1.2143, 0.0), Point.ByCoordinates(9.2, 1.9286, 0.0),
+    Point.ByCoordinates(9.3, 2.6429, 0.0), Point.ByCoordinates(9.4, 3.3571, 0.0), Point.ByCoordinates(9.5, 4.0714, 0.0),
+    Point.ByCoordinates(9.6, 4.7857, 0.0), Point.ByCoordinates(9.7, 5.5, 0.0), Point.ByCoordinates(10.0714, 0.2286, 0.0),
+    Point.ByCoordinates(10.1612, 1.0, 0.0), Point.ByCoordinates(10.251, 1.7714, 0.0), Point.ByCoordinates(10.3408, 2.5429, 0.0),
+    Point.ByCoordinates(10.4306, 3.3143, 0.0), Point.ByCoordinates(10.5204, 4.0857, 0.0), Point.ByCoordinates(10.6102, 4.8571, 0.0),
+    Point.ByCoordinates(10.7, 5.6286, 0.0), Point.ByCoordinates(11.1429, -0.0429, 0.0), Point.ByCoordinates(11.2224, 0.7857, 0.0),
+    Point.ByCoordinates(11.5408, 4.1, 0.0), Point.ByCoordinates(11.6204, 4.9286, 0.0), Point.ByCoordinates(11.7, 5.7571, 0.0),
+    Point.ByCoordinates(12.2143, -0.3143, 0.0), Point.ByCoordinates(12.2837, 0.5714, 0.0), Point.ByCoordinates(12.5612, 4.1143, 0.0),
+    Point.ByCoordinates(12.6306, 5.0, 0.0), Point.ByCoordinates(12.7, 5.8857, 0.0), Point.ByCoordinates(13.2857, -0.5857, 0.0),
+    Point.ByCoordinates(13.3449, 0.3571, 0.0), Point.ByCoordinates(13.5816, 4.1286, 0.0), Point.ByCoordinates(13.6408, 5.0714, 0.0),
+    Point.ByCoordinates(13.7, 6.0143, 0.0), Point.ByCoordinates(14.3571, -0.8571, 0.0), Point.ByCoordinates(14.4061, 0.1429, 0.0),
+    Point.ByCoordinates(14.4551, 1.1429, 0.0), Point.ByCoordinates(14.5041, 2.1429, 0.0), Point.ByCoordinates(14.5531, 3.1429, 0.0),
+    Point.ByCoordinates(14.602, 4.1429, 0.0), Point.ByCoordinates(14.651, 5.1429, 0.0), Point.ByCoordinates(14.7, 6.1429, 0.0),
+    Point.ByCoordinates(15.4286, -1.1286, 0.0), Point.ByCoordinates(15.4673, -0.0714, 0.0), Point.ByCoordinates(15.5061, 0.9857, 0.0),
+    Point.ByCoordinates(15.5449, 2.0429, 0.0), Point.ByCoordinates(15.5837, 3.1, 0.0), Point.ByCoordinates(15.6224, 4.1571, 0.0),
+    Point.ByCoordinates(15.6612, 5.2143, 0.0), Point.ByCoordinates(15.7, 6.2714, 0.0), Point.ByCoordinates(16.5, -1.4, 0.0),
+    Point.ByCoordinates(16.5286, -0.2857, 0.0), Point.ByCoordinates(16.5571, 0.8286, 0.0), Point.ByCoordinates(16.5857, 1.9429, 0.0),
+    Point.ByCoordinates(16.6143, 3.0571, 0.0), Point.ByCoordinates(16.6429, 4.1714, 0.0), Point.ByCoordinates(16.6714, 5.2857, 0.0),
+    Point.ByCoordinates(16.7, 6.4, 0.0), Point.ByCoordinates(10.5, 1.5, 0.0), Point.ByCoordinates(10.8, 2.1667, 0.0),
+    Point.ByCoordinates(11.1, 2.8333, 0.0), Point.ByCoordinates(11.4, 3.5, 0.0), Point.ByCoordinates(12.0667, 3.5667, 0.0),
+    Point.ByCoordinates(12.7333, 3.6333, 0.0), Point.ByCoordinates(13.4, 3.7, 0.0), Point.ByCoordinates(13.6, 3.0, 0.0),
+    Point.ByCoordinates(13.8, 2.3, 0.0), Point.ByCoordinates(14.0, 1.6, 0.0), Point.ByCoordinates(14.2, 0.9, 0.0),
+    Point.ByCoordinates(13.46, 1.02, 0.0), Point.ByCoordinates(12.72, 1.14, 0.0), Point.ByCoordinates(11.98, 1.26, 0.0), Point.ByCoordinates(11.24, 1.38, 0.0) };
 
-result: 
-new_msh (Mesh) The relaxed mesh
+faces = { { 9, 1, 0 }, { 10, 2, 1 }, { 11, 3, 10 }, { 12, 4, 11 }, { 13, 5, 12 }, { 14, 6, 13 }, { 15, 7, 14 }, { 17, 9, 8 }, { 19, 14, 18 }, { 20, 15, 19 },
+    { 22, 17, 16 }, { 24, 19, 23 }, { 25, 20, 24 }, { 27, 22, 21 }, { 29, 24, 28 }, { 30, 25, 29 }, { 32, 27, 26 }, { 37, 29, 36 }, { 38, 30, 37 }, { 40, 32, 31 },
+    { 42, 34, 33 }, { 43, 35, 34 }, { 44, 36, 43 }, { 45, 37, 44 }, { 46, 38, 45 }, { 48, 40, 39 }, { 49, 41, 40 }, { 50, 42, 41 }, { 51, 43, 42 }, { 52, 44, 51 },
+    { 53, 45, 52 }, { 54, 46, 53 }, { 10, 9, 55 }, { 17, 55, 9 }, { 11, 10, 56 }, { 55, 56, 10 }, { 68, 17, 22 }, { 17, 68, 69 }, { 55, 17, 69 }, { 12, 11, 57 },
+    { 56, 57, 11 }, { 12, 58, 13 }, { 58, 12, 57 }, { 18, 58, 59 }, { 59, 23, 18 }, { 60, 23, 59 }, { 13, 58, 18 }, { 67, 68, 22 }, { 66, 67, 27 }, { 22, 27, 67 },
+    { 27, 65, 66 }, { 65, 27, 32 }, { 40, 41, 32 }, { 65, 32, 33 }, { 65, 33, 64 }, { 61, 28, 23 }, { 61, 36, 28 }, { 35, 61, 62 }, { 60, 61, 23 }, { 63, 64, 34 },
+    { 33, 34, 64 }, { 61, 35, 36 }, { 34, 35, 63 }, { 63, 35, 62 }, { 9, 0, 8 }, { 10, 1, 9 }, { 3, 2, 10 }, { 4, 3, 11 }, { 5, 4, 12 }, { 6, 5, 13 }, { 7, 6, 14 },
+    { 17, 8, 16 }, { 14, 13, 18 }, { 15, 14, 19 }, { 22, 16, 21 }, { 19, 18, 23 }, { 20, 19, 24 }, { 27, 21, 26 }, { 24, 23, 28 }, { 25, 24, 29 }, { 32, 26, 31 },
+    { 29, 28, 36 }, { 30, 29, 37 }, { 40, 31, 39 }, { 42, 33, 41 }, { 43, 34, 42 }, { 36, 35, 43 }, { 37, 36, 44 }, { 38, 37, 45 }, { 48, 39, 47 }, { 49, 40, 48 },
+    { 50, 41, 49 }, { 51, 42, 50 }, { 44, 43, 51 }, { 45, 44, 52 }, { 46, 45, 53 }, { 41, 33, 32 } };
 
-*/
-/*
-Add all points not being relaxed to a list, and then finds the centroid of that list
-*/
-
-p1 = Point.ByCoordinates(1.0221, 3.3941, 0.0);
-p2 = Point.ByCoordinates(-0.0497, 3.4856, 0.0);
-p3 = Point.ByCoordinates(2.0546, 3.4464, 0.0);
-p4 = Point.ByCoordinates(-0.0084, -0.0004, 0.0);
-p5 = Point.ByCoordinates(-0.0169, 1.8605, 0.0);
-p6 = Point.ByCoordinates(1.0121, -0.0004, 0.0);
-p7 = Point.ByCoordinates(2.0154, -0.009, 0.0);
-p8 = Point.ByCoordinates(2.024, 1.8176, 0.0);
-p9 = Point.ByCoordinates(1.4066, 1.0458, 0.0);
-
-// create the original mesh
-verts = { p1, p2, p3, p4, p5, p6, p7, p8, p9 };
-faces = { { 4, 8, 0, 1 }, { 8, 7, 2, 0 }, { 3, 5, 8, 4 }, { 5, 6, 7, 8 } };
-msh = Mesh.ByVerticesFaceIndices(verts, faces).SetVisibility(false);
-
-// if the point's index is not the intended point index, add the point to the list of neighbors
-index = 8;
-indeces = Remove(0..Count(verts) - 1, index);
-neighbors = verts[indeces];
-
-/*
-Rebuild a new mesh using the centroid instead of the indexed point
-*/
-  
-// insert the the centroid of the neighbors at the given index
-neighbors[index] = point_centroid(neighbors);
-// create a new mesh 
-new_msh = Mesh.ByVerticesFaceIndices(neighbors, faces);
-
-mesh_neighborhood(msh);
+new_msh = Mesh.ByVerticesFaceIndices(verts, faces);
+neighbors = mesh_neighborhood(new_msh);
+Print(neighbors);
