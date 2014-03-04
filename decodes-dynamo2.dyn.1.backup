@@ -1,4 +1,4 @@
-<Workspace Version="0.7.0.18982" X="185.799062347018" Y="356.458353645828" zoom="0.887150183507663" Description="" Category="" Name="Home">
+<Workspace Version="0.7.0.23565" X="128.020164766308" Y="146.006745943359" zoom="0.840154587422297" Description="" Category="" Name="Home">
   <Elements>
     <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="9953c9c8-e756-4563-a5b5-1d32d5058dd9" nickname="Python Script" x="239.563213636796" y="-141.550237054116" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="1">
       <Script>import clr
@@ -8,23 +8,12 @@ from Autodesk.DesignScript.Geometry import *
 print 555555555555
 
 dataEnteringNode = IN
-print IN
 #Assign your output to the OUT variable
-OUT = IN[0]#Point.ByCoordinates(IN[0][0],IN[0][1],0)</Script>
+OUT = Point.ByCoordinates(IN[0][0],IN[0][1],0)</Script>
     </DSIronPythonNode.PythonNode>
     <Dynamo.Nodes.Watch type="Dynamo.Nodes.Watch" guid="ca5c7b32-bed6-4fc4-810a-34574089758a" nickname="Watch" x="426.462378726945" y="-140.709786262084" isVisible="true" isUpstreamVisible="true" lacing="Disabled" />
     <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="4e4fd8a5-8af5-4080-82ad-07a4764e1442" nickname="Code Block" x="-56" y="-159" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="1..2;" ShouldFocus="false" />
     <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="e4ff0bd9-e0fa-4601-84a7-4c1a86706782" nickname="Python Script" x="196.558206461122" y="-68.1199890164775" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="0">
-      <Script>import clr
-clr.AddReference('ProtoGeometry')
-from Autodesk.DesignScript.Geometry import *
-#The inputs to this node will be stored as a list in the IN variable.
-dataEnteringNode = IN
-
-#Assign your output to the OUT variable
-OUT = 0</Script>
-    </DSIronPythonNode.PythonNode>
-    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="17be00ee-4c3d-4a80-b15e-c17e697b6124" nickname="Python Script" x="12.9469840797446" y="-263.397760988657" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="0">
       <Script>import clr
 clr.AddReference('ProtoGeometry')
 from Autodesk.DesignScript.Geometry import *

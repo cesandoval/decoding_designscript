@@ -1,0 +1,44 @@
+<Workspace Version="0.7.0.23565" X="23.8813425408834" Y="190.950192995168" zoom="0.855157776905998" Description="" Category="" Name="Home">
+  <Elements>
+    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="43088e89-1134-448e-9b49-ad4ff92f35e3" nickname="Python Script" x="335.13280888579" y="-60.9902472477111" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="1">
+      <Script># Default imports
+#C:\Users\cesandoval\Documents\Github\Dynamo\bin\AnyCPU\Debug\Lib\\ksteinfe'
+import sys
+sys.path.append('C:/Python27/Lib')
+sys.path.append('C:/Users/cesandoval/Documents/Github/decodes')
+
+import clr
+from decodes import *
+from decodes.core import *
+
+clr.AddReference('ProtoGeometry')
+import Autodesk.DesignScript.Geometry as ds
+
+#The inputs to this node will be stored as a list in the IN variable.
+pt = ds.Point.ByCoordinates(10,0,0)
+pt2 = ds.Point.ByCoordinates(10,10,10)
+pt3 = ds.Point.ByCoordinates(15,5,25)
+vec = ds.Vector.ByCoordinates(0,0,1)
+line = ds.Line.ByStartPointEndPoint(pt, pt2)
+circle = ds.Circle.ByCenterPointRadiusNormal(pt,3.0,vec)
+arc = ds.Arc.ByCenterPointRadiusAngle(pt,3.0,0,35,vec)
+pline = ds.PolyCurve.ByPoints(tuple([pt,pt2,pt3]),False)
+pgon = ds.PolyCurve.ByPoints(tuple([pt,pt2,pt3]),True)
+crv = ds.NurbsCurve.ByPoints(tuple([pt,pt2,pt3]))
+pt_test = Point()
+#color = ds.Color.ByARGB(0,0,0)
+print 'hello world'
+print 444444444444444444444444555555555555555555555555555666666666666666
+
+#Assign your output to the OUT variable
+OUT = ds.Point.ByCoordinates(pt_test.x,pt_test.y,pt_test.z)</Script>
+    </DSIronPythonNode.PythonNode>
+    <Dynamo.Nodes.Watch type="Dynamo.Nodes.Watch" guid="8c6db7f3-2a5a-48ea-8974-02ac00af04c0" nickname="Watch" x="503.180329826218" y="-69.4062144821141" isVisible="true" isUpstreamVisible="true" lacing="Disabled" />
+    <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="91181ade-5005-49a9-b28f-823cb2296bf8" nickname="Code Block" x="189.401920401833" y="-66.9580306100831" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="7;" ShouldFocus="false" />
+  </Elements>
+  <Connectors>
+    <Dynamo.Models.ConnectorModel start="43088e89-1134-448e-9b49-ad4ff92f35e3" start_index="0" end="8c6db7f3-2a5a-48ea-8974-02ac00af04c0" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="91181ade-5005-49a9-b28f-823cb2296bf8" start_index="0" end="43088e89-1134-448e-9b49-ad4ff92f35e3" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+</Workspace>
