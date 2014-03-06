@@ -1,4 +1,4 @@
-<Workspace Version="0.7.0.26254" X="-221.013540393066" Y="-136.649951677374" zoom="0.972773378736409" Description="" Category="" Name="Home">
+<Workspace Version="0.7.0.26254" X="-366.332565713964" Y="-373.982377335034" zoom="1.20002962879762" Description="" Category="" Name="Home">
   <Elements>
     <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="43088e89-1134-448e-9b49-ad4ff92f35e3" nickname="Python Script" x="331.814419949438" y="-63.6797585438754" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="1">
       <Script># Default imports
@@ -160,6 +160,18 @@ OUT = str(type(IN[0]))#pgon.ContextCoordinateSystem#IN[0]#ds.Point.ByCoordinates
     <Dynamo.Nodes.DSFunction type="Dynamo.Nodes.DSFunction" guid="9445236f-676c-4bcf-9de3-e79ebd4e4bd0" nickname="Geometry.Translate" x="562.045713628968" y="1520.69614467607" isVisible="true" isUpstreamVisible="true" lacing="Shortest" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Geometry.Translate@Autodesk.DesignScript.Geometry.Vector" />
     <Dynamo.Nodes.DSFunction type="Dynamo.Nodes.DSFunction" guid="a1d49394-983f-4b26-912d-616ed5505685" nickname="NurbsCurve.ByPoints" x="887.765066164891" y="1495.19091381596" isVisible="true" isUpstreamVisible="true" lacing="Shortest" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.NurbsCurve.ByPoints@Autodesk.DesignScript.Geometry.Point[]" />
     <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="02ab07b7-1eba-4364-82da-43d66783809e" nickname="Code Block" x="734.630065345892" y="1496.52126253327" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="{a,c,b};" ShouldFocus="false" />
+    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="14f71535-6891-4f9d-bd1a-761d9faf5042" nickname="Python Script" x="286.422824054783" y="-214.019255246326" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="1">
+      <Script>import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+#The inputs to this node will be stored as a list in the IN variable.
+dataEnteringNode = IN
+import random
+#Assign your output to the OUT variable
+OUT = IN[0]</Script>
+    </DSIronPythonNode.PythonNode>
+    <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="d9f35733-b381-462a-b7e0-63dfafb91c1b" nickname="Code Block" x="105" y="-190" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="1..3;" ShouldFocus="false" />
+    <Dynamo.Nodes.Watch type="Dynamo.Nodes.Watch" guid="b39242e9-8291-406b-bd4e-fe21667858bb" nickname="Watch" x="473.767437676317" y="-255.712181847647" isVisible="true" isUpstreamVisible="true" lacing="Disabled" />
     <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="b7e43891-a58b-4fbd-a027-423ee6621ccf" nickname="Python Script" x="447.308040819818" y="473.811175848046" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="1">
       <Script># Default imports
 #C:\Users\cesandoval\Documents\Github\Dynamo\bin\AnyCPU\Debug\Lib\\ksteinfe'
@@ -170,7 +182,6 @@ sys.path.append('C:/Users/cesandoval/Documents/Github/decodes')
 import clr
 from decodes import *
 from decodes.io import *
-from decodes.io.dynamo_in import *
 from decodes.core import *
 
 clr.AddReference('ProtoGeometry')
@@ -222,6 +233,8 @@ OUT = test#pgon.ContextCoordinateSystem#IN[0]#ds.Point.ByCoordinates(pt_test.x,p
     <Dynamo.Models.ConnectorModel start="1d8bbf96-1ce2-4603-acdd-de02fa44436a" start_index="0" end="9445236f-676c-4bcf-9de3-e79ebd4e4bd0" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="9445236f-676c-4bcf-9de3-e79ebd4e4bd0" start_index="0" end="02ab07b7-1eba-4364-82da-43d66783809e" end_index="1" portType="0" />
     <Dynamo.Models.ConnectorModel start="02ab07b7-1eba-4364-82da-43d66783809e" start_index="0" end="a1d49394-983f-4b26-912d-616ed5505685" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="14f71535-6891-4f9d-bd1a-761d9faf5042" start_index="0" end="b39242e9-8291-406b-bd4e-fe21667858bb" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="d9f35733-b381-462a-b7e0-63dfafb91c1b" start_index="0" end="14f71535-6891-4f9d-bd1a-761d9faf5042" end_index="0" portType="0" />
   </Connectors>
   <Notes />
 </Workspace>

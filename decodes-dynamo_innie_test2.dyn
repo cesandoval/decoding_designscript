@@ -1,119 +1,7 @@
-<Workspace Version="0.7.0.26254" X="-221.013540393066" Y="-136.649951677374" zoom="0.972773378736409" Description="" Category="" Name="Home">
+<Workspace Version="0.7.0.26254" X="-207.391278065209" Y="-133.794125977489" zoom="0.918161718906998" Description="" Category="" Name="Home">
   <Elements>
-    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="43088e89-1134-448e-9b49-ad4ff92f35e3" nickname="Python Script" x="331.814419949438" y="-63.6797585438754" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="1">
-      <Script># Default imports
-#C:\Users\cesandoval\Documents\Github\Dynamo\bin\AnyCPU\Debug\Lib\\ksteinfe'
-import sys
-sys.path.append('C:/Python27/Lib')
-sys.path.append('C:/Users/cesandoval/Documents/Github/decodes')
-
-import clr
-from decodes import *
-from decodes.core import *
-
-clr.AddReference('ProtoGeometry')
-import Autodesk.DesignScript.Geometry as ds
-
-#The inputs to this node will be stored as a list in the IN variable.
-pt = ds.Point.ByCoordinates(10,0,0)
-pt2 = ds.Point.ByCoordinates(10,10,10)
-pt3 = ds.Point.ByCoordinates(15,5,25)
-vec = ds.Vector.ByCoordinates(0,0,1)
-line = ds.Line.ByStartPointEndPoint(pt, pt2)
-circle = ds.Circle.ByCenterPointRadiusNormal(pt,3.0,vec)
-arc = ds.Arc.ByCenterPointRadiusAngle(pt,3.0,0,35,vec)
-pline = ds.PolyCurve.ByPoints(tuple([pt,pt2,pt3]),False)
-pgon = ds.PolyCurve.ByPoints(tuple([pt,pt2,pt3]),True)
-crv = ds.NurbsCurve.ByPoints(tuple([pt,pt2,pt3]))
-rect = ds.Rectangle.ByWidthHeight(5,4)
-
-# Decodes ##############
-pt_test = Point()
-#color = ds.Color.ByARGB(0,0,0)
-print 'hello world'
-print 444444444444444444444444555555555555555555555555555666666666666666
-
-#Assign your output to the OUT variable
-OUT = pgon.ContextCoordinateSystem#IN[0]#ds.Point.ByCoordinates(pt_test.x,pt_test.y,pt_test.z)</Script>
-    </DSIronPythonNode.PythonNode>
-    <Dynamo.Nodes.Watch type="Dynamo.Nodes.Watch" guid="8c6db7f3-2a5a-48ea-8974-02ac00af04c0" nickname="Watch" x="503.180329826218" y="-69.4062144821141" isVisible="true" isUpstreamVisible="true" lacing="Disabled" />
     <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="91181ade-5005-49a9-b28f-823cb2296bf8" nickname="Code Block" x="189.401920401833" y="-66.9580306100831" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="7;" ShouldFocus="false" />
     <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="12896ac3-20b9-4370-a551-fb383050c328" nickname="Code Block" x="191.431787046522" y="11.8966176959929" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="{1,2};" ShouldFocus="false" />
-    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="2d899a41-9105-4a86-a3ec-b5bbf78afbc4" nickname="Python Script" x="298.064079734085" y="68.9921367533729" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="0">
-      <Script>import clr
-clr.AddReference('ProtoGeometry')
-from Autodesk.DesignScript.Geometry import *
-#The inputs to this node will be stored as a list in the IN variable.
-dataEnteringNode = IN
-import sys
-sys.path.append('C:/Python27/Lib')
-import random
-
-#Assign your output to the OUT variable
-OUT = random.randint(0,5)</Script>
-    </DSIronPythonNode.PythonNode>
-    <Dynamo.Nodes.Watch type="Dynamo.Nodes.Watch" guid="80eb8343-9a43-4721-ba43-c45606bad4d6" nickname="Watch" x="561.345118949739" y="148.470948412138" isVisible="true" isUpstreamVisible="true" lacing="Disabled" />
-    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="a5be40fa-1566-4b4c-9d12-637eda099903" nickname="Python Script" x="354.204483769032" y="158.948989494409" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="1">
-      <Script># Default imports
-#C:\Users\cesandoval\Documents\Github\Dynamo\bin\AnyCPU\Debug\Lib\\ksteinfe'
-import sys
-sys.path.append('C:/Python27/Lib')
-sys.path.append('C:/Users/cesandoval/Documents/Github/decodes')
-
-import clr
-from decodes import *
-from decodes.core import *
-
-clr.AddReference('ProtoGeometry')
-import Autodesk.DesignScript.Geometry as ds
-
-#The inputs to this node will be stored as a list in the IN variable.
-verts = ( ds.Point.ByCoordinates(9.0, 0.5, 0.0), ds.Point.ByCoordinates(9.1, 1.2143, 0.0), ds.Point.ByCoordinates(9.2, 1.9286, 0.0),
-    ds.Point.ByCoordinates(9.3, 2.6429, 0.0), ds.Point.ByCoordinates(9.4, 3.3571, 0.0), ds.Point.ByCoordinates(9.5, 4.0714, 0.0),
-    ds.Point.ByCoordinates(9.6, 4.7857, 0.0), ds.Point.ByCoordinates(9.7, 5.5, 0.0), ds.Point.ByCoordinates(10.0714, 0.2286, 0.0),
-    ds.Point.ByCoordinates(10.1612, 1.0, 0.0), ds.Point.ByCoordinates(10.251, 1.7714, 0.0), ds.Point.ByCoordinates(10.3408, 2.5429, 0.0),
-    ds.Point.ByCoordinates(10.4306, 3.3143, 0.0), ds.Point.ByCoordinates(10.5204, 4.0857, 0.0), ds.Point.ByCoordinates(10.6102, 4.8571, 0.0),
-    ds.Point.ByCoordinates(10.7, 5.6286, 0.0), ds.Point.ByCoordinates(11.1429, -0.0429, 0.0), ds.Point.ByCoordinates(11.2224, 0.7857, 0.0),
-    ds.Point.ByCoordinates(11.5408, 4.1, 0.0), ds.Point.ByCoordinates(11.6204, 4.9286, 0.0), ds.Point.ByCoordinates(11.7, 5.7571, 0.0),
-    ds.Point.ByCoordinates(12.2143, -0.3143, 0.0), ds.Point.ByCoordinates(12.2837, 0.5714, 0.0), ds.Point.ByCoordinates(12.5612, 4.1143, 0.0),
-    ds.Point.ByCoordinates(12.6306, 5.0, 0.0), ds.Point.ByCoordinates(12.7, 5.8857, 0.0), ds.Point.ByCoordinates(13.2857, -0.5857, 0.0),
-    ds.Point.ByCoordinates(13.3449, 0.3571, 0.0), ds.Point.ByCoordinates(13.5816, 4.1286, 0.0), ds.Point.ByCoordinates(13.6408, 5.0714, 0.0),
-    ds.Point.ByCoordinates(13.7, 6.0143, 0.0), ds.Point.ByCoordinates(14.3571, -0.8571, 0.0), ds.Point.ByCoordinates(14.4061, 0.1429, 0.0),
-    ds.Point.ByCoordinates(14.4551, 1.1429, 0.0), ds.Point.ByCoordinates(14.5041, 2.1429, 0.0), ds.Point.ByCoordinates(14.5531, 3.1429, 0.0),
-    ds.Point.ByCoordinates(14.602, 4.1429, 0.0), ds.Point.ByCoordinates(14.651, 5.1429, 0.0), ds.Point.ByCoordinates(14.7, 6.1429, 0.0),
-    ds.Point.ByCoordinates(15.4286, -1.1286, 0.0), ds.Point.ByCoordinates(15.4673, -0.0714, 0.0), ds.Point.ByCoordinates(15.5061, 0.9857, 0.0),
-    ds.Point.ByCoordinates(15.5449, 2.0429, 0.0), ds.Point.ByCoordinates(15.5837, 3.1, 0.0), ds.Point.ByCoordinates(15.6224, 4.1571, 0.0),
-    ds.Point.ByCoordinates(15.6612, 5.2143, 0.0), ds.Point.ByCoordinates(15.7, 6.2714, 0.0), ds.Point.ByCoordinates(16.5, -1.4, 0.0),
-    ds.Point.ByCoordinates(16.5286, -0.2857, 0.0), ds.Point.ByCoordinates(16.5571, 0.8286, 0.0), ds.Point.ByCoordinates(16.5857, 1.9429, 0.0),
-    ds.Point.ByCoordinates(16.6143, 3.0571, 0.0), ds.Point.ByCoordinates(16.6429, 4.1714, 0.0), ds.Point.ByCoordinates(16.6714, 5.2857, 0.0),
-    ds.Point.ByCoordinates(16.7, 6.4, 0.0), ds.Point.ByCoordinates(10.5, 1.5, 0.0), ds.Point.ByCoordinates(10.8, 2.1667, 0.0),
-    ds.Point.ByCoordinates(11.1, 2.8333, 0.0), ds.Point.ByCoordinates(11.4, 3.5, 0.0), ds.Point.ByCoordinates(12.0667, 3.5667, 0.0),
-    ds.Point.ByCoordinates(12.7333, 3.6333, 0.0), ds.Point.ByCoordinates(13.4, 3.7, 0.0), ds.Point.ByCoordinates(13.6, 3.0, 0.0),
-    ds.Point.ByCoordinates(13.8, 2.3, 0.0), ds.Point.ByCoordinates(14.0, 1.6, 0.0), ds.Point.ByCoordinates(14.2, 0.9, 0.0),
-    ds.Point.ByCoordinates(13.46, 1.02, 0.0), ds.Point.ByCoordinates(12.72, 1.14, 0.0), ds.Point.ByCoordinates(11.98, 1.26, 0.0), ds.Point.ByCoordinates(11.24, 1.38, 0.0) )
-
-faces = ( ( 9, 1, 0 ), ( 10, 2, 1 ), ( 11, 3, 10 ), ( 12, 4, 11 ), ( 13, 5, 12 ), ( 14, 6, 13 ), ( 15, 7, 14 ), ( 17, 9, 8 ), ( 19, 14, 18 ), ( 20, 15, 19 ),
-    ( 22, 17, 16 ), ( 24, 19, 23 ), ( 25, 20, 24 ), ( 27, 22, 21 ), ( 29, 24, 28 ), ( 30, 25, 29 ), ( 32, 27, 26 ), ( 37, 29, 36 ), ( 38, 30, 37 ), ( 40, 32, 31 ),
-    ( 42, 34, 33 ), ( 43, 35, 34 ), ( 44, 36, 43 ), ( 45, 37, 44 ), ( 46, 38, 45 ), ( 48, 40, 39 ), ( 49, 41, 40 ), ( 50, 42, 41 ), ( 51, 43, 42 ), ( 52, 44, 51 ),
-    ( 53, 45, 52 ), ( 54, 46, 53 ), ( 10, 9, 55 ), ( 17, 55, 9 ), ( 11, 10, 56 ), ( 55, 56, 10 ), ( 68, 17, 22 ), ( 17, 68, 69 ), ( 55, 17, 69 ), ( 12, 11, 57 ),
-    ( 56, 57, 11 ), ( 12, 58, 13 ), ( 58, 12, 57 ), ( 18, 58, 59 ), ( 59, 23, 18 ), ( 60, 23, 59 ), ( 13, 58, 18 ), ( 67, 68, 22 ), ( 66, 67, 27 ), ( 22, 27, 67 ),
-    ( 27, 65, 66 ), ( 65, 27, 32 ), ( 40, 41, 32 ), ( 65, 32, 33 ), ( 65, 33, 64 ), ( 61, 28, 23 ), ( 61, 36, 28 ), ( 35, 61, 62 ), ( 60, 61, 23 ), ( 63, 64, 34 ),
-    ( 33, 34, 64 ), ( 61, 35, 36 ), ( 34, 35, 63 ), ( 63, 35, 62 ), ( 9, 0, 8 ), ( 10, 1, 9 ), ( 3, 2, 10 ), ( 4, 3, 11 ), ( 5, 4, 12 ), ( 6, 5, 13 ), ( 7, 6, 14 ),
-    ( 17, 8, 16 ), ( 14, 13, 18 ), ( 15, 14, 19 ), ( 22, 16, 21 ), ( 19, 18, 23 ), ( 20, 19, 24 ), ( 27, 21, 26 ), ( 24, 23, 28 ), ( 25, 24, 29 ), ( 32, 26, 31 ),
-    ( 29, 28, 36 ), ( 30, 29, 37 ), ( 40, 31, 39 ), ( 42, 33, 41 ), ( 43, 34, 42 ), ( 36, 35, 43 ), ( 37, 36, 44 ), ( 38, 37, 45 ), ( 48, 39, 47 ), ( 49, 40, 48 ),
-    ( 50, 41, 49 ), ( 51, 42, 50 ), ( 44, 43, 51 ), ( 45, 44, 52 ), ( 46, 45, 53 ), ( 41, 33, 32 ) )
-
-group = []
-for face in faces:
-	group.append(ds.IndexGroup.ByIndices(face[0],face[1],face[2]))
-group = tuple(group)
-msh = ds.Mesh.ByPointsFaceIndices(verts, group)
-new_verts = msh.VertexPositions
-new_faces = msh.FaceIndices
-#Assign your output to the OUT variable
-OUT = new_faces[0]#pgon.ContextCoordinateSystem#IN[0]#ds.Point.ByCoordinates(pt_test.x,pt_test.y,pt_test.z)</Script>
-    </DSIronPythonNode.PythonNode>
-    <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="50df3812-f730-40cc-8452-665d26a4cdb7" nickname="Code Block" x="346.829823591344" y="276.495920660282" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="&quot;bool&quot;, &quot;int&quot;, &quot;float&quot;, &quot;str&quot;;" ShouldFocus="false" />
     <DSCoreNodesUI.BoolSelector type="DSCoreNodesUI.BoolSelector" guid="589e1ebd-5f8e-4f4a-b759-4d71951eec78" nickname="Boolean" x="217.950218274157" y="566.990245713521" isVisible="false" isUpstreamVisible="true" lacing="Disabled">
       <System.Boolean>False</System.Boolean>
     </DSCoreNodesUI.BoolSelector>
@@ -121,23 +9,6 @@ OUT = new_faces[0]#pgon.ContextCoordinateSystem#IN[0]#ds.Point.ByCoordinates(pt_
     <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="1ca4f5bd-d0e2-4116-be84-1fa12b560194" nickname="Code Block" x="222.677052891336" y="749.818017420837" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="5.45;" ShouldFocus="false" />
     <Dynamo.Nodes.DSFunction type="Dynamo.Nodes.DSFunction" guid="92a4d79f-e5b2-48c0-8015-d02a58a3bd89" nickname="ToString" x="321.145819074296" y="676.918185552347" isVisible="true" isUpstreamVisible="true" lacing="Shortest" assembly="" function="ToString@var[]..[]" />
     <Dynamo.Nodes.Watch type="Dynamo.Nodes.Watch" guid="99da65ef-34bc-4b32-a8b7-dda0cab43b1e" nickname="Watch" x="735.085371974721" y="696.148167040069" isVisible="true" isUpstreamVisible="true" lacing="Disabled" />
-    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="054134ee-7c0a-44d9-bee8-5a09ccbcee57" nickname="Python Script" x="523.891657639186" y="689.939750208287" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="1">
-      <Script># Default imports
-#C:\Users\cesandoval\Documents\Github\Dynamo\bin\AnyCPU\Debug\Lib\\ksteinfe'
-import sys
-sys.path.append('C:/Python27/Lib')
-sys.path.append('C:/Users/cesandoval/Documents/Github/decodes')
-
-import clr
-from decodes import *
-from decodes.core import *
-
-clr.AddReference('ProtoGeometry')
-import Autodesk.DesignScript.Geometry as ds
-
-#Assign your output to the OUT variable
-OUT = str(type(IN[0]))#pgon.ContextCoordinateSystem#IN[0]#ds.Point.ByCoordinates(pt_test.x,pt_test.y,pt_test.z)</Script>
-    </DSIronPythonNode.PythonNode>
     <Dynamo.Nodes.DSFunction type="Dynamo.Nodes.DSFunction" guid="5685d18b-c6f8-459d-8adc-b9b14e347656" nickname="Circle.ByCenterPointRadius" x="342.56241334479" y="1147.90430832361" isVisible="true" isUpstreamVisible="true" lacing="Shortest" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Circle.ByCenterPointRadius@Autodesk.DesignScript.Geometry.Point,double" />
     <Dynamo.Nodes.DSFunction type="Dynamo.Nodes.DSFunction" guid="81f87fba-e5d4-4a0b-a8b4-fed45a3b4d2b" nickname="CoordinateSystem.Identity" x="87.1381167980458" y="1184.54582551975" isVisible="true" isUpstreamVisible="true" lacing="Shortest" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.CoordinateSystem.Identity" />
     <Dynamo.Nodes.DSFunction type="Dynamo.Nodes.DSFunction" guid="217d45d1-8e83-4045-85c9-b38c937e5b25" nickname="Ellipse.ByCoordinateSystemRadii" x="316.219778947913" y="1263.6420005317" isVisible="true" isUpstreamVisible="true" lacing="Shortest" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Ellipse.ByCoordinateSystemRadii@Autodesk.DesignScript.Geometry.CoordinateSystem,double,double" />
@@ -166,10 +37,11 @@ OUT = str(type(IN[0]))#pgon.ContextCoordinateSystem#IN[0]#ds.Point.ByCoordinates
 import sys
 sys.path.append('C:/Python27/Lib')
 sys.path.append('C:/Users/cesandoval/Documents/Github/decodes')
+sys.path.append('C:/Program Files (x86)/Rhinoceros 5/Plug-ins/IronPython/Lib')
+sys.path.append('C:/Users/cesandoval/AppData/Roaming/McNeel/Rhinoceros/5.0/Plug-ins/IronPython (814d908a-e25c-493d-97e9-ee3861957f49)/settings/lib')
 
 import clr
 from decodes import *
-from decodes.io import *
 from decodes.io.dynamo_in import *
 from decodes.core import *
 
@@ -186,14 +58,8 @@ OUT = test#pgon.ContextCoordinateSystem#IN[0]#ds.Point.ByCoordinates(pt_test.x,p
     </DSIronPythonNode.PythonNode>
   </Elements>
   <Connectors>
-    <Dynamo.Models.ConnectorModel start="43088e89-1134-448e-9b49-ad4ff92f35e3" start_index="0" end="8c6db7f3-2a5a-48ea-8974-02ac00af04c0" end_index="0" portType="0" />
-    <Dynamo.Models.ConnectorModel start="91181ade-5005-49a9-b28f-823cb2296bf8" start_index="0" end="43088e89-1134-448e-9b49-ad4ff92f35e3" end_index="0" portType="0" />
-    <Dynamo.Models.ConnectorModel start="91181ade-5005-49a9-b28f-823cb2296bf8" start_index="0" end="a5be40fa-1566-4b4c-9d12-637eda099903" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="91181ade-5005-49a9-b28f-823cb2296bf8" start_index="0" end="b7e43891-a58b-4fbd-a027-423ee6621ccf" end_index="0" portType="0" />
-    <Dynamo.Models.ConnectorModel start="a5be40fa-1566-4b4c-9d12-637eda099903" start_index="0" end="80eb8343-9a43-4721-ba43-c45606bad4d6" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="c97f0120-ad6a-45e6-9165-3ef664d6c422" start_index="0" end="92a4d79f-e5b2-48c0-8015-d02a58a3bd89" end_index="0" portType="0" />
-    <Dynamo.Models.ConnectorModel start="92a4d79f-e5b2-48c0-8015-d02a58a3bd89" start_index="0" end="054134ee-7c0a-44d9-bee8-5a09ccbcee57" end_index="0" portType="0" />
-    <Dynamo.Models.ConnectorModel start="054134ee-7c0a-44d9-bee8-5a09ccbcee57" start_index="0" end="99da65ef-34bc-4b32-a8b7-dda0cab43b1e" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="81f87fba-e5d4-4a0b-a8b4-fed45a3b4d2b" start_index="0" end="217d45d1-8e83-4045-85c9-b38c937e5b25" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="81f87fba-e5d4-4a0b-a8b4-fed45a3b4d2b" start_index="0" end="a78447af-2fdc-4148-8a63-01bde7d0b09d" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="81f87fba-e5d4-4a0b-a8b4-fed45a3b4d2b" start_index="0" end="a3aa6cc1-b7a3-4d9d-a787-f3344cdea722" end_index="0" portType="0" />

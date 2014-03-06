@@ -1,6 +1,6 @@
-<Workspace Version="0.7.0.26254" X="-221.013540393066" Y="-136.649951677374" zoom="0.972773378736409" Description="" Category="" Name="Home">
+<Workspace Version="0.7.0.18982" X="-75.1641923066152" Y="-1093.41677527071" zoom="0.592939126905429" Description="" Category="" Name="Home">
   <Elements>
-    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="43088e89-1134-448e-9b49-ad4ff92f35e3" nickname="Python Script" x="331.814419949438" y="-63.6797585438754" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="1">
+    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="43088e89-1134-448e-9b49-ad4ff92f35e3" nickname="Python Script" x="332.443297589626" y="-63.6797585438754" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="1">
       <Script># Default imports
 #C:\Users\cesandoval\Documents\Github\Dynamo\bin\AnyCPU\Debug\Lib\\ksteinfe'
 import sys
@@ -26,8 +26,6 @@ pline = ds.PolyCurve.ByPoints(tuple([pt,pt2,pt3]),False)
 pgon = ds.PolyCurve.ByPoints(tuple([pt,pt2,pt3]),True)
 crv = ds.NurbsCurve.ByPoints(tuple([pt,pt2,pt3]))
 rect = ds.Rectangle.ByWidthHeight(5,4)
-
-# Decodes ##############
 pt_test = Point()
 #color = ds.Color.ByARGB(0,0,0)
 print 'hello world'
@@ -144,7 +142,7 @@ OUT = str(type(IN[0]))#pgon.ContextCoordinateSystem#IN[0]#ds.Point.ByCoordinates
     <Dynamo.Nodes.DSFunction type="Dynamo.Nodes.DSFunction" guid="ae40f9cd-202b-4345-ace4-1a09fcd50fff" nickname="Line.ByStartPointEndPoint" x="551.140923196284" y="1411.45773450218" isVisible="true" isUpstreamVisible="true" lacing="Shortest" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Line.ByStartPointEndPoint@Autodesk.DesignScript.Geometry.Point,Autodesk.DesignScript.Geometry.Point" />
     <Dynamo.Nodes.DSFunction type="Dynamo.Nodes.DSFunction" guid="1b1fe8ea-64d9-4be3-9460-54bf463a1531" nickname="Mesh.ByPointsFaceIndices" x="318.607257407617" y="2167.21798623764" isVisible="true" isUpstreamVisible="true" lacing="Shortest" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Mesh.ByPointsFaceIndices@Autodesk.DesignScript.Geometry.Point[],Autodesk.DesignScript.Geometry.IndexGroup[]" />
     <Dynamo.Nodes.DSFunction type="Dynamo.Nodes.DSFunction" guid="b028edcf-27e2-4d5d-b63c-eeb378a1d346" nickname="Plane.ByOriginNormal" x="324.400813846718" y="1605.73970152607" isVisible="true" isUpstreamVisible="true" lacing="Shortest" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Plane.ByOriginNormal@Autodesk.DesignScript.Geometry.Point,Autodesk.DesignScript.Geometry.Vector" />
-    <Dynamo.Nodes.DSFunction type="Dynamo.Nodes.DSFunction" guid="9ee3030c-86b2-4233-a065-9a7bb891cc9d" nickname="Point.ByCoordinates" x="124.187568657445" y="968.951661944782" isVisible="true" isUpstreamVisible="true" lacing="Shortest" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Point.ByCoordinates@double,double" />
+    <Dynamo.Nodes.DSFunction type="Dynamo.Nodes.DSFunction" guid="9ee3030c-86b2-4233-a065-9a7bb891cc9d" nickname="a" x="124.187568657445" y="968.951661944782" isVisible="true" isUpstreamVisible="true" lacing="Shortest" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Point.ByCoordinates@double,double" />
     <Dynamo.Nodes.DSFunction type="Dynamo.Nodes.DSFunction" guid="0ffc13ef-41cd-457a-964e-48ddb347331c" nickname="PolyCurve.ByPoints" x="334.194192024859" y="1702.30092945397" isVisible="true" isUpstreamVisible="true" lacing="Shortest" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.PolyCurve.ByPoints@Autodesk.DesignScript.Geometry.Point[],bool" />
     <Dynamo.Nodes.DSFunction type="Dynamo.Nodes.DSFunction" guid="6a1b8590-5ce5-4721-9c3f-00070f0360c5" nickname="Polygon.ByPoints" x="331.116053519151" y="1813.95569434839" isVisible="true" isUpstreamVisible="true" lacing="Shortest" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Polygon.ByPoints@Autodesk.DesignScript.Geometry.Point[]" />
     <Dynamo.Nodes.DSFunction type="Dynamo.Nodes.DSFunction" guid="a3aa6cc1-b7a3-4d9d-a787-f3344cdea722" nickname="Rectangle.ByWidthHeight" x="324.7235797914" y="1907.07123069762" isVisible="true" isUpstreamVisible="true" lacing="Shortest" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Rectangle.ByWidthHeight@Autodesk.DesignScript.Geometry.CoordinateSystem,double,double" />
@@ -155,41 +153,16 @@ OUT = str(type(IN[0]))#pgon.ContextCoordinateSystem#IN[0]#ds.Point.ByCoordinates
     <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="39ad0d67-5fe7-486f-89b8-fd6a37b83db5" nickname="Code Block" x="-203.017632873452" y="1036.80093683121" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="3.2;" ShouldFocus="false" />
     <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="392f8130-c218-45b1-b110-bba7942ce3f9" nickname="Code Block" x="-204.913306007711" y="1113.35114432531" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="0;" ShouldFocus="false" />
     <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="0b8da720-b2d3-4a18-9c12-b63b3dc54c84" nickname="Code Block" x="-206.335001357273" y="1187.54391254212" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="95;" ShouldFocus="false" />
-    <Dynamo.Nodes.DSFunction type="Dynamo.Nodes.DSFunction" guid="a78447af-2fdc-4148-8a63-01bde7d0b09d" nickname="CoordinateSystem.Origin" x="329.60611300871" y="1421.76913877207" isVisible="true" isUpstreamVisible="true" lacing="Shortest" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.CoordinateSystem.Origin" />
+    <Dynamo.Nodes.DSFunction type="Dynamo.Nodes.DSFunction" guid="a78447af-2fdc-4148-8a63-01bde7d0b09d" nickname="b" x="329.60611300871" y="1421.76913877207" isVisible="true" isUpstreamVisible="true" lacing="Shortest" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.CoordinateSystem.Origin" />
     <Dynamo.Nodes.DSFunction type="Dynamo.Nodes.DSFunction" guid="1d8bbf96-1ce2-4603-acdd-de02fa44436a" nickname="Point.ByCoordinates" x="338.196734794587" y="1506.2618180182" isVisible="true" isUpstreamVisible="true" lacing="Shortest" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Point.ByCoordinates@double,double" />
-    <Dynamo.Nodes.DSFunction type="Dynamo.Nodes.DSFunction" guid="9445236f-676c-4bcf-9de3-e79ebd4e4bd0" nickname="Geometry.Translate" x="562.045713628968" y="1520.69614467607" isVisible="true" isUpstreamVisible="true" lacing="Shortest" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Geometry.Translate@Autodesk.DesignScript.Geometry.Vector" />
+    <Dynamo.Nodes.DSFunction type="Dynamo.Nodes.DSFunction" guid="9445236f-676c-4bcf-9de3-e79ebd4e4bd0" nickname="c" x="562.045713628968" y="1520.69614467607" isVisible="true" isUpstreamVisible="true" lacing="Shortest" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Geometry.Translate@Autodesk.DesignScript.Geometry.Vector" />
     <Dynamo.Nodes.DSFunction type="Dynamo.Nodes.DSFunction" guid="a1d49394-983f-4b26-912d-616ed5505685" nickname="NurbsCurve.ByPoints" x="887.765066164891" y="1495.19091381596" isVisible="true" isUpstreamVisible="true" lacing="Shortest" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.NurbsCurve.ByPoints@Autodesk.DesignScript.Geometry.Point[]" />
     <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="02ab07b7-1eba-4364-82da-43d66783809e" nickname="Code Block" x="734.630065345892" y="1496.52126253327" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="{a,c,b};" ShouldFocus="false" />
-    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="b7e43891-a58b-4fbd-a027-423ee6621ccf" nickname="Python Script" x="447.308040819818" y="473.811175848046" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="1">
-      <Script># Default imports
-#C:\Users\cesandoval\Documents\Github\Dynamo\bin\AnyCPU\Debug\Lib\\ksteinfe'
-import sys
-sys.path.append('C:/Python27/Lib')
-sys.path.append('C:/Users/cesandoval/Documents/Github/decodes')
-
-import clr
-from decodes import *
-from decodes.io import *
-from decodes.io.dynamo_in import *
-from decodes.core import *
-
-clr.AddReference('ProtoGeometry')
-import Autodesk.DesignScript.Geometry as ds
-
-if isinstance(IN[0], list):
-	for input in IN[0] : 
-	        test = DynamoIn.get(input)
-else:
-	test = DynamoIn.get(input)
-#Assign your output to the OUT variable
-OUT = test#pgon.ContextCoordinateSystem#IN[0]#ds.Point.ByCoordinates(pt_test.x,pt_test.y,pt_test.z)</Script>
-    </DSIronPythonNode.PythonNode>
   </Elements>
   <Connectors>
     <Dynamo.Models.ConnectorModel start="43088e89-1134-448e-9b49-ad4ff92f35e3" start_index="0" end="8c6db7f3-2a5a-48ea-8974-02ac00af04c0" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="91181ade-5005-49a9-b28f-823cb2296bf8" start_index="0" end="43088e89-1134-448e-9b49-ad4ff92f35e3" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="91181ade-5005-49a9-b28f-823cb2296bf8" start_index="0" end="a5be40fa-1566-4b4c-9d12-637eda099903" end_index="0" portType="0" />
-    <Dynamo.Models.ConnectorModel start="91181ade-5005-49a9-b28f-823cb2296bf8" start_index="0" end="b7e43891-a58b-4fbd-a027-423ee6621ccf" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="a5be40fa-1566-4b4c-9d12-637eda099903" start_index="0" end="80eb8343-9a43-4721-ba43-c45606bad4d6" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="c97f0120-ad6a-45e6-9165-3ef664d6c422" start_index="0" end="92a4d79f-e5b2-48c0-8015-d02a58a3bd89" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="92a4d79f-e5b2-48c0-8015-d02a58a3bd89" start_index="0" end="054134ee-7c0a-44d9-bee8-5a09ccbcee57" end_index="0" portType="0" />
