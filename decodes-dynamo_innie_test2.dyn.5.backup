@@ -1,7 +1,7 @@
-<Workspace Version="0.7.0.19329" X="-188.790321784087" Y="38.8480901147947" zoom="0.774821552655672" Description="" Category="" Name="Home">
+<Workspace Version="0.7.0.19329" X="-561.440478558616" Y="-612.234781114863" zoom="1.09462174895434" Description="" Category="" Name="Home">
   <Elements>
     <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="91181ade-5005-49a9-b28f-823cb2296bf8" nickname="Code Block" x="258.78085469794" y="217.938444265421" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="7;" ShouldFocus="false" />
-    <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="12896ac3-20b9-4370-a551-fb383050c328" nickname="Code Block" x="621.107660313047" y="256.743940083538" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="{1,2};" ShouldFocus="false" />
+    <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="12896ac3-20b9-4370-a551-fb383050c328" nickname="Code Block" x="183.779621492971" y="29.0610092540935" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="{1,2};" ShouldFocus="false" />
     <DSCoreNodesUI.BoolSelector type="DSCoreNodesUI.BoolSelector" guid="589e1ebd-5f8e-4f4a-b759-4d71951eec78" nickname="Boolean" x="206.142186233041" y="312.007959192345" isVisible="false" isUpstreamVisible="true" lacing="Disabled">
       <System.Boolean>False</System.Boolean>
     </DSCoreNodesUI.BoolSelector>
@@ -198,7 +198,7 @@ else:
 OUT = test#pgon.ContextCoordinateSystem#IN[0]#ds.Point.ByCoordinates(pt_test.x,pt_test.y,pt_test.z)</Script>
     </DSIronPythonNode.PythonNode>
     <Dynamo.Nodes.Watch type="Dynamo.Nodes.Watch" guid="e983ca72-6a8c-4716-a262-4d1951df58cf" nickname="Watch" x="918.426331990193" y="628.872513746669" isVisible="true" isUpstreamVisible="true" lacing="Disabled" />
-    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="b5847fb9-410b-4ef4-ab81-7f3e3eb26fd7" nickname="Python Script" x="741.266404080989" y="628.889101382995" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="1">
+    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="b5847fb9-410b-4ef4-ab81-7f3e3eb26fd7" nickname="Python Script" x="741.88614125941" y="655.584373960142" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="1">
       <Script># Default imports
 #C:\Users\cesandoval\Documents\Github\Dynamo\bin\AnyCPU\Debug\Lib\\ksteinfe'
 import sys
@@ -225,52 +225,10 @@ else:
 #Assign your output to the OUT variable
 OUT = test#pgon.ContextCoordinateSystem#IN[0]#ds.Point.ByCoordinates(pt_test.x,pt_test.y,pt_test.z)</Script>
     </DSIronPythonNode.PythonNode>
-    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="e56ec848-225c-4d14-b243-0e640222fb2f" nickname="Python Script" x="752.709641877508" y="479.566131927009" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="1">
-      <Script>import sys
-sys.path.append('C:/Python27/Lib')
-sys.path.append('C:/Users/cesandoval/Documents/Github/decodes')
-
-import decodes as dc
-from decodes.core import *
-from decodes.io.dynamo_in import *
-from decodes.io.dynamo_out import *
-
-exec(io.dynamo_in.component_header_code)
-#exec(io.dynamo_out.component_footer_code)
-#########$$$$$$
-OUT = IN[0]</Script>
-    </DSIronPythonNode.PythonNode>
-    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="73604b14-3648-4614-9c82-accac886c17f" nickname="Python Script" x="740.739756197676" y="258.505127606345" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="1">
-      <Script># Default imports
-#C:\Users\cesandoval\Documents\Github\Dynamo\bin\AnyCPU\Debug\Lib\\ksteinfe'
-import sys
-sys.path.append('C:/Python27/Lib')
-sys.path.append('C:/Users/cesandoval/Documents/Github/decodes')
-#sys.path.append('C:/Program Files (x86)/Rhinoceros 5/Plug-ins/IronPython/Lib')
-#sys.path.append('C:/Users/cesandoval/AppData/Roaming/McNeel/Rhinoceros/5.0/Plug-ins/IronPython (814d908a-e25c-493d-97e9-ee3861957f49)/settings/lib')
-
-import clr
-from decodes import *
-from decodes.io.dynamo_in import *
-from decodes.core import *
-
-clr.AddReference('ProtoGeometry')
-import Autodesk.DesignScript.Geometry as ds
-for i in range(len(IN[0])):
-	OUT = IN[0][i]
-	
-OUT = DynamoIn.get([9,7])
-
-
-</Script>
-    </DSIronPythonNode.PythonNode>
-    <Dynamo.Nodes.Watch type="Dynamo.Nodes.Watch" guid="ea50ce76-a2ab-4738-83ca-fd7d0c87efc5" nickname="Watch" x="942.98516092169" y="474.040556744317" isVisible="true" isUpstreamVisible="true" lacing="Disabled" />
   </Elements>
   <Connectors>
-    <Dynamo.Models.ConnectorModel start="12896ac3-20b9-4370-a551-fb383050c328" start_index="0" end="73604b14-3648-4614-9c82-accac886c17f" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="589e1ebd-5f8e-4f4a-b759-4d71951eec78" start_index="0" end="0ffc13ef-41cd-457a-964e-48ddb347331c" end_index="1" portType="0" />
     <Dynamo.Models.ConnectorModel start="c97f0120-ad6a-45e6-9165-3ef664d6c422" start_index="0" end="92a4d79f-e5b2-48c0-8015-d02a58a3bd89" end_index="0" portType="0" />
-    <Dynamo.Models.ConnectorModel start="92a4d79f-e5b2-48c0-8015-d02a58a3bd89" start_index="0" end="e56ec848-225c-4d14-b243-0e640222fb2f" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="81f87fba-e5d4-4a0b-a8b4-fed45a3b4d2b" start_index="0" end="217d45d1-8e83-4045-85c9-b38c937e5b25" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="81f87fba-e5d4-4a0b-a8b4-fed45a3b4d2b" start_index="0" end="a78447af-2fdc-4148-8a63-01bde7d0b09d" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="81f87fba-e5d4-4a0b-a8b4-fed45a3b4d2b" start_index="0" end="a3aa6cc1-b7a3-4d9d-a787-f3344cdea722" end_index="0" portType="0" />
@@ -307,7 +265,6 @@ OUT = DynamoIn.get([9,7])
     <Dynamo.Models.ConnectorModel start="02ab07b7-1eba-4364-82da-43d66783809e" start_index="0" end="0ffc13ef-41cd-457a-964e-48ddb347331c" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="02ab07b7-1eba-4364-82da-43d66783809e" start_index="0" end="6a1b8590-5ce5-4721-9c3f-00070f0360c5" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="b5847fb9-410b-4ef4-ab81-7f3e3eb26fd7" start_index="0" end="e983ca72-6a8c-4716-a262-4d1951df58cf" end_index="0" portType="0" />
-    <Dynamo.Models.ConnectorModel start="e56ec848-225c-4d14-b243-0e640222fb2f" start_index="0" end="ea50ce76-a2ab-4738-83ca-fd7d0c87efc5" end_index="0" portType="0" />
   </Connectors>
   <Notes />
 </Workspace>

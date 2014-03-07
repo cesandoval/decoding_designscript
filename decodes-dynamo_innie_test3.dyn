@@ -1,7 +1,7 @@
-<Workspace Version="0.7.0.19329" X="-188.790321784087" Y="38.8480901147947" zoom="0.774821552655672" Description="" Category="" Name="Home">
+<Workspace Version="0.7.0.19329" X="-426.686727356078" Y="539.488099116204" zoom="1.12667487146805" Description="" Category="" Name="Home">
   <Elements>
     <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="91181ade-5005-49a9-b28f-823cb2296bf8" nickname="Code Block" x="258.78085469794" y="217.938444265421" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="7;" ShouldFocus="false" />
-    <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="12896ac3-20b9-4370-a551-fb383050c328" nickname="Code Block" x="621.107660313047" y="256.743940083538" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="{1,2};" ShouldFocus="false" />
+    <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="12896ac3-20b9-4370-a551-fb383050c328" nickname="Code Block" x="534.204420423073" y="217.089063628889" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="{1,2};" ShouldFocus="false" />
     <DSCoreNodesUI.BoolSelector type="DSCoreNodesUI.BoolSelector" guid="589e1ebd-5f8e-4f4a-b759-4d71951eec78" nickname="Boolean" x="206.142186233041" y="312.007959192345" isVisible="false" isUpstreamVisible="true" lacing="Disabled">
       <System.Boolean>False</System.Boolean>
     </DSCoreNodesUI.BoolSelector>
@@ -30,244 +30,90 @@
     <Dynamo.Nodes.DSFunction type="Dynamo.Nodes.DSFunction" guid="9445236f-676c-4bcf-9de3-e79ebd4e4bd0" nickname="Geometry.Translate" x="606.727429015358" y="1126.29989785576" isVisible="true" isUpstreamVisible="true" lacing="Shortest" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Geometry.Translate@Autodesk.DesignScript.Geometry.Vector" />
     <Dynamo.Nodes.DSFunction type="Dynamo.Nodes.DSFunction" guid="a1d49394-983f-4b26-912d-616ed5505685" nickname="NurbsCurve.ByPoints" x="950.670808388506" y="1019.32880648094" isVisible="true" isUpstreamVisible="true" lacing="Shortest" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.NurbsCurve.ByPoints@Autodesk.DesignScript.Geometry.Point[]" />
     <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="02ab07b7-1eba-4364-82da-43d66783809e" nickname="Code Block" x="791.236739884197" y="1122.72267242991" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="{a,c,b};" ShouldFocus="false" />
-    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="b7e43891-a58b-4fbd-a027-423ee6621ccf" nickname="Python Script" x="731.345673636154" y="804.494260097257" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="1">
-      <Script># Default imports
-#C:\Users\cesandoval\Documents\Github\Dynamo\bin\AnyCPU\Debug\Lib\\ksteinfe'
-import sys
-sys.path.append('C:/Python27/Lib')
-sys.path.append('C:/Users/cesandoval/Documents/Github/decodes')
-#sys.path.append('C:/Program Files (x86)/Rhinoceros 5/Plug-ins/IronPython/Lib')
-#sys.path.append('C:/Users/cesandoval/AppData/Roaming/McNeel/Rhinoceros/5.0/Plug-ins/IronPython (814d908a-e25c-493d-97e9-ee3861957f49)/settings/lib')
-
-import clr
-from decodes import *
-#from decodes.io.dynamo_in import *
-from decodes.core import *
-
-clr.AddReference('ProtoGeometry')
-import Autodesk.DesignScript.Geometry as ds
-
-
-class DynamoIn():
-    """innie for pulling stuff from dynamo"""
-    primitive_types = ["bool", "int", "float", "str"]
-    structure_types = ["classobj", "instance", "function", "class"]
-    friendly_types = ["DHr"]
-    
-    def __init__(self):
-        pass
-        
-    @staticmethod
-    #def get(dyn_in_str, dyn_in):
-    def get(dyn_in):
-        # main function for processing incoming data from Dynamo into Decodes geometry
-        # incoming may be a sigleton, a list, or a list of lists
-        # variable in Dynamo script component will be replaced by whatever is returned here
-
-        if dyn_in is None : return None
-        #################################################################################################################
-        # THIS WILL HAVE TO WAIT TILL THEY FIX THEIR COMPONENT
-        #################################################################################################################
-        if type(dyn_in) is list: return [DynamoIn.get(dyn_in_str+"["+str(i)+"]",item) for i, item in enumerate(dyn_in)]
-        
-        # NO INTERVALS IN DYNAMO/DS
-        #if type(dyn_in) is ds.Interval: return Interval(dyn_in.T0,dyn_in.T1)
-
-        if type(dyn_in) is ds.Rectangle :  
-            dyn_in = ds.PolyCurve.ByPoints(dyn_in.Corners[0:2], True)
-        if type(dyn_in) is ds.Vector: 
-            return from_dynvec(dyn_in)
-        elif type(dyn_in)is ds.Point: 
-            return from_dynpt(dyn_in)
-        elif type(dyn_in)is ds.Vertex: 
-            return from_dynpt(dyn_in.PointGeometry)
-        elif type(dyn_in)is ds.Plane: 
-            return Plane(from_dynpt(dyn_in.Origin), from_dynvec(dyn_in.Normal))
-        elif type(dyn_in)is ds.CoordinateSystem : 
-            return from_dyncs(dyn_in)
-        elif type(dyn_in) is ds.Line: 
-            return Segment(from_dynpt(dyn_in.StartPoint), from_dynpt(dyn_in.EndPoint))
-        elif type(dyn_in) is ds.Edge: 
-            return Segment(from_dynpt(dyn_in.StartVertex), from_dynpt(dyn_in.EndVertex))
-        elif type(dyn_in)is ds.Circle:
-            pln = Plane(from_dynpt(dyn_in.CenterPoint), from_dynvec(dyn_in.Normal))
-            return Circle(pln,dyn_in.Radius)
-        elif type(dyn_in)is ds.Arc:
-            x_axis = Vec(from_dynpt(dyn_in.CenterPoint),from_dynpt(dyn_in.StartPoint))
-            y_axis = from_dynvec(dyn_in.Normal).cross(x_axis)
-            cs = CS( from_dynpt(dyn_in.CenterPoint), x_axis, y_axis )
-            swp_ang = abs(dyn_in.SweepAngle * 0.0174532925)
-            return Arc(cs,dyn_in.Radius,swp_ang)
-        elif type(dyn_in) is ds.PolyCurve: 
-            return from_dspolyline(dyn_in)
-        elif type(dyn_in) is ds.Polygon:
-            return from_dspolygon(dyn_in)
-        elif type(dyn_in) is ds.NurbsCurve: 
-            #Approximates a nurbscrv into a PLine
-            return from_nurbscurve(dyn_in)
-        elif type(dyn_in) is ds.Ellipse : 
-            #Approximates an ellipse into a PLine
-            #TODO mathematical description of ellipse to return decodes curve
-            return from_nurbscurve(dyn_in)
-        elif type(dyn_in) is ds.Mesh : 
-            verts = [from_dynpt(pt) for pt in dyn_in.VertexPositions]
-            faces = []
-            for face in dyn_in.FaceIndices:
-                faces.append(face.A, face.B, face.C, face.D)
-            return Mesh(verts,faces)
-        elif any(p in str(type(dyn_in)) for p in DynamoIn.primitive_types): 
-            return dyn_in
-        elif any(p in str(type(dyn_in)) for p in DynamoIn.friendly_types): 
-            return dyn_in
-        elif any(p in str(type(dyn_in)) for p in DynamoIn.structure_types): 
-            return dyn_in
-        else :
-            print "UNKNOWN TYPE: "+str(type(dyn_in))+" is an "+ str(type(dyn_in))
-            return dyn_in
-            #print inspect.getmro(dyn_in.__class__)
-            #if issubclass(dyn_in.__class__, ds.GeometryBase ) : print "this is geometry"
-            #print dyn_incoming.TypeHint
-            #print dyn_incoming.Description
-
-
-def from_dynvec(dyn_vec):
-    return Vec(dyn_vec.X,dyn_vec.Y,dyn_vec.Z)
-
-def from_dynpt(dyn_pt):
-    return Point(dyn_pt.X,dyn_pt.Y,dyn_pt.Z)
-
-def from_dyncs(dyn_cs):
-        cpt = from_dynpt(dyn_cs.Origin)
-        x_axis = from_dynvec(dyn_cs.XAxis)
-        y_axis = from_dynvec(dyn_cs.YAxis)
-        return CS(cpt,x_axis,y_axis)
-
-def from_polycurve(dyn_polycurve):
-    crvs = dyn_polycurve.Curves()
-    verts = [from_dynpt(crv.StartPoint) for crv in crvs]
-    verts.append(from_dynpt(crvs[len(crvs)-1].EndPoint))
-    return verts  
-        
-def from_dspolyline(dyn_polyline):
-    if not dyn_polyline.IsClosed : 
-        w_verts = from_polycurve(dyn_polyline)
-        return PLine(w_verts)
-    else:
-        if not dyn_polyline.IsPlanar() : raise GeometricError("Cannot import non-planar polylines as polygons.  Did you give me degenerate geometry?")
-        cs = from_dyncs(dyn_polyline.ContextCoordinateSystem)
-        w_verts = from_polycurve(dyn_polyline)
-        verts = [ Vec(pt*cs.ixform) for pt in w_verts ]
-        if (verts[0]==verts[-1]) : del verts[-1] #remove last vert if a duplicate
-        return PGon(verts,cs)
-    
-def from_dspolygon(dyn_polygon):
-    cs = from_dyncs(dyn_polygon.ContextCoordinateSystem)
-    w_verts = [from_dynpt(pt) for pt in dyn_polygon.Points]
-    verts = [ cs.eval(pt) for pt in w_verts ]
-    if (verts[0]==verts[-1]) : del verts[-1] #remove last vert if a duplicate
-    return PGon(verts,cs)
-    
-def from_dsrectangle(dyn_rectangle):
-    cs = from_dyncs(dyn_rectangle.ContextCoordinateSystem)
-    w_verts = [from_dynpt(pt) for pt in dyn_rectangle.Points]
-    verts = [ Vec(pt*cs.ixform) for pt in w_verts ]
-    if (verts[0]==verts[-1]) : del verts[-1] #remove last vert if a duplicate
-    return PGon(verts,cs)
-    
-def from_nurbscurve(dyn_nurbscurve):
-    rng = Interval().divide(100, True)
-    verts = [from_dynpt(dyn_nurbscurve.PointAtParameter(i)) for i in rng]
-    return PLine(verts)
-    
-def from_dstransform(rh_xf):
-    xf = Xform()
-    xf.m00, xf.m01, xf.m02, xf.m03 = rh_xf.M00, rh_xf.M01, rh_xf.M02, rh_xf.M03
-    xf.m10, xf.m11, xf.m12, xf.m13 = rh_xf.M10, rh_xf.M11, rh_xf.M12, rh_xf.M13
-    xf.m20, xf.m21, xf.m22, xf.m23 = rh_xf.M20, rh_xf.M21, rh_xf.M22, rh_xf.M23
-    xf.m30, xf.m31, xf.m32, xf.m33 = rh_xf.M30, rh_xf.M31, rh_xf.M32, rh_xf.M33
-    return xf
-
-
-#############################
-if isinstance(IN[0], list):
-	for input in IN[0] : 
-	        test = DynamoIn.get(input)
-else:
-	test = DynamoIn.get(IN[0])
-#Assign your output to the OUT variable
-OUT = test#pgon.ContextCoordinateSystem#IN[0]#ds.Point.ByCoordinates(pt_test.x,pt_test.y,pt_test.z)</Script>
-    </DSIronPythonNode.PythonNode>
-    <Dynamo.Nodes.Watch type="Dynamo.Nodes.Watch" guid="e983ca72-6a8c-4716-a262-4d1951df58cf" nickname="Watch" x="918.426331990193" y="628.872513746669" isVisible="true" isUpstreamVisible="true" lacing="Disabled" />
-    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="b5847fb9-410b-4ef4-ab81-7f3e3eb26fd7" nickname="Python Script" x="741.266404080989" y="628.889101382995" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="1">
-      <Script># Default imports
-#C:\Users\cesandoval\Documents\Github\Dynamo\bin\AnyCPU\Debug\Lib\\ksteinfe'
-import sys
-sys.path.append('C:/Python27/Lib')
-sys.path.append('C:/Users/cesandoval/Documents/Github/decodes')
-#sys.path.append('C:/Program Files (x86)/Rhinoceros 5/Plug-ins/IronPython/Lib')
-#sys.path.append('C:/Users/cesandoval/AppData/Roaming/McNeel/Rhinoceros/5.0/Plug-ins/IronPython (814d908a-e25c-493d-97e9-ee3861957f49)/settings/lib')
-
-import clr
-from decodes import *
-from decodes.io.dynamo_in import *
-from decodes.core import *
-
-clr.AddReference('ProtoGeometry')
-import Autodesk.DesignScript.Geometry as ds
-
-
-#############################
-if isinstance(IN[0], list):
-	for input in IN[0] : 
-	        test = DynamoIn.get(input)
-else:
-	test = DynamoIn.get(IN[0])
-#Assign your output to the OUT variable
-OUT = test#pgon.ContextCoordinateSystem#IN[0]#ds.Point.ByCoordinates(pt_test.x,pt_test.y,pt_test.z)</Script>
-    </DSIronPythonNode.PythonNode>
-    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="e56ec848-225c-4d14-b243-0e640222fb2f" nickname="Python Script" x="752.709641877508" y="479.566131927009" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="1">
+    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="e56ec848-225c-4d14-b243-0e640222fb2f" nickname="Python Script" x="732.357576425224" y="384.926019993057" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="1">
       <Script>import sys
 sys.path.append('C:/Python27/Lib')
 sys.path.append('C:/Users/cesandoval/Documents/Github/decodes')
 
+## -- BEGIN DECODES HEADER -- ##
 import decodes as dc
 from decodes.core import *
 from decodes.io.dynamo_in import *
 from decodes.io.dynamo_out import *
-
 exec(io.dynamo_in.component_header_code)
-#exec(io.dynamo_out.component_footer_code)
-#########$$$$$$
-OUT = IN[0]</Script>
+exec(io.dynamo_out.component_header_code)
+## -- END DECODES HEADER -- ##
+out.put([[Point(), Point(2)],Point(5),[Point(3,3,3),Point(1,1,1)]])
+## -- BEGIN DECODES FOOTER -- ##
+exec(io.dynamo_out.component_footer_code)
+## -- END DECODES FOOTER -- ##
+#########kkkkkkk</Script>
     </DSIronPythonNode.PythonNode>
-    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="73604b14-3648-4614-9c82-accac886c17f" nickname="Python Script" x="740.739756197676" y="258.505127606345" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="1">
-      <Script># Default imports
-#C:\Users\cesandoval\Documents\Github\Dynamo\bin\AnyCPU\Debug\Lib\\ksteinfe'
-import sys
+    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="73604b14-3648-4614-9c82-accac886c17f" nickname="Python Script" x="737.773388003927" y="182.236915579852" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="1">
+      <Script>import sys
 sys.path.append('C:/Python27/Lib')
 sys.path.append('C:/Users/cesandoval/Documents/Github/decodes')
-#sys.path.append('C:/Program Files (x86)/Rhinoceros 5/Plug-ins/IronPython/Lib')
-#sys.path.append('C:/Users/cesandoval/AppData/Roaming/McNeel/Rhinoceros/5.0/Plug-ins/IronPython (814d908a-e25c-493d-97e9-ee3861957f49)/settings/lib')
 
-import clr
-from decodes import *
-from decodes.io.dynamo_in import *
+## -- BEGIN DECODES HEADER -- ##
+import decodes as dc
 from decodes.core import *
-
-clr.AddReference('ProtoGeometry')
-import Autodesk.DesignScript.Geometry as ds
-for i in range(len(IN[0])):
-	OUT = IN[0][i]
-	
-OUT = DynamoIn.get([9,7])
-
-
-</Script>
+from decodes.io.dynamo_in import *
+from decodes.io.dynamo_out import *
+exec(io.dynamo_in.component_header_code)
+exec(io.dynamo_out.component_header_code)
+## -- END DECODES HEADER -- ##
+out.put(IN[0])
+exec(io.dynamo_out.component_footer_code)
+## -- END DECODES FOOTER -- ##
+###################5555444jjjiiiiioioigggg5555554353488787</Script>
     </DSIronPythonNode.PythonNode>
-    <Dynamo.Nodes.Watch type="Dynamo.Nodes.Watch" guid="ea50ce76-a2ab-4738-83ca-fd7d0c87efc5" nickname="Watch" x="942.98516092169" y="474.040556744317" isVisible="true" isUpstreamVisible="true" lacing="Disabled" />
+    <Dynamo.Nodes.Watch type="Dynamo.Nodes.Watch" guid="ea50ce76-a2ab-4738-83ca-fd7d0c87efc5" nickname="Watch" x="910.902000802113" y="413.213401779003" isVisible="true" isUpstreamVisible="true" lacing="Disabled" />
+    <Dynamo.Nodes.Watch type="Dynamo.Nodes.Watch" guid="799269dc-a54e-4d04-8e55-1408a3e60ef5" nickname="Watch" x="909.220233804332" y="177.410816334112" isVisible="true" isUpstreamVisible="true" lacing="Disabled" />
+    <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="bc298610-6e3b-4fb5-9bc6-4d8f7b6f5b37" nickname="Code Block" x="182.441242940285" y="-204.439330281293" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="p1 = Point.ByCoordinates(1.0221, 3.3941, 0.0);&#xA;p2 = Point.ByCoordinates(-0.0497, 3.4856, 0.0);&#xA;p3 = Point.ByCoordinates(2.0546, 3.4464, 0.0);&#xA;p4 = Point.ByCoordinates(-0.0084, -0.0004, 0.0);&#xA;p5 = Point.ByCoordinates(-0.0169, 1.8605, 0.0);&#xA;p6 = Point.ByCoordinates(1.0121, -0.0004, 0.0);&#xA;p7 = Point.ByCoordinates(2.0154, -0.009, 0.0);&#xA;p8 = Point.ByCoordinates(2.024, 1.8176, 0.0);&#xA;p9 = Point.ByCoordinates(1.4066, 1.0458, 0.0);&#xA;&#xA;// create the original mesh&#xA;verts = { p1, p2, p3, p4, p5, p6, p7, p8, p9 };&#xA;faces = { { 4, 8, 0, 1 }, { 8, 7, 2, 0 }, { 3, 5, 8, 4 }, { 5, 6, 7, 8 } };&#xA;msh = Mesh.ByVerticesFaceIndices(verts, faces).SetVisibility(false);" ShouldFocus="false" />
+    <Dynamo.Nodes.Watch type="Dynamo.Nodes.Watch" guid="964d2ff8-20f8-4ec9-921a-5cf16c7cb27b" nickname="Watch" x="962.45624408111" y="-357.800500742474" isVisible="true" isUpstreamVisible="true" lacing="Disabled" />
+    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="92d2ca6b-11cb-4096-b9c2-cf2329408159" nickname="Python Script" x="784.874908641712" y="-348.00017904866" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="1">
+      <Script>import sys
+sys.path.append('C:/Python27/Lib')
+sys.path.append('C:/Users/cesandoval/Documents/Github/decodes')
+
+## -- BEGIN DECODES HEADER -- ##
+import decodes as dc
+from decodes.core import *
+from decodes.io.dynamo_in import *
+from decodes.io.dynamo_out import *
+exec(io.dynamo_in.component_header_code)
+exec(io.dynamo_out.component_header_code)
+## -- END DECODES HEADER -- ##
+
+def color_point(r_val,g_val,b_val):
+    res = Point(r_val,g_val,b_val)
+    res.set_color(r_val,g_val,b_val)
+    return res
+
+
+# create an interval with n steps
+color_interval = Interval(0.0,1.0).divide(IN[0])
+
+# cycle through each point in the color space 
+pts=[]
+for ri in color_interval:
+    for gi in color_interval:
+        for bi in color_interval:
+            pt_add = color_point(ri,gi,bi)
+            pt_add.set_weight(20.0)
+            pts.append(pt_add)
+
+out.put(pts)
+exec(io.dynamo_out.component_footer_code)
+## -- END DECODES FOOTER -- ##
+###################5555444jjjiiiiioioigggg5555554353488787</Script>
+    </DSIronPythonNode.PythonNode>
+    <Dynamo.Nodes.IntegerSlider type="Dynamo.Nodes.IntegerSlider" guid="1648752d-f19e-49c8-bd06-421f9348d615" nickname="Integer Slider" x="464.921301024243" y="-335.235345949098" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <System.Int32>10</System.Int32>
+      <Range min="0" max="100" />
+    </Dynamo.Nodes.IntegerSlider>
   </Elements>
   <Connectors>
-    <Dynamo.Models.ConnectorModel start="12896ac3-20b9-4370-a551-fb383050c328" start_index="0" end="73604b14-3648-4614-9c82-accac886c17f" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="589e1ebd-5f8e-4f4a-b759-4d71951eec78" start_index="0" end="0ffc13ef-41cd-457a-964e-48ddb347331c" end_index="1" portType="0" />
     <Dynamo.Models.ConnectorModel start="c97f0120-ad6a-45e6-9165-3ef664d6c422" start_index="0" end="92a4d79f-e5b2-48c0-8015-d02a58a3bd89" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="92a4d79f-e5b2-48c0-8015-d02a58a3bd89" start_index="0" end="e56ec848-225c-4d14-b243-0e640222fb2f" end_index="0" portType="0" />
@@ -279,8 +125,6 @@ OUT = DynamoIn.get([9,7])
     <Dynamo.Models.ConnectorModel start="9ee3030c-86b2-4233-a065-9a7bb891cc9d" start_index="0" end="ae40f9cd-202b-4345-ace4-1a09fcd50fff" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="9ee3030c-86b2-4233-a065-9a7bb891cc9d" start_index="0" end="02ab07b7-1eba-4364-82da-43d66783809e" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="9ee3030c-86b2-4233-a065-9a7bb891cc9d" start_index="0" end="b028edcf-27e2-4d5d-b63c-eeb378a1d346" end_index="0" portType="0" />
-    <Dynamo.Models.ConnectorModel start="6a1b8590-5ce5-4721-9c3f-00070f0360c5" start_index="0" end="b7e43891-a58b-4fbd-a027-423ee6621ccf" end_index="0" portType="0" />
-    <Dynamo.Models.ConnectorModel start="6a1b8590-5ce5-4721-9c3f-00070f0360c5" start_index="0" end="b5847fb9-410b-4ef4-ab81-7f3e3eb26fd7" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="ed1dc42b-2380-4e1f-b26e-6f0c0729f756" start_index="0" end="910584bf-fc00-42d3-8614-693ad43dee58" end_index="4" portType="0" />
     <Dynamo.Models.ConnectorModel start="ed1dc42b-2380-4e1f-b26e-6f0c0729f756" start_index="0" end="9445236f-676c-4bcf-9de3-e79ebd4e4bd0" end_index="1" portType="0" />
     <Dynamo.Models.ConnectorModel start="ed1dc42b-2380-4e1f-b26e-6f0c0729f756" start_index="0" end="b028edcf-27e2-4d5d-b63c-eeb378a1d346" end_index="1" portType="0" />
@@ -303,11 +147,14 @@ OUT = DynamoIn.get([9,7])
     <Dynamo.Models.ConnectorModel start="a78447af-2fdc-4148-8a63-01bde7d0b09d" start_index="0" end="02ab07b7-1eba-4364-82da-43d66783809e" end_index="2" portType="0" />
     <Dynamo.Models.ConnectorModel start="1d8bbf96-1ce2-4603-acdd-de02fa44436a" start_index="0" end="9445236f-676c-4bcf-9de3-e79ebd4e4bd0" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="9445236f-676c-4bcf-9de3-e79ebd4e4bd0" start_index="0" end="02ab07b7-1eba-4364-82da-43d66783809e" end_index="1" portType="0" />
+    <Dynamo.Models.ConnectorModel start="a1d49394-983f-4b26-912d-616ed5505685" start_index="0" end="73604b14-3648-4614-9c82-accac886c17f" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="02ab07b7-1eba-4364-82da-43d66783809e" start_index="0" end="a1d49394-983f-4b26-912d-616ed5505685" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="02ab07b7-1eba-4364-82da-43d66783809e" start_index="0" end="0ffc13ef-41cd-457a-964e-48ddb347331c" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="02ab07b7-1eba-4364-82da-43d66783809e" start_index="0" end="6a1b8590-5ce5-4721-9c3f-00070f0360c5" end_index="0" portType="0" />
-    <Dynamo.Models.ConnectorModel start="b5847fb9-410b-4ef4-ab81-7f3e3eb26fd7" start_index="0" end="e983ca72-6a8c-4716-a262-4d1951df58cf" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="e56ec848-225c-4d14-b243-0e640222fb2f" start_index="0" end="ea50ce76-a2ab-4738-83ca-fd7d0c87efc5" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="73604b14-3648-4614-9c82-accac886c17f" start_index="0" end="799269dc-a54e-4d04-8e55-1408a3e60ef5" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="92d2ca6b-11cb-4096-b9c2-cf2329408159" start_index="0" end="964d2ff8-20f8-4ec9-921a-5cf16c7cb27b" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="1648752d-f19e-49c8-bd06-421f9348d615" start_index="0" end="92d2ca6b-11cb-4096-b9c2-cf2329408159" end_index="0" portType="0" />
   </Connectors>
   <Notes />
 </Workspace>
