@@ -1,4 +1,4 @@
-<Workspace Version="0.7.0.30494" X="-967.11399427789" Y="-152.153132651421" zoom="1.33455541173656" Description="" Category="" Name="Home">
+<Workspace Version="0.7.0.19329" X="-426.686727356078" Y="539.488099116204" zoom="1.12667487146805" Description="" Category="" Name="Home">
   <Elements>
     <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="91181ade-5005-49a9-b28f-823cb2296bf8" nickname="Code Block" x="258.78085469794" y="217.938444265421" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="7;" ShouldFocus="false" />
     <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="12896ac3-20b9-4370-a551-fb383050c328" nickname="Code Block" x="534.204420423073" y="217.089063628889" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="{1,2};" ShouldFocus="false" />
@@ -112,22 +112,6 @@ exec(io.dynamo_out.component_footer_code)
       <System.Int32>10</System.Int32>
       <Range min="0" max="100" />
     </Dynamo.Nodes.IntegerSlider>
-    <Dynamo.Nodes.Watch type="Dynamo.Nodes.Watch" guid="df33ed44-3193-4400-96fa-5dd89efd4b50" nickname="Watch" x="1006.94969313444" y="282.32848863172" isVisible="true" isUpstreamVisible="true" lacing="Disabled" />
-    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="43653645-0e5e-4cfa-92d3-a1ca85e4af15" nickname="Python Script" x="835.502847334035" y="287.15458787746" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="1">
-      <Script>import sys
-sys.path.append('C:/Python27/Lib')
-sys.path.append('C:/Users/cesandoval/Documents/Github/decodes')
-
-## -- BEGIN DECODES HEADER -- ##
-import decodes as dc
-from decodes.core import *
-from decodes.io.dynamo_in import *
-from decodes.io.dynamo_out import *
-exec(io.dynamo_in.component_header_code)
-exec(io.dynamo_out.component_header_code)
-## -- END DECODES HEADER -- ##
-OUT = IN</Script>
-    </DSIronPythonNode.PythonNode>
   </Elements>
   <Connectors>
     <Dynamo.Models.ConnectorModel start="589e1ebd-5f8e-4f4a-b759-4d71951eec78" start_index="0" end="0ffc13ef-41cd-457a-964e-48ddb347331c" end_index="1" portType="0" />
@@ -164,7 +148,6 @@ OUT = IN</Script>
     <Dynamo.Models.ConnectorModel start="1d8bbf96-1ce2-4603-acdd-de02fa44436a" start_index="0" end="9445236f-676c-4bcf-9de3-e79ebd4e4bd0" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="9445236f-676c-4bcf-9de3-e79ebd4e4bd0" start_index="0" end="02ab07b7-1eba-4364-82da-43d66783809e" end_index="1" portType="0" />
     <Dynamo.Models.ConnectorModel start="a1d49394-983f-4b26-912d-616ed5505685" start_index="0" end="73604b14-3648-4614-9c82-accac886c17f" end_index="0" portType="0" />
-    <Dynamo.Models.ConnectorModel start="a1d49394-983f-4b26-912d-616ed5505685" start_index="0" end="43653645-0e5e-4cfa-92d3-a1ca85e4af15" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="02ab07b7-1eba-4364-82da-43d66783809e" start_index="0" end="a1d49394-983f-4b26-912d-616ed5505685" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="02ab07b7-1eba-4364-82da-43d66783809e" start_index="0" end="0ffc13ef-41cd-457a-964e-48ddb347331c" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="02ab07b7-1eba-4364-82da-43d66783809e" start_index="0" end="6a1b8590-5ce5-4721-9c3f-00070f0360c5" end_index="0" portType="0" />
@@ -172,7 +155,6 @@ OUT = IN</Script>
     <Dynamo.Models.ConnectorModel start="73604b14-3648-4614-9c82-accac886c17f" start_index="0" end="799269dc-a54e-4d04-8e55-1408a3e60ef5" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="92d2ca6b-11cb-4096-b9c2-cf2329408159" start_index="0" end="964d2ff8-20f8-4ec9-921a-5cf16c7cb27b" end_index="0" portType="0" />
     <Dynamo.Models.ConnectorModel start="1648752d-f19e-49c8-bd06-421f9348d615" start_index="0" end="92d2ca6b-11cb-4096-b9c2-cf2329408159" end_index="0" portType="0" />
-    <Dynamo.Models.ConnectorModel start="43653645-0e5e-4cfa-92d3-a1ca85e4af15" start_index="0" end="df33ed44-3193-4400-96fa-5dd89efd4b50" end_index="0" portType="0" />
   </Connectors>
   <Notes />
 </Workspace>
