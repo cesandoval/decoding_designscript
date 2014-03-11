@@ -1,4 +1,4 @@
-<Workspace Version="0.7.0.30494" X="-960.65439404392" Y="403.429070927914" zoom="1.24613856125571" Description="" Category="" Name="Home">
+<Workspace Version="0.7.0.30494" X="-967.11399427789" Y="-152.153132651421" zoom="1.33455541173656" Description="" Category="" Name="Home">
   <Elements>
     <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="91181ade-5005-49a9-b28f-823cb2296bf8" nickname="Code Block" x="258.78085469794" y="217.938444265421" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="7;" ShouldFocus="false" />
     <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="12896ac3-20b9-4370-a551-fb383050c328" nickname="Code Block" x="534.204420423073" y="217.089063628889" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="{1,2};" ShouldFocus="false" />
@@ -128,7 +128,6 @@ exec(io.dynamo_out.component_header_code)
 ## -- END DECODES HEADER -- ##
 OUT = IN</Script>
     </DSIronPythonNode.PythonNode>
-    <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="2aec5cfd-8731-4c54-8316-8a29e8dcd68d" nickname="Code Block" x="827.688499118145" y="-253.878074666079" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="test = 1..10;&#xA;PolyCurve.ByPoints(Point.ByCoordinates(test&lt;2&gt;,test&lt;1&gt;,test&lt;3&gt;));" ShouldFocus="false" />
   </Elements>
   <Connectors>
     <Dynamo.Models.ConnectorModel start="589e1ebd-5f8e-4f4a-b759-4d71951eec78" start_index="0" end="0ffc13ef-41cd-457a-964e-48ddb347331c" end_index="1" portType="0" />
