@@ -62,4 +62,4 @@ floor_range = 0..num_floors;
 tol = 0.01;
 crv_domain = 0..1..tol;
 // create an interpolated Curve on every floor height
-curves = BSplineCurve.ByPoints(func(floor_range<1>, crv_domain<2>));
+curves = BSplineCurve.ByPoints(func(floor_range<2>, crv_domain<1>));

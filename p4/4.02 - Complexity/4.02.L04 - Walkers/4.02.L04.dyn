@@ -1,0 +1,613 @@
+<Workspace Version="0.7.0.18805" X="141.741102820923" Y="-113.221648237075" zoom="0.484402039300888" Description="" Category="" Name="Home">
+  <Elements>
+    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="ad045de3-218b-4781-80cc-235c00ead3a1" nickname="Decodes Script" x="226.655442968248" y="350.86102762571" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="0">
+      <Script>import clr, sys
+clr.AddReference('ProtoGeometry')
+clr.AddReference('DSCoreNodes')
+from Autodesk.DesignScript.Geometry import *
+import DSCore
+## -- BEGIN DECODES HEADER -- ##
+sys.path.append('C:/Python27/Lib')
+import os
+if os.path.isdir('C:/Autodesk/Dynamo07/Core/decodes'): sys.path.append('C:/Autodesk/Dynamo07/Core')
+#sys.path.append('C:/Users/cesandoval/Documents/Github/decodes')
+from decodes.core import *
+from decodes.io.dynamo_in import *
+from decodes.io.dynamo_out import *
+exec(io.dynamo_in.component_header_code)
+exec(io.dynamo_out.component_header_code)
+## -- END DECODES HEADER -- ##
+
+'''
+4.02.L04a
+Create a simple Guy class
+
+members:
+pos (Point) The location of the Guy object
+vel (Vec) The velocity vector of the Guy object
+
+methods:
+step (None) Update Guys position and choose a new direction velocity vector
+'''
+"""
+A guy class is defined with a position, direction and a method for updating.
+"""
+
+class Guy():
+    
+    def __init__(self, pos_start = Point(0,0), vel_start = Vec(-0.1,0.1)):    
+        # sets the initial position of the Guy
+        self.pos = pos_start        
+        # sets the initial velocity vector for the Guy
+        self.vel = vel_start
+        
+    """
+    Cause the Guy object to move, using its current velocity, then randomly pick a new velocity 
+    """       
+    def step(self):        
+        # update the position of the Guy
+        self.pos += self.vel       
+        # pick a new 2d velocity vector
+        self.vel = Vec.random(Interval(-1,1,),constrain2d = True)        
+
+out.put(Guy)
+
+## -- BEGIN DECODES FOOTER -- ##
+exec(io.dynamo_out.component_footer_code)
+## -- END DECODES FOOTER -- ##
+</Script>
+    </DSIronPythonNode.PythonNode>
+    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="5ffad183-3c5b-4d6b-b7fd-c3ea52dc93e6" nickname="Decodes Script" x="423.49571950295" y="513.294595461097" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="4">
+      <Script>import clr, sys
+clr.AddReference('ProtoGeometry')
+clr.AddReference('DSCoreNodes')
+from Autodesk.DesignScript.Geometry import *
+import DSCore
+## -- BEGIN DECODES HEADER -- ##
+sys.path.append('C:/Python27/Lib')
+import os
+if os.path.isdir('C:/Autodesk/Dynamo07/Core/decodes'): sys.path.append('C:/Autodesk/Dynamo07/Core')
+#sys.path.append('C:/Users/cesandoval/Documents/Github/decodes')
+from decodes.core import *
+from decodes.io.dynamo_in import *
+from decodes.io.dynamo_out import *
+exec(io.dynamo_in.component_header_code)
+exec(io.dynamo_out.component_header_code)
+## -- END DECODES HEADER -- ##
+random.seed(.5) # initialize the random number seed#########
+
+"""
+Create a Guy, let it wander, then show its path.
+"""
+
+# initialize an instance of the Guy class
+debord = IN[0][0](IN[1],IN[2])
+# initialize the path
+path_pts = []
+
+# for every time step:
+for n in range(IN[3]):
+    # record the Guy's position
+    path_pts.append(debord.pos)
+    # update the Guy's position and velocity
+    debord.step()
+
+# make a path from the points
+path_line = PLine(path_pts)
+
+out.put(path_line)
+
+## -- BEGIN DECODES FOOTER -- ##
+exec(io.dynamo_out.component_footer_code)
+## -- END DECODES FOOTER -- ##
+</Script>
+    </DSIronPythonNode.PythonNode>
+    <Dynamo.Nodes.DSFunction type="Dynamo.Nodes.DSFunction" guid="890c1a87-9315-4dd0-9a05-e0cba644f272" nickname="Point.ByCoordinates" x="193.895363740406" y="424.201196303954" isVisible="true" isUpstreamVisible="true" lacing="Shortest" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Point.ByCoordinates@double,double,double" />
+    <Dynamo.Nodes.DoubleSlider type="Dynamo.Nodes.DoubleSlider" guid="755c7518-c80a-46ad-b229-dd6eccb36b3b" nickname="Double Slider" x="-222.372310737988" y="377.927613365908" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <System.Double>-2.674</System.Double>
+      <Range min="-10" max="10" />
+    </Dynamo.Nodes.DoubleSlider>
+    <Dynamo.Nodes.DoubleSlider type="Dynamo.Nodes.DoubleSlider" guid="b330bf99-cc22-4d30-932f-21f9a084012a" nickname="Double Slider" x="-221.418941156508" y="442.897603690622" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <System.Double>-1.675</System.Double>
+      <Range min="-10" max="10" />
+    </Dynamo.Nodes.DoubleSlider>
+    <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="66de7c93-bf32-4dac-b1f4-f5408b190856" nickname="Code Block" x="63.9527651167709" y="510.272783045131" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="0;" ShouldFocus="false" />
+    <Dynamo.Nodes.DSFunction type="Dynamo.Nodes.DSFunction" guid="da1cd037-2d11-490a-87f7-1b13209a81cb" nickname="Point.ByCoordinates" x="192.893229153751" y="628.258020931463" isVisible="true" isUpstreamVisible="true" lacing="Shortest" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Point.ByCoordinates@double,double,double" />
+    <Dynamo.Nodes.DoubleSlider type="Dynamo.Nodes.DoubleSlider" guid="d9317d9f-77c7-4bc3-a1c8-2890d61f371f" nickname="Double Slider" x="-222.421075743162" y="646.954428318131" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <System.Double>0.21</System.Double>
+      <Range min="-10" max="10" />
+    </Dynamo.Nodes.DoubleSlider>
+    <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="d7489c94-bc23-449f-9b17-aae05c3830eb" nickname="Code Block" x="62.9506305301165" y="710.456407313206" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="0;" ShouldFocus="false" />
+    <Dynamo.Nodes.DoubleSlider type="Dynamo.Nodes.DoubleSlider" guid="8d7445c3-8e80-4ff6-8e29-bc93f8e5d0d4" nickname="Double Slider" x="-223.374445324642" y="581.984437993416" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <System.Double>0.59</System.Double>
+      <Range min="-10" max="10" />
+    </Dynamo.Nodes.DoubleSlider>
+    <Dynamo.Nodes.IntegerSlider type="Dynamo.Nodes.IntegerSlider" guid="67b90ad7-faf1-4804-86bb-8649483a8476" nickname="Integer Slider" x="30.8233677055128" y="781.924149229752" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <System.Int32>45</System.Int32>
+      <Range min="0" max="100" />
+    </Dynamo.Nodes.IntegerSlider>
+    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="33acee52-38e1-4bd8-867a-23f60dc7d5f1" nickname="Decodes Script" x="268.212866206427" y="940.121797698324" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="0">
+      <Script>import clr, sys
+clr.AddReference('ProtoGeometry')
+clr.AddReference('DSCoreNodes')
+from Autodesk.DesignScript.Geometry import *
+import DSCore
+## -- BEGIN DECODES HEADER -- ##
+sys.path.append('C:/Python27/Lib')
+import os
+if os.path.isdir('C:/Autodesk/Dynamo07/Core/decodes'): sys.path.append('C:/Autodesk/Dynamo07/Core')
+#sys.path.append('C:/Users/cesandoval/Documents/Github/decodes')
+from decodes.core import *
+from decodes.io.dynamo_in import *
+from decodes.io.dynamo_out import *
+exec(io.dynamo_in.component_header_code)
+exec(io.dynamo_out.component_header_code)
+## -- END DECODES HEADER -- ##
+
+'''
+4.02.L04c
+Create a new Guy class that can be steered
+
+members:
+pos (Point) The location of the Guy object
+vel (Vec) The velocity vector of the Guy object
+
+methods:
+step (None) Update Guys position and choose a new direction velocity vector
+steer (Vec) Modify Guy's velocity by a given vector
+'''
+"""
+A guy class is defined with a position, direction and a method for updating.
+"""
+
+class Guy():
+    
+    def __init__(self, pos_start = Point(0,0), vel_start = Vec(-0.1,0.1)):   
+        # sets the initial position of the Guy
+        self.pos = pos_start        
+        # sets the initial velocity vector for the Guy
+        self.vel = vel_start
+        
+    """
+    Cause the Guy object to move, using its current velocity, then randomly
+    pick a new velocity 
+    """       
+    def step(self):        
+        # update the position of the Guy
+        self.pos += self.vel        
+        # pick a new 2d velocity vector
+        self.vel = Vec.random(Interval(-1,1,),constrain2d = True)        
+        
+    """
+    Steer the Guy by adding a given vector to its current velocity
+    """           
+    def steer(self, vec):
+        # limit to the force of the vector
+        vec = vec.limited(.5)        
+        # update the velocity of the Guy
+        self.vel += vec    
+
+out.put(Guy)
+
+## -- BEGIN DECODES FOOTER -- ##
+exec(io.dynamo_out.component_footer_code)
+## -- END DECODES FOOTER -- ##
+</Script>
+    </DSIronPythonNode.PythonNode>
+    <Dynamo.Nodes.DSFunction type="Dynamo.Nodes.DSFunction" guid="09e3115d-4f86-446b-a39b-43f6cd4b99af" nickname="Point.ByCoordinates" x="232.77602742127" y="1226.53203478016" isVisible="true" isUpstreamVisible="true" lacing="Shortest" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Point.ByCoordinates@double,double,double" />
+    <Dynamo.Nodes.IntegerSlider type="Dynamo.Nodes.IntegerSlider" guid="46fe232d-24dd-41c2-a223-2f7b11a65689" nickname="Integer Slider" x="79.1536274408836" y="1573.87653973333" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <System.Int32>45</System.Int32>
+      <Range min="0" max="100" />
+    </Dynamo.Nodes.IntegerSlider>
+    <Dynamo.Nodes.DoubleSlider type="Dynamo.Nodes.DoubleSlider" guid="1eef6987-fc16-4059-aabd-eb9e59235bb9" nickname="Double Slider" x="-182.538277475644" y="1245.22844216683" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <System.Double>0.21</System.Double>
+      <Range min="-10" max="10" />
+    </Dynamo.Nodes.DoubleSlider>
+    <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="db6c1eac-9624-493b-b7cf-a6d3a2c3c45b" nickname="Code Block" x="102.833428797635" y="1308.7304211619" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="0;" ShouldFocus="false" />
+    <Dynamo.Nodes.DoubleSlider type="Dynamo.Nodes.DoubleSlider" guid="7d0db7e5-3699-485a-bb30-ad3712147ae9" nickname="Double Slider" x="-183.491647057124" y="1180.25845184211" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <System.Double>0.59</System.Double>
+      <Range min="-10" max="10" />
+    </Dynamo.Nodes.DoubleSlider>
+    <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="1e9ce997-04bb-490d-842c-59641c7269e3" nickname="Code Block" x="103.83556338429" y="1108.54679689383" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="0;" ShouldFocus="false" />
+    <Dynamo.Nodes.DSFunction type="Dynamo.Nodes.DSFunction" guid="192b9bff-ad50-4d57-bb8b-86695bd6d3a1" nickname="Point.ByCoordinates" x="233.778162007924" y="1022.47521015265" isVisible="true" isUpstreamVisible="true" lacing="Shortest" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Point.ByCoordinates@double,double,double" />
+    <Dynamo.Nodes.DoubleSlider type="Dynamo.Nodes.DoubleSlider" guid="551acaee-69c1-4a7d-902a-9c1140dd933e" nickname="Double Slider" x="-181.536142888989" y="1041.17161753932" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <System.Double>-1.675</System.Double>
+      <Range min="-10" max="10" />
+    </Dynamo.Nodes.DoubleSlider>
+    <Dynamo.Nodes.DoubleSlider type="Dynamo.Nodes.DoubleSlider" guid="fa34797e-129f-4375-8e05-14de0836f54b" nickname="Double Slider" x="-182.489512470469" y="976.201627214605" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <System.Double>-2.674</System.Double>
+      <Range min="-10" max="10" />
+    </Dynamo.Nodes.DoubleSlider>
+    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="751f2a92-bf9f-4136-b031-24bb44748b6c" nickname="Decodes Script" x="513.083102769142" y="1214.59959850086" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="5">
+      <Script>import clr, sys
+clr.AddReference('ProtoGeometry')
+clr.AddReference('DSCoreNodes')
+from Autodesk.DesignScript.Geometry import *
+import DSCore
+## -- BEGIN DECODES HEADER -- ##
+sys.path.append('C:/Python27/Lib')
+import os
+if os.path.isdir('C:/Autodesk/Dynamo07/Core/decodes'): sys.path.append('C:/Autodesk/Dynamo07/Core')
+#sys.path.append('C:/Users/cesandoval/Documents/Github/decodes')
+from decodes.core import *
+from decodes.io.dynamo_in import *
+from decodes.io.dynamo_out import *
+exec(io.dynamo_in.component_header_code)
+exec(io.dynamo_out.component_header_code)
+## -- END DECODES HEADER -- ##
+random.seed(0) # initialize the random number seed
+
+
+'''
+4.02.L04d
+Have guy respond to a vector field 
+
+required:
+start_pt (Point) Initial point of the wandering Guy
+start_vel (Vec) Initial velocity of the the wandering Guy
+count (int) Amount of time for Guy to wander
+vf (VecField) A vector field for guy to wander in
+
+
+out:
+path_pts (list of Points) Guy's locations
+path_line (PLine) Guy's path
+
+'''
+"""
+Create a Guy, let it wander around a vector field, then show its path.
+"""
+
+# initialize an instance of the Guy class
+debord = IN[0][0](IN[1],IN[2])
+# initialize the path
+path_pts = []
+
+
+# for every time step:
+for n in range(IN[4]):
+    # find vector nearest to the current position
+    fvec = IN[3][0].vec_near(debord.pos)    
+    # steer the guy
+    debord.steer(fvec)   
+    # update the guy's position
+    debord.step()   
+    # record the guy's position
+    path_pts.append(debord.pos)
+
+# create a path representing the guy's journey
+path_line = PLine(path_pts)
+
+
+out.put(path_line)
+
+
+## -- BEGIN DECODES FOOTER -- ##
+exec(io.dynamo_out.component_footer_code)
+## -- END DECODES FOOTER -- ##
+</Script>
+    </DSIronPythonNode.PythonNode>
+    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="c30fa456-86b3-4cfe-827e-148dec6b3b62" nickname="Decodes Script" x="228.781541035038" y="1419.90377185278" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="1">
+      <Script>import clr, sys
+clr.AddReference('ProtoGeometry')
+clr.AddReference('DSCoreNodes')
+from Autodesk.DesignScript.Geometry import *
+import DSCore
+## -- BEGIN DECODES HEADER -- ##
+sys.path.append('C:/Python27/Lib')
+import os
+if os.path.isdir('C:/Autodesk/Dynamo07/Core/decodes'): sys.path.append('C:/Autodesk/Dynamo07/Core')
+#sys.path.append('C:/Users/cesandoval/Documents/Github/decodes')
+from decodes.core import *
+from decodes.io.dynamo_in import *
+from decodes.io.dynamo_out import *
+exec(io.dynamo_in.component_header_code)
+exec(io.dynamo_out.component_header_code)
+## -- END DECODES HEADER -- ##
+
+"""
+Create a vector field and perturb it
+"""
+
+# initialize starting locations
+start_point = Point(0,0) # set the starting point
+
+# create an instance of a vector field
+pixel_res = Interval(10,10) # set the resolution of the vector field
+spatial_dim = Interval(50,50) # set the dimension of the vector field
+spatial_origin = start_point # center vector field on Guy's start position
+vf = VecField(pixel_res, spatial_origin, spatial_dim) # create vector field
+
+# initialize vector field
+vf.spin_pt(IN[0])
+        
+out.put(vf)
+
+
+## -- BEGIN DECODES FOOTER -- ##
+exec(io.dynamo_out.component_footer_code)
+## -- END DECODES FOOTER -- ##
+</Script>
+    </DSIronPythonNode.PythonNode>
+    <Dynamo.Nodes.DSFunction type="Dynamo.Nodes.DSFunction" guid="0946bb0e-ed97-4f95-a93f-290b2b9e43ab" nickname="Point.ByCoordinates" x="79.1254102394964" y="1426.81658664504" isVisible="true" isUpstreamVisible="true" lacing="Shortest" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Point.ByCoordinates@double,double,double" />
+    <Dynamo.Nodes.DoubleSlider type="Dynamo.Nodes.DoubleSlider" guid="4ad0e62f-837c-4ff1-91e5-f01c9b250c31" nickname="Double Slider" x="-336.188894657417" y="1445.5129940317" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <System.Double>0.52</System.Double>
+      <Range min="-10" max="10" />
+    </Dynamo.Nodes.DoubleSlider>
+    <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="4a2b1a78-0162-4369-a288-8f3410285e89" nickname="Code Block" x="-50.8171883841385" y="1509.01497302678" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="0;" ShouldFocus="false" />
+    <Dynamo.Nodes.DoubleSlider type="Dynamo.Nodes.DoubleSlider" guid="526f031b-787d-4cc4-bb06-ef3b840efd00" nickname="Double Slider" x="-337.142264238897" y="1380.54300370699" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <System.Double>11.94</System.Double>
+      <Range min="-10" max="20" />
+    </Dynamo.Nodes.DoubleSlider>
+    <Dynamo.Nodes.Watch3D type="Dynamo.Nodes.Watch3D" guid="a307e362-46eb-4dfe-bdb1-11f99f72c99d" nickname="Watch 3D" x="619.467747246273" y="500.935819426819" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <view width="210" height="257">
+        <camera pos_x="8.94071058448831" pos_y="3.81146920560455" pos_z="26.8649459441084" look_x="-11.6037899370489" look_y="-3.32014135576877" look_z="-25.25641594215" />
+      </view>
+    </Dynamo.Nodes.Watch3D>
+    <Dynamo.Nodes.Watch3D type="Dynamo.Nodes.Watch3D" guid="e49b8e3c-b491-4627-9379-83558269ed39" nickname="Watch 3D" x="702.323521516584" y="1225.8301473353" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <view width="220" height="314">
+        <camera pos_x="5.35860522519581" pos_y="-10.3393290745803" pos_z="6.61983682352478" look_x="-4.21328538074707" look_y="6.9471187888302" look_z="-9.58341747358511" />
+      </view>
+    </Dynamo.Nodes.Watch3D>
+    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="e6bc256d-6efe-4fed-b852-c9a47c108bda" nickname="Decodes Script" x="-30.2401921044" y="1782.55838850296" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="0">
+      <Script>import clr, sys
+clr.AddReference('ProtoGeometry')
+clr.AddReference('DSCoreNodes')
+from Autodesk.DesignScript.Geometry import *
+import DSCore
+## -- BEGIN DECODES HEADER -- ##
+sys.path.append('C:/Python27/Lib')
+import os
+if os.path.isdir('C:/Autodesk/Dynamo07/Core/decodes'): sys.path.append('C:/Autodesk/Dynamo07/Core')
+#sys.path.append('C:/Users/cesandoval/Documents/Github/decodes')
+from decodes.core import *
+from decodes.io.dynamo_in import *
+from decodes.io.dynamo_out import *
+exec(io.dynamo_in.component_header_code)
+exec(io.dynamo_out.component_header_code)
+## -- END DECODES HEADER -- ##
+'''
+4.02.L04e
+Create a new Guy class that can be steered
+
+members:
+pos (Point) The location of the Guy object
+vel (Vec) The velocity vector of the Guy object
+hist (list of Point) Previous positions for Guy
+
+methods:
+step (None) Update Guys position
+steer (Vec) Modify Guy's velocity by a given vector and a random direction
+record (None) Record the Guy's position
+'''
+"""
+A guy class is defined with a position, direction and a method for updating.
+"""
+
+class Guy():
+    
+    def __init__(self, pos_start = Point(), vel_start = Vec(-.1,.1)):  
+        # sets the initial position of the Guy
+        self.pos = pos_start         
+        # sets the initial velocity vector for the Guy
+        self.vel = vel_start       
+        # initialize the history of the Guy with its start position
+        self.hist = [pos_start]       
+        
+    """
+    Cause the Guy object to move, using its current velocity, then randomly
+    pick a new velocity 
+    """       
+    def step(self):    
+        # limit to a maximum speed this guy can walk
+        self.vel = self.vel.limited(.5)        
+        # update the position of the Guy
+        self.pos += self.vel  
+        # record the step (note that we record after moving)
+        self.record()  
+        
+    """
+    Steer the Guy by adding a given vector with a random influnence to its current velocity
+    """           
+    def steer(self, vec, influence = 1.0):
+        # limit to the force of the vector
+        vec = vec.limited(.5)
+        # create a random vector
+        ran_vec = Vec.random(Interval(-1,1,),constrain2d = True) 
+        # update the velocity of the Guy
+        ran_vec *= influence
+        self.vel += vec + ran_vec 
+        
+    """
+    Record the current state of the Guy
+    """     
+    def record(self):
+        # append the Guy's position to the history list
+        self.hist.append(self.pos)
+        
+        
+out.put(Guy)
+
+## -- BEGIN DECODES FOOTER -- ##
+exec(io.dynamo_out.component_footer_code)
+## -- END DECODES FOOTER -- ##
+</Script>
+    </DSIronPythonNode.PythonNode>
+    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="08fff82a-821a-41a4-8ad3-cd0d1b26e159" nickname="Decodes Script" x="115.642682272067" y="1871.90043171219" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="1">
+      <Script>import clr, sys
+clr.AddReference('ProtoGeometry')
+clr.AddReference('DSCoreNodes')
+from Autodesk.DesignScript.Geometry import *
+import DSCore
+## -- BEGIN DECODES HEADER -- ##
+sys.path.append('C:/Python27/Lib')
+import os
+if os.path.isdir('C:/Autodesk/Dynamo07/Core/decodes'): sys.path.append('C:/Autodesk/Dynamo07/Core')
+#sys.path.append('C:/Users/cesandoval/Documents/Github/decodes')
+from decodes.core import *
+from decodes.io.dynamo_in import *
+from decodes.io.dynamo_out import *
+exec(io.dynamo_in.component_header_code)
+exec(io.dynamo_out.component_header_code)
+## -- END DECODES HEADER -- ##
+
+"""
+Create a new Jorn class from the Guy class by altering the steer method
+"""     
+class Jorn(IN[0][0]):
+    def steer(self, vec, influence = 1.0):
+        # limit to the force of the vector (GH EXAMPLE HAS .1)
+        vec = vec.limited(.5)
+        # create a random vector
+        ran_vec = Vec.random(Interval(-1,1,),constrain2d = True) 
+        # update the velocity of the Guy
+        ran_vec *= influence
+        self.vel -= (vec - ran_vec) 
+
+out.put(Jorn)
+
+
+## -- BEGIN DECODES FOOTER -- ##
+exec(io.dynamo_out.component_footer_code)
+## -- END DECODES FOOTER -- ##
+</Script>
+    </DSIronPythonNode.PythonNode>
+    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="bccf3933-2a25-4bfc-ad88-c3768d0fb5b3" nickname="Decodes Script" x="492.397337311941" y="1840.1684031309" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="6">
+      <Script>import clr, sys
+clr.AddReference('ProtoGeometry')
+clr.AddReference('DSCoreNodes')
+from Autodesk.DesignScript.Geometry import *
+import DSCore
+## -- BEGIN DECODES HEADER -- ##
+sys.path.append('C:/Python27/Lib')
+import os
+if os.path.isdir('C:/Autodesk/Dynamo07/Core/decodes'): sys.path.append('C:/Autodesk/Dynamo07/Core')
+#sys.path.append('C:/Users/cesandoval/Documents/Github/decodes')
+from decodes.core import *
+from decodes.io.dynamo_in import *
+from decodes.io.dynamo_out import *
+exec(io.dynamo_in.component_header_code)
+exec(io.dynamo_out.component_header_code)
+## -- END DECODES HEADER -- ##
+random.seed(0)
+
+'''
+4.02.L04f
+Make multiple walkers or different types and demonstrate their behavior.
+
+required: 
+Guy (class) A class of walker
+Jorn (Guy) A class of walker based on Guy
+max_walkers (int) The maximum number of walkers
+vf (VecField) A vector field for walkers to wander in
+influence (float) The amount of randomness in the walkers' walk
+count (int) Amount of time for the walkers to wander
+
+result:
+guy_path, jorn_path (list of PLines) Paths of wandering walkers
+'''
+
+"""
+Create walkers and let them loose.
+"""
+
+# initialize the paths
+guy_path = []
+jorn_path = []
+
+# for each walker:
+for g in range(IN[3]):
+    # create a random start point
+    start_pt = Point.random(Interval(-2.0,2.0),constrain2d=True)
+    # create a random initial velocity
+    start_vel = Vec.random(normalize=True, constrain2d=True)
+    
+    # if this is an odd walker:
+    if g%2 == 1 : 
+        walker = IN[1][0](start_pt,start_vel) # make it a Jorn
+    else : 
+        walker = IN[0][0](start_pt,start_vel) # make it a Guy
+        
+    # for every time step:
+    for s in range(IN[5]):
+        # find vector nearest to the current position
+        fvec = IN[2][0].vec_near(walker.pos)   
+        # steer the walker
+        walker.steer(fvec,IN[4])
+        # update the walker's position
+        walker.step()
+
+    # if this walker is a Jorn:
+    if isinstance(walker, IN[1][0]): 
+        jorn_path.append(PLine(walker.hist)) # add path to Jorns
+    else : 
+        guy_path.append(PLine(walker.hist)) # add path to Guys
+
+
+
+out.put(jorn_path)
+#out.put(guy_path)
+
+
+## -- BEGIN DECODES FOOTER -- ##
+exec(io.dynamo_out.component_footer_code)
+## -- END DECODES FOOTER -- ##
+</Script>
+    </DSIronPythonNode.PythonNode>
+    <Dynamo.Nodes.IntegerSlider type="Dynamo.Nodes.IntegerSlider" guid="0ec5c753-6b19-452b-8d04-c2feea7cb198" nickname="Integer Slider" x="-32.7790430272427" y="1938.67916748163" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <System.Int32>45</System.Int32>
+      <Range min="0" max="100" />
+    </Dynamo.Nodes.IntegerSlider>
+    <Dynamo.Nodes.IntegerSlider type="Dynamo.Nodes.IntegerSlider" guid="3b77c1fc-e040-4ec6-a5fa-0eb5fbb83de8" nickname="Integer Slider" x="-26.4102205056003" y="2080.17083632718" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <System.Int32>45</System.Int32>
+      <Range min="0" max="100" />
+    </Dynamo.Nodes.IntegerSlider>
+    <Dynamo.Nodes.DoubleSlider type="Dynamo.Nodes.DoubleSlider" guid="2cbb8c54-9237-4e39-8e73-28a8ea02de9a" nickname="Double Slider" x="-101.894852294765" y="2011.5217873607" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <System.Double>0.18</System.Double>
+      <Range min="-10" max="10" />
+    </Dynamo.Nodes.DoubleSlider>
+    <Dynamo.Nodes.Watch3D type="Dynamo.Nodes.Watch3D" guid="6d29c88c-cd37-402a-bf20-5d24766e30af" nickname="Watch 3D" x="673.400584363453" y="1839.23716059259" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <view width="230" height="371">
+        <camera pos_x="8.51100220255906" pos_y="-14.0334532247349" pos_z="19.3578802691698" look_x="-8.51100220255906" look_y="14.0334532247349" look_z="-19.3588802691698" />
+      </view>
+    </Dynamo.Nodes.Watch3D>
+  </Elements>
+  <Connectors>
+    <Dynamo.Models.ConnectorModel start="ad045de3-218b-4781-80cc-235c00ead3a1" start_index="0" end="5ffad183-3c5b-4d6b-b7fd-c3ea52dc93e6" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="5ffad183-3c5b-4d6b-b7fd-c3ea52dc93e6" start_index="0" end="a307e362-46eb-4dfe-bdb1-11f99f72c99d" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="890c1a87-9315-4dd0-9a05-e0cba644f272" start_index="0" end="5ffad183-3c5b-4d6b-b7fd-c3ea52dc93e6" end_index="1" portType="0" />
+    <Dynamo.Models.ConnectorModel start="755c7518-c80a-46ad-b229-dd6eccb36b3b" start_index="0" end="890c1a87-9315-4dd0-9a05-e0cba644f272" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="b330bf99-cc22-4d30-932f-21f9a084012a" start_index="0" end="890c1a87-9315-4dd0-9a05-e0cba644f272" end_index="1" portType="0" />
+    <Dynamo.Models.ConnectorModel start="66de7c93-bf32-4dac-b1f4-f5408b190856" start_index="0" end="890c1a87-9315-4dd0-9a05-e0cba644f272" end_index="2" portType="0" />
+    <Dynamo.Models.ConnectorModel start="da1cd037-2d11-490a-87f7-1b13209a81cb" start_index="0" end="5ffad183-3c5b-4d6b-b7fd-c3ea52dc93e6" end_index="2" portType="0" />
+    <Dynamo.Models.ConnectorModel start="d9317d9f-77c7-4bc3-a1c8-2890d61f371f" start_index="0" end="da1cd037-2d11-490a-87f7-1b13209a81cb" end_index="1" portType="0" />
+    <Dynamo.Models.ConnectorModel start="d7489c94-bc23-449f-9b17-aae05c3830eb" start_index="0" end="da1cd037-2d11-490a-87f7-1b13209a81cb" end_index="2" portType="0" />
+    <Dynamo.Models.ConnectorModel start="8d7445c3-8e80-4ff6-8e29-bc93f8e5d0d4" start_index="0" end="da1cd037-2d11-490a-87f7-1b13209a81cb" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="67b90ad7-faf1-4804-86bb-8649483a8476" start_index="0" end="5ffad183-3c5b-4d6b-b7fd-c3ea52dc93e6" end_index="3" portType="0" />
+    <Dynamo.Models.ConnectorModel start="33acee52-38e1-4bd8-867a-23f60dc7d5f1" start_index="0" end="751f2a92-bf9f-4136-b031-24bb44748b6c" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="09e3115d-4f86-446b-a39b-43f6cd4b99af" start_index="0" end="751f2a92-bf9f-4136-b031-24bb44748b6c" end_index="2" portType="0" />
+    <Dynamo.Models.ConnectorModel start="46fe232d-24dd-41c2-a223-2f7b11a65689" start_index="0" end="751f2a92-bf9f-4136-b031-24bb44748b6c" end_index="4" portType="0" />
+    <Dynamo.Models.ConnectorModel start="1eef6987-fc16-4059-aabd-eb9e59235bb9" start_index="0" end="09e3115d-4f86-446b-a39b-43f6cd4b99af" end_index="1" portType="0" />
+    <Dynamo.Models.ConnectorModel start="db6c1eac-9624-493b-b7cf-a6d3a2c3c45b" start_index="0" end="09e3115d-4f86-446b-a39b-43f6cd4b99af" end_index="2" portType="0" />
+    <Dynamo.Models.ConnectorModel start="7d0db7e5-3699-485a-bb30-ad3712147ae9" start_index="0" end="09e3115d-4f86-446b-a39b-43f6cd4b99af" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="1e9ce997-04bb-490d-842c-59641c7269e3" start_index="0" end="192b9bff-ad50-4d57-bb8b-86695bd6d3a1" end_index="2" portType="0" />
+    <Dynamo.Models.ConnectorModel start="192b9bff-ad50-4d57-bb8b-86695bd6d3a1" start_index="0" end="751f2a92-bf9f-4136-b031-24bb44748b6c" end_index="1" portType="0" />
+    <Dynamo.Models.ConnectorModel start="551acaee-69c1-4a7d-902a-9c1140dd933e" start_index="0" end="192b9bff-ad50-4d57-bb8b-86695bd6d3a1" end_index="1" portType="0" />
+    <Dynamo.Models.ConnectorModel start="fa34797e-129f-4375-8e05-14de0836f54b" start_index="0" end="192b9bff-ad50-4d57-bb8b-86695bd6d3a1" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="751f2a92-bf9f-4136-b031-24bb44748b6c" start_index="0" end="e49b8e3c-b491-4627-9379-83558269ed39" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="c30fa456-86b3-4cfe-827e-148dec6b3b62" start_index="0" end="751f2a92-bf9f-4136-b031-24bb44748b6c" end_index="3" portType="0" />
+    <Dynamo.Models.ConnectorModel start="c30fa456-86b3-4cfe-827e-148dec6b3b62" start_index="0" end="bccf3933-2a25-4bfc-ad88-c3768d0fb5b3" end_index="2" portType="0" />
+    <Dynamo.Models.ConnectorModel start="0946bb0e-ed97-4f95-a93f-290b2b9e43ab" start_index="0" end="c30fa456-86b3-4cfe-827e-148dec6b3b62" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="4ad0e62f-837c-4ff1-91e5-f01c9b250c31" start_index="0" end="0946bb0e-ed97-4f95-a93f-290b2b9e43ab" end_index="1" portType="0" />
+    <Dynamo.Models.ConnectorModel start="4a2b1a78-0162-4369-a288-8f3410285e89" start_index="0" end="0946bb0e-ed97-4f95-a93f-290b2b9e43ab" end_index="2" portType="0" />
+    <Dynamo.Models.ConnectorModel start="526f031b-787d-4cc4-bb06-ef3b840efd00" start_index="0" end="0946bb0e-ed97-4f95-a93f-290b2b9e43ab" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="e6bc256d-6efe-4fed-b852-c9a47c108bda" start_index="0" end="08fff82a-821a-41a4-8ad3-cd0d1b26e159" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="e6bc256d-6efe-4fed-b852-c9a47c108bda" start_index="0" end="bccf3933-2a25-4bfc-ad88-c3768d0fb5b3" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="08fff82a-821a-41a4-8ad3-cd0d1b26e159" start_index="0" end="bccf3933-2a25-4bfc-ad88-c3768d0fb5b3" end_index="1" portType="0" />
+    <Dynamo.Models.ConnectorModel start="bccf3933-2a25-4bfc-ad88-c3768d0fb5b3" start_index="0" end="6d29c88c-cd37-402a-bf20-5d24766e30af" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="0ec5c753-6b19-452b-8d04-c2feea7cb198" start_index="0" end="bccf3933-2a25-4bfc-ad88-c3768d0fb5b3" end_index="3" portType="0" />
+    <Dynamo.Models.ConnectorModel start="3b77c1fc-e040-4ec6-a5fa-0eb5fbb83de8" start_index="0" end="bccf3933-2a25-4bfc-ad88-c3768d0fb5b3" end_index="5" portType="0" />
+    <Dynamo.Models.ConnectorModel start="2cbb8c54-9237-4e39-8e73-28a8ea02de9a" start_index="0" end="bccf3933-2a25-4bfc-ad88-c3768d0fb5b3" end_index="4" portType="0" />
+  </Connectors>
+  <Notes />
+</Workspace>
